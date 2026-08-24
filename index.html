@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AURELIA Grand Hotel & Fine Dining | Luxury 5-Star Hotel India</title>
+  <meta name="description" content="AURELIA Grand Hotel & Fine Dining — Premium 5-Star Indian Luxury Hotel offering Deluxe Rooms, Royal Family Suites, North Indian Fine Dining, Grand Wedding Banquets, and 25+ Years of Hospitality.">
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ==================== PRELOADER ==================== -->
+  <div class="preloader" id="preloader">
+    <div class="preloader-emblem">
+      <div class="emblem-ring"></div>
+      <span class="emblem-letter">A</span>
+    </div>
+    <div class="preloader-title">AURELIA</div>
+    <div class="preloader-bar">
+      <div class="preloader-progress"></div>
+    </div>
+  </div>
+
+  <!-- ==================== PAGE CURTAIN TRANSITION ==================== -->
+  <div class="page-curtain" id="pageCurtain"></div>
+
+  <!-- ==================== SPRING MAGNETIC CURSOR ==================== -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing">
+    <span class="cursor-text" id="cursorText"></span>
+  </div>
+
+  <!-- ==================== MAIN HEADER NAVIGATION ==================== -->
+  <header class="main-header" id="mainHeader">
+    <div class="container header-inner">
+      
+      <!-- Brand Logo -->
+      <a href="#home" class="brand-logo" data-page-link="home">
+        <div class="brand-icon"><span>A</span></div>
+        <div class="brand-text">
+          <span class="brand-name">AURELIA</span>
+          <span class="brand-sub">Grand Hotel & Dining</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Menu -->
+      <nav>
+        <ul class="nav-menu">
+          <li><a href="#home" class="nav-link active" data-page-link="home">Home</a></li>
+          <li><a href="#about" class="nav-link" data-page-link="about">About Hotel</a></li>
+          <li><a href="#suites" class="nav-link" data-page-link="suites">Rooms</a></li>
+          <li><a href="#menu" class="nav-link" data-page-link="menu">Restaurant</a></li>
+          <li><a href="#offers" class="nav-link" data-page-link="offers">Offers</a></li>
+          <li><a href="#events" class="nav-link" data-page-link="events">Banquets</a></li>
+          <li><a href="#gallery" class="nav-link" data-page-link="gallery">Gallery</a></li>
+          <li><a href="#contact" class="nav-link" data-page-link="contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <!-- Action Items -->
+      <div class="header-actions">
+        <!-- Ambient Sound Synthesizer Toggle -->
+        <button class="sound-toggle" id="soundToggle" title="Toggle Ambient Lounge Soundscape">
+          <div class="sound-bars">
+            <span></span><span></span><span></span>
+          </div>
+          <span>Sound</span>
+        </button>
+
+        <!-- Book a Room CTA Button -->
+        <button class="btn btn-gold magnetic-btn" data-open-booking data-booking-type="suite" data-cursor="BOOK">
+          Book a Room
+        </button>
+
+        <!-- Mobile Menu Toggle -->
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle Mobile Navigation Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ==================== MOBILE MENU DRAWER ==================== -->
+  <div class="mobile-menu" id="mobileMenu">
+    <ul class="mobile-nav-list">
+      <li><a href="#home" class="mobile-nav-link" data-page-link="home">Home</a></li>
+      <li><a href="#about" class="mobile-nav-link" data-page-link="about">About Hotel</a></li>
+      <li><a href="#suites" class="mobile-nav-link" data-page-link="suites">Rooms & Suites</a></li>
+      <li><a href="#menu" class="mobile-nav-link" data-page-link="menu">Restaurant & Food</a></li>
+      <li><a href="#offers" class="mobile-nav-link" data-page-link="offers">Special Offers</a></li>
+      <li><a href="#events" class="mobile-nav-link" data-page-link="events">Banquets & Events</a></li>
+      <li><a href="#gallery" class="mobile-nav-link" data-page-link="gallery">Photo Gallery</a></li>
+      <li><a href="#contact" class="mobile-nav-link" data-page-link="contact">Contact Us</a></li>
+    </ul>
+    <div style="margin-top: 3rem;">
+      <button class="btn btn-gold" data-open-booking data-booking-type="suite">Book a Room</button>
+    </div>
+  </div>
+
+  <!-- ========================================================================== -->
+  <!-- PAGE VIEWS CONTAINER (SPA ROUTER)                                         -->
+  <!-- ========================================================================== -->
+
+  <!-- ==================== 1. HOME PAGE VIEW ==================== -->
+  <main class="page-view active" id="page-home">
+    
+    <!-- Hero Slider Section -->
+    <section class="hero-section">
+      <div class="hero-slider">
+        <div class="hero-slide active">
+          <img src="assets/images/hero-1.jpg" alt="AURELIA Grand Hotel Palace" class="hero-slide-bg">
+          <div class="hero-overlay"></div>
+          <div class="container hero-content reveal-up in-view">
+            <span class="hero-subtitle">25+ Years of Indian Hospitality Excellence</span>
+            <h1 class="hero-title">Where Authentic Indian Warmth Meets Modern 5-Star Luxury</h1>
+            <p class="hero-description">Experience AURELIA Grand Hotel — an iconic destination offering luxury rooms, authentic North Indian & multi-cuisine dining, grand wedding banquets, and world-class hospitality.</p>
+            <div class="hero-actions">
+              <button class="btn btn-gold" data-open-booking data-booking-type="suite">Book a Room</button>
+              <a href="#menu" class="btn btn-outline" data-page-link="menu">Explore Restaurant</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-slide">
+          <img src="assets/images/hero-2.jpg" alt="Le Celestia Fine Dining" class="hero-slide-bg">
+          <div class="hero-overlay"></div>
+          <div class="container hero-content">
+            <span class="hero-subtitle">Royal Indian & Multi-Cuisine Gastronomy</span>
+            <h1 class="hero-title">Authentic Flavors by Executive Master Chefs</h1>
+            <p class="hero-description">Indulge in North Indian Paneer Butter Masala, Tandoori Tikka, Hyderabadi Dum Biryani, Dal Makhani and South Indian Dosa in an opulent fine dining setting.</p>
+            <div class="hero-actions">
+              <a href="#menu" class="btn btn-gold" data-page-link="menu">View Food Menu</a>
+              <button class="btn btn-outline" data-open-booking data-booking-type="table">Reserve Dining Table</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-slide">
+          <img src="assets/images/hero-3.jpg" alt="Grand Wedding Banquets" class="hero-slide-bg">
+          <div class="hero-overlay"></div>
+          <div class="container hero-content">
+            <span class="hero-subtitle">Grand Weddings & Corporate Events</span>
+            <h1 class="hero-title">Unforgettable Celebrations in Royal Banquets</h1>
+            <p class="hero-description">Host royal weddings, Sangeet functions, corporate conferences, and grand receptions in our 1,200+ guest capacity pillarless ballroom.</p>
+            <div class="hero-actions">
+              <a href="#events" class="btn btn-gold" data-page-link="events">Explore Banquets</a>
+              <a href="#contact" class="btn btn-outline" data-page-link="contact">Enquire Event</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Search Booking Floating Bar -->
+      <div class="quick-booking-bar">
+        <div class="quick-field">
+          <span class="quick-label">Check-In</span>
+          <input type="date" class="quick-input" value="2026-09-01">
+        </div>
+        <div class="quick-field">
+          <span class="quick-label">Check-Out</span>
+          <input type="date" class="quick-input" value="2026-09-05">
+        </div>
+        <div class="quick-field">
+          <span class="quick-label">Guests</span>
+          <select class="quick-input">
+            <option>2 Adult Guests</option>
+            <option>1 Solo Guest</option>
+            <option>4 Family Guests</option>
+          </select>
+        </div>
+        <div class="quick-field">
+          <span class="quick-label">Room Type</span>
+          <select class="quick-input">
+            <option>Deluxe Room (₹4,999)</option>
+            <option>Premium Balcony Room (₹7,499)</option>
+            <option>Executive Room (₹10,999)</option>
+            <option>Grand Luxury Suite (₹18,500)</option>
+            <option>Royal Family Suite (₹24,999)</option>
+          </select>
+        </div>
+        <button class="btn btn-gold" data-open-booking data-booking-type="suite">Check Availability</button>
+      </div>
+
+      <!-- Slider Controls -->
+      <div class="hero-controls">
+        <button class="hero-arrow" id="heroPrev" aria-label="Previous Slide">‹</button>
+        <div class="hero-dots">
+          <span class="hero-dot active"></span>
+          <span class="hero-dot"></span>
+          <span class="hero-dot"></span>
+        </div>
+        <button class="hero-arrow" id="heroNext" aria-label="Next Slide">›</button>
+      </div>
+    </section>
+
+    <!-- Animated Statistics Counter Section -->
+    <section class="stats-section">
+      <div class="container stats-grid">
+        <div class="stat-item reveal-up in-view">
+          <div class="stat-number" data-target="25" data-suffix="+ Yrs">0</div>
+          <div class="stat-label">Hospitality Heritage</div>
+        </div>
+        <div class="stat-item reveal-up in-view">
+          <div class="stat-number" data-target="50" data-suffix="+">0</div>
+          <div class="stat-label">Luxury Rooms & Suites</div>
+        </div>
+        <div class="stat-item reveal-up in-view">
+          <div class="stat-number" data-target="10" data-suffix="K+">0</div>
+          <div class="stat-label">Happy Guests Served</div>
+        </div>
+        <div class="stat-item reveal-up in-view">
+          <div class="stat-number" data-target="4.8" data-suffix="/5">0</div>
+          <div class="stat-label">Guest Satisfaction Rating</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Rooms Spotlight Section -->
+    <section class="section" style="background: var(--color-bg-alt);">
+      <div class="container">
+        <div class="section-header reveal-up in-view">
+          <span class="section-subtitle">ACCOMMODATIONS COLLECTION</span>
+          <h2 class="section-title">Designed for Comfort & Elegance</h2>
+          <p class="section-desc">Choose from Deluxe Rooms, Balcony Rooms, Executive Suites, and Interconnecting Family Suites.</p>
+        </div>
+
+        <div class="suites-grid" id="suitesGridHome">
+          <!-- Rooms Cards Pre-rendered -->
+          <div class="suite-card tilt-card reveal-up in-view" data-category="deluxe">
+            <div class="suite-card-img">
+              <img src="assets/images/deluxe-room.jpg" alt="Deluxe Room">
+              <span class="suite-badge">Popular Choice</span>
+              <button class="suite-quick-view-btn" data-view-suite="deluxe-room" data-cursor="VIEW">View Details</button>
+            </div>
+            <div class="suite-card-body">
+              <div class="suite-meta"><span>📏 35 m² / 375 sq.ft</span><span>👥 2 Adults</span><span>🛏️ King / Twin Bed</span></div>
+              <h3 class="suite-title">Deluxe Room</h3>
+              <p class="suite-subtitle">Modern Comfort & Elegance</p>
+              <p class="suite-desc">Thoughtfully designed for business travelers and couples, featuring premium wooden flooring, LED Smart TV, and rain shower...</p>
+              <div class="suite-card-footer">
+                <div class="suite-price"><span class="price-val">₹4,999</span><span class="price-unit">/ night</span></div>
+                <button class="btn btn-gold btn-sm" data-open-booking data-booking-type="suite" data-item-id="deluxe-room">Book Now</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="suite-card tilt-card reveal-up in-view" data-category="premium">
+            <div class="suite-card-img">
+              <img src="assets/images/premium-room.jpg" alt="Premium Room with Balcony">
+              <span class="suite-badge">Best Seller</span>
+              <button class="suite-quick-view-btn" data-view-suite="premium-room" data-cursor="VIEW">View Details</button>
+            </div>
+            <div class="suite-card-body">
+              <div class="suite-meta"><span>📏 48 m² / 515 sq.ft</span><span>👥 2 Adults + 1 Child</span><span>🛏️ Royal King Bed</span></div>
+              <h3 class="suite-title">Premium Room with Balcony</h3>
+              <p class="suite-subtitle">Spacious Room with Private View</p>
+              <p class="suite-desc">Spacious layout with a private sit-out balcony overlooking the pool. Equipped with plush seating, Nespresso coffee maker...</p>
+              <div class="suite-card-footer">
+                <div class="suite-price"><span class="price-val">₹7,499</span><span class="price-unit">/ night</span></div>
+                <button class="btn btn-gold btn-sm" data-open-booking data-booking-type="suite" data-item-id="premium-room">Book Now</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="suite-card tilt-card reveal-up in-view" data-category="suite">
+            <div class="suite-card-img">
+              <img src="assets/images/luxury-suite.jpg" alt="Grand Luxury Suite">
+              <span class="suite-badge">Flagship Suite</span>
+              <button class="suite-quick-view-btn" data-view-suite="luxury-suite" data-cursor="VIEW">View Details</button>
+            </div>
+            <div class="suite-card-body">
+              <div class="suite-meta"><span>📏 110 m² / 1,180 sq.ft</span><span>👥 3 Guests</span><span>🛏️ Emperor King Bed</span></div>
+              <h3 class="suite-title">Grand Luxury Suite</h3>
+              <p class="suite-subtitle">Separate Living Salon & Jacuzzi</p>
+              <p class="suite-desc">An epitome of luxury featuring a separate living salon, powder room, master bedroom, Italian marble bath with Jacuzzi tub...</p>
+              <div class="suite-card-footer">
+                <div class="suite-price"><span class="price-val">₹18,500</span><span class="price-unit">/ night</span></div>
+                <button class="btn btn-gold btn-sm" data-open-booking data-booking-type="suite" data-item-id="luxury-suite">Book Now</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center" style="margin-top: 3.5rem;">
+          <a href="#suites" class="btn btn-outline" data-page-link="suites">View All Rooms & Pricing</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Restaurant & Indian Food Spotlight -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header reveal-up in-view">
+          <span class="section-subtitle">FINE DINING RESTAURANT</span>
+          <h2 class="section-title">Le Celestia — Authentic Indian & Multi-Cuisine</h2>
+          <p class="section-desc">Delight your palate with 8+ Paneer Special delicacies, North Indian curries, Mughlai dum biryanis, South Indian dosas, and artisanal desserts.</p>
+        </div>
+
+        <div class="menu-grid" id="menuGridHome">
+          <!-- Food cards pre-rendered -->
+          <div class="menu-item-card reveal-up in-view" data-menu-category="north-indian">
+            <div style="height: 180px; border-radius: 4px; overflow: hidden; margin-bottom: 1rem; position: relative;">
+              <img src="assets/images/paneer-butter-masala.jpg" alt="Shahi Paneer Butter Masala" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <div class="menu-item-header">
+              <h4 class="menu-item-title">Shahi Paneer Butter Masala</h4>
+              <span class="menu-item-price">₹445</span>
+            </div>
+            <p class="menu-item-desc">Fresh cottage cheese cubes simmered in a velvety makhani gravy of vine-ripened tomatoes, fresh butter, cashews, and Kasuri methi.</p>
+            <div style="font-size:0.78rem; color:var(--color-gold-primary); margin-bottom:0.8rem;">🌿 <strong>Ingredients:</strong> Fresh Paneer, Amul Butter, Cashew Paste, Tomato Gravy, Kasuri Methi, Cream</div>
+            <div class="menu-item-tags">
+              <span class="menu-tag">Bestseller</span><span class="menu-tag">Chef Special</span><span class="menu-tag">Vegetarian</span>
+            </div>
+          </div>
+
+          <div class="menu-item-card reveal-up in-view" data-menu-category="north-indian">
+            <div style="height: 180px; border-radius: 4px; overflow: hidden; margin-bottom: 1rem; position: relative;">
+              <img src="assets/images/kadhai-paneer.jpg" alt="Kadhai Paneer Special" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <div class="menu-item-header">
+              <h4 class="menu-item-title">Kadhai Paneer Special</h4>
+              <span class="menu-item-price">₹425</span>
+            </div>
+            <p class="menu-item-desc">Succulent paneer cubes wok-tossed with freshly ground coriander, whole red chilies, bell peppers, onions, and spicy kadhai masala.</p>
+            <div style="font-size:0.78rem; color:var(--color-gold-primary); margin-bottom:0.8rem;">🌿 <strong>Ingredients:</strong> Paneer, Bell Peppers, Onion, Kadhai Masala, Fresh Coriander, Whole Spices</div>
+            <div class="menu-item-tags">
+              <span class="menu-tag">Spicy & Flavorful</span><span class="menu-tag">Vegetarian</span>
+            </div>
+          </div>
+
+          <div class="menu-item-card reveal-up in-view" data-menu-category="north-indian">
+            <div style="height: 180px; border-radius: 4px; overflow: hidden; margin-bottom: 1rem; position: relative;">
+              <img src="assets/images/paneer-tikka.jpg" alt="Tandoori Paneer Tikka Shashlik" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <div class="menu-item-header">
+              <h4 class="menu-item-title">Tandoori Paneer Tikka Shashlik</h4>
+              <span class="menu-item-price">₹425</span>
+            </div>
+            <p class="menu-item-desc">Charcoal-charred paneer cubes marinated in mustard oil, hung curd, and roasted spices, grilled on skewers with capsicum & red onions.</p>
+            <div style="font-size:0.78rem; color:var(--color-gold-primary); margin-bottom:0.8rem;">🌿 <strong>Ingredients:</strong> Paneer, Hung Curd, Mustard Oil, Carom Seeds, Bell Peppers, Lemon</div>
+            <div class="menu-item-tags">
+              <span class="menu-tag">Clay Oven Tandoori</span><span class="menu-tag">Vegetarian</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center" style="margin-top: 3rem;">
+          <a href="#menu" class="btn btn-gold" data-page-link="menu">Explore Full Restaurant Menu</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Current Special Offers Spotlight -->
+    <section class="section" style="background: var(--color-bg-alt);">
+      <div class="container">
+        <div class="section-header reveal-up in-view">
+          <span class="section-subtitle">SPECIAL PROMOTIONS</span>
+          <h2 class="section-title">Exclusive Hotel Offers & Packages</h2>
+          <p class="section-desc">Unlock special discounts for weekend staycations, family holidays, and dining deals.</p>
+        </div>
+
+        <div class="offers-grid" id="offersGridHome">
+          <!-- Populated via JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Hotel Amenities Section -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header reveal-up in-view">
+          <span class="section-subtitle">WORLD-CLASS AMENITIES</span>
+          <h2 class="section-title">Everything for a Perfect Stay</h2>
+          <p class="section-desc">Enjoy premium facilities designed for leisure, business, wellness, and family comfort.</p>
+        </div>
+
+        <div class="menu-grid" id="amenitiesGrid" style="grid-template-columns: repeat(5, 1fr);">
+          <!-- Amenities populated via JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Guest Testimonials Section -->
+    <section class="section testimonials-section">
+      <div class="container">
+        <div class="section-header reveal-up in-view">
+          <span class="section-subtitle">GUEST REVIEWS</span>
+          <h2 class="section-title">Loved by Our Guests</h2>
+        </div>
+        <div class="testimonials-slider" id="testimonialsSlider">
+          <!-- Populated via JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Strong Reservation CTA Section -->
+    <section class="section text-center" style="background: linear-gradient(135deg, #12141d 0%, #1c1f2e 100%); border-y: 1px solid var(--color-border-glass);">
+      <div class="container">
+        <span class="section-subtitle">RESERVE YOUR STAY TODAY</span>
+        <h2 class="section-title" style="margin-bottom: 1.5rem;">Plan Your Staycation or Celebration at AURELIA</h2>
+        <p class="section-desc" style="max-width: 700px; margin: 0 auto 2.5rem auto;">Enjoy 5-star comfort, authentic Indian dining, and best room rates guaranteed when you book directly.</p>
+        <button class="btn btn-gold" data-open-booking data-booking-type="suite" style="padding: 1.1rem 2.8rem; font-size: 0.95rem;">Book Your Stay Now</button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== 2. ABOUT HOTEL PAGE VIEW ==================== -->
+  <main class="page-view" id="page-about">
+    <section class="section">
+      <div class="container">
+        <div class="section-header reveal-up in-view">
+          <span class="section-subtitle">25 YEARS OF EXCELLENCE</span>
+          <h2 class="section-title">Our Heritage & Hospitality Story</h2>
+          <p class="section-desc">Discover the story behind AURELIA Grand Hotel, established in 1999 as a premier destination for luxury Indian hospitality.</p>
+        </div>
+
+        <div class="about-grid" style="margin-bottom: 5rem;">
+          <div class="about-content">
+            <h3 style="font-family: var(--font-serif); font-size: 2.2rem; margin-bottom: 1.2rem; color: var(--color-gold-light);">Atithi Devo Bhava Philosophy</h3>
+            <p class="section-desc" style="margin-bottom: 1rem;">Founded by Shri Vikramaditya Singhania in 1999, AURELIA was built on the sacred Indian principle of 'Guest is God'. Over 25+ years, we have hosted over 10,000+ happy guests, royal weddings, and corporate summits.</p>
+            <p class="section-desc">Our hotel features 50+ luxury rooms, multi-cuisine fine dining, temperature-controlled swimming pool, Ayurveda spa, and grand pillarless wedding banquets.</p>
+            
+            <div class="about-quote-box" style="margin-top: 2rem;">
+              <p class="about-quote">"Hospitality is not merely providing a room; it is crafting warm, unforgettable memories for every guest who enters our doors."</p>
+              <span class="about-author">— Vikramaditya Singhania, Founder</span>
+            </div>
+          </div>
+          <div class="about-img-wrap">
+            <img src="assets/images/about-main.jpg" alt="AURELIA Hotel Facade">
+          </div>
+        </div>
+
+        <!-- Awards & Recognition -->
+        <div class="section-header reveal-up in-view" style="margin-top: 4rem;">
+          <span class="section-subtitle">RECOGNITION</span>
+          <h2 class="section-title">Awards & Achievements</h2>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <h4 style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--color-gold-light);">Best Luxury Hotel 2025</h4>
+            <p style="font-size: 0.85rem; color: var(--color-text-muted);">Times Hospitality Icon Awards</p>
+          </div>
+          <div class="stat-item">
+            <h4 style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--color-gold-light);">Top Wedding Venue</h4>
+            <p style="font-size: 0.85rem; color: var(--color-text-muted);">Indian Wedding Excellence Awards</p>
+          </div>
+          <div class="stat-item">
+            <h4 style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--color-gold-light);">Best North Indian Cuisine</h4>
+            <p style="font-size: 0.85rem; color: var(--color-text-muted);">Gourmet Dining Citation</p>
+          </div>
+          <div class="stat-item">
+            <h4 style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--color-gold-light);">4.8 / 5 Rating</h4>
+            <p style="font-size: 0.85rem; color: var(--color-text-muted);">TripAdvisor Travelers Choice</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== 3. ROOMS & SUITES PAGE VIEW ==================== -->
+  <main class="page-view" id="page-suites">
+    <section class="section">
+      <div class="container">
+        <div class="section-header reveal-up in-view">
+          <span class="section-subtitle">ACCOMMODATIONS LISTING</span>
+          <h2 class="section-title">Rooms & Luxury Suites</h2>
+          <p class="section-desc">Explore our complete collection of modern Deluxe Rooms, Balcony Rooms, Executive Suites, and Royal Family Suites.</p>
+        </div>
+
+        <!-- Suite Category Filters -->
+        <div class="filter-bar">
+          <button class="filter-btn active" data-filter-suite="all">All Rooms (5)</button>
+          <button class="filter-btn" data-filter-suite="deluxe">Deluxe Room</button>
+          <button class="filter-btn" data-filter-suite="premium">Premium Balcony</button>
+          <button class="filter-btn" data-filter-suite="executive">Executive Room</button>
+          <button class="filter-btn" data-filter-suite="suite">Luxury Suite</button>
+          <button class="filter-btn" data-filter-suite="family">Family Suite</button>
+        </div>
+
+        <!-- Suites Grid Container Pre-rendered -->
+        <div class="suites-grid" id="suitesGrid">
+
+          <!-- 1. Deluxe Room -->
+          <div class="suite-card tilt-card reveal-up in-view" data-category="deluxe">
+            <div class="suite-card-img">
+              <img src="assets/images/deluxe-room.jpg" alt="Deluxe Room">
+              <span class="suite-badge">Popular Choice</span>
+              <button class="suite-quick-view-btn" data-view-suite="deluxe-room" data-cursor="VIEW">View Details</button>
+            </div>
+            <div class="suite-card-body">
+              <div class="suite-meta">
+                <span>📏 35 m² / 375 sq.ft</span>
+                <span>👥 2 Adults</span>
+                <span>🛏️ King Bed / Twin Beds</span>
+              </div>
+              <h3 class="suite-title">Deluxe Room</h3>
+              <p class="suite-subtitle">Modern Comfort & Elegance</p>
+              <p class="suite-desc">Thoughtfully designed for business travelers and couples, featuring premium wooden flooring, ergonomically designed work desk, LED Smart TV, and luxury marble bathroom with rain shower.</p>
+              <div style="margin: 1rem 0; font-size: 0.82rem; color: var(--color-text-muted);">
+                <span style="display:inline-block; margin-right:8px;">✓ Free High-Speed Wi-Fi</span>
+                <span style="display:inline-block; margin-right:8px;">✓ 55-inch LED Smart TV</span>
+                <span style="display:inline-block; margin-right:8px;">✓ Mini Bar & Tea/Coffee Maker</span>
+              </div>
+              <div class="suite-card-footer">
+                <div class="suite-price">
+                  <span class="price-val">₹4,999</span>
+                  <span class="price-unit">/ night</span>
+                </div>
+                <button class="btn btn-gold btn-sm" data-open-booking data-booking-type="suite" data-item-id="deluxe-room">Book Now</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Premium Room with Balcony -->
+          <div class="suite-card tilt-card reveal-up in-view" data-category="premium">
+            <div class="suite-card-img">
+              <img src="assets/images/premium-room.jpg" alt="Premium Room with Balcony">
+              <span class="suite-badge">Best Seller</span>
+              <button class="suite-quick-view-btn" data-view-suite="premium-room" data-cursor="VIEW">View Details</button>
+            </div>
+            <div class="suite-card-body">
+              <div class="suite-meta">
+                <span>📏 48 m² / 515 sq.ft</span>
+                <span>👥 2 Adults + 1 Child</span>
+                <span>🛏️ Royal King Size Bed</span>
+              </div>
+              <h3 class="suite-title">Premium Room with Balcony</h3>
+              <p class="suite-subtitle">Spacious Room with Private View</p>
+              <p class="suite-desc">Spacious layout with a private sit-out balcony overlooking the pool. Equipped with plush seating, Nespresso coffee maker, walk-in wardrobe, and complimentary buffet breakfast.</p>
+              <div style="margin: 1rem 0; font-size: 0.82rem; color: var(--color-text-muted);">
+                <span style="display:inline-block; margin-right:8px;">✓ Private Sit-Out Balcony</span>
+                <span style="display:inline-block; margin-right:8px;">✓ Complimentary Buffet Breakfast</span>
+                <span style="display:inline-block; margin-right:8px;">✓ Espresso Coffee Machine</span>
+              </div>
+              <div class="suite-card-footer">
+                <div class="suite-price">
+                  <span class="price-val">₹7,499</span>
+                  <span class="price-unit">/ night</span>
+                </div>
+                <button class="btn btn-gold btn-sm" data-open-booking data-booking-type="suite" data-item-id="premium-room">Book Now</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Executive Business Room -->
+          <div class="suite-card tilt-card reveal-up in-view" data-category="executive">
+            <div class="suite-card-img">
+              <img src="assets/images/executive-room.jpg" alt="Executive Business Room">
+              <span class="suite-badge">Business Luxury</span>
+              <button class="suite-quick-view-btn" data-view-suite="executive-room" data-cursor="VIEW">View Details</button>
+            </div>
+            <div class="suite-card-body">
+              <div class="suite-meta">
+                <span>📏 62 m² / 665 sq.ft</span>
+                <span>👥 2 Adults</span>
+                <span>🛏️ Plush Feather-bed King</span>
+              </div>
+              <h3 class="suite-title">Executive Business Room</h3>
+              <p class="suite-subtitle">Includes Lounge Access & Airport Transfer</p>
+              <p class="suite-desc">Designed for corporate executives, including complimentary airport transfers, Executive Lounge access, daily evening cocktail hours, and complimentary ironing service.</p>
+              <div style="margin: 1rem 0; font-size: 0.82rem; color: var(--color-text-muted);">
+                <span style="display:inline-block; margin-right:8px;">✓ Executive Lounge Access</span>
+                <span style="display:inline-block; margin-right:8px;">✓ Complimentary Airport Pick & Drop</span>
+                <span style="display:inline-block; margin-right:8px;">✓ Deep Soaking Bath Tub</span>
+              </div>
+              <div class="suite-card-footer">
+                <div class="suite-price">
+                  <span class="price-val">₹10,999</span>
+                  <span class="price-unit">/ night</span>
+                </div>
+                <button class="btn btn-gold btn-sm" data-open-booking data-booking-type="suite" data-item-id="executive-room">Book Now</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. Grand Luxury Suite -->
+          <div class="suite-card tilt-card reveal-up in-view" data-category="suite">
+            <div class="suite-card-img">
+              <img src="assets/images/luxury-suite.jpg" alt="Grand Luxury Suite">
+              <span class="suite-badge">Flagship Suite</span>
+              <button class="suite-quick-view-btn" data-view-suite="luxury-suite" data-cursor="VIEW">View Details</button>
+            </div>
+            <div class="suite-card-body">
+              <div class="suite-meta">
+                <span>📏 110 m² / 1,180 sq.ft</span>
+                <span>👥 3 Guests</span>
+                <span>🛏️ Emperor King Size Bed</span>
+              </div>
+              <h3 class="suite-title">Grand Luxury Suite</h3>
+              <p class="suite-subtitle">Separate Living Salon & Jacuzzi</p>
+              <p class="suite-desc">An epitome of luxury featuring a separate living salon, powder room, master bedroom, Italian marble bath with Jacuzzi tub, 24-hour dedicated butler, and complimentary wine & fruit basket.</p>
+              <div style="margin: 1rem 0; font-size: 0.82rem; color: var(--color-text-muted);">
+                <span style="display:inline-block; margin-right:8px;">✓ In-Room Jacuzzi Tub</span>
+                <span style="display:inline-block; margin-right:8px;">✓ Separate Living & Dining Room</span>
+                <span style="display:inline-block; margin-right:8px;">✓ 24/7 Dedicated Butler</span>
+              </div>
+              <div class="suite-card-footer">
+                <div class="suite-price">
+                  <span class="price-val">₹18,500</span>
+                  <span class="price-unit">/ night</span>
+                </div>
+                <button class="btn btn-gold btn-sm" data-open-booking data-booking-type="suite" data-item-id="luxury-suite">Book Now</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. Royal Family Suite -->
+          <div class="suite-card tilt-card reveal-up in-view" data-category="family">
+            <div class="suite-card-img">
+              <img src="assets/images/family-suite.jpg" alt="Royal Family Suite">
+              <span class="suite-badge">Family Favorite</span>
+              <button class="suite-quick-view-btn" data-view-suite="family-suite" data-cursor="VIEW">View Details</button>
+            </div>
+            <div class="suite-card-body">
+              <div class="suite-meta">
+                <span>📏 145 m² / 1,560 sq.ft</span>
+                <span>👥 4 Adults + 2 Children</span>
+                <span>🛏️ 2 Master King Beds</span>
+              </div>
+              <h3 class="suite-title">Royal Family Suite</h3>
+              <p class="suite-subtitle">Interconnecting Rooms for Large Families</p>
+              <p class="suite-desc">Ideal for family holidays, featuring 2 interconnecting master bedrooms, 2 full marble bathrooms, a dining table for 6, kids play corner, and complimentary dinner for children under 10.</p>
+              <div style="margin: 1rem 0; font-size: 0.82rem; color: var(--color-text-muted);">
+                <span style="display:inline-block; margin-right:8px;">✓ 2 Interconnecting Bedrooms</span>
+                <span style="display:inline-block; margin-right:8px;">✓ 2 Full Marble Bathrooms</span>
+                <span style="display:inline-block; margin-right:8px;">✓ Dining Table for 6</span>
+              </div>
+              <div class="suite-card-footer">
+                <div class="suite-price">
+                  <span class="price-val">₹24,999</span>
+                  <span class="price-unit">/ night</span>
+                </div>
+                <button class="btn btn-gold btn-sm" data-open-booking data-booking-type="suite" data-item-id="family-suite">Book Now</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== 4. RESTAURANT & FOOD MENU VIEW ==================== -->
+  <main class="page-view" id="page-menu">
+    <section class="section">
+      <div class="container">
+        <div class="section-header reveal-up in-view">
+          <span class="section-subtitle">AUTHENTIC FLAVORS</span>
+          <h2 class="section-title">Le Celestia Restaurant Menu</h2>
+          <p class="section-desc">Explore our authentic North Indian, South Indian, Mughlai Biryanis, Pan-Asian and Dessert selections.</p>
+        </div>
+
+        <!-- Menu Category Filter -->
+        <div class="filter-bar">
+          <button class="filter-btn active" data-filter-menu="all">All Dishes (15)</button>
+          <button class="filter-btn" data-filter-menu="north-indian">North Indian (8 Paneer Specials)</button>
+          <button class="filter-btn" data-filter-menu="south-indian">South Indian</button>
+          <button class="filter-btn" data-filter-menu="mughlai">Mughlai & Biryani</button>
+          <button class="filter-btn" data-filter-menu="chinese">Pan-Asian / Chinese</button>
+          <button class="filter-btn" data-filter-menu="desserts">Desserts & Sweets</button>
+        </div>
+
+        <!-- Menu Grid Container Pre-rendered -->
+        <div class="menu-grid" id="menuGrid">
+
+          <!-- 1. Shahi Paneer Butter Masala -->
+          <div class="menu-item-card reveal-up in-view" data-menu-category="north-indian">
+            <div style="height: 180px; border-radius: 4px; overflow: hidden; margin-bottom: 1rem; position: relative;">
+              <img src="assets/images/paneer-butter-masala.jpg" alt="Shahi Paneer Butter Masala" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <div class="menu-item-header">
+              <h4 class="menu-item-title">Shahi Paneer Butter Masala</h4>
+              <span class="menu-item-price">₹445</span>
+            </div>
+            <p class="menu-item-desc">Fresh cottage cheese cubes simmered in a velvety makhani gravy of vine-ripened tomatoes, fresh butter, cashews, and Kasuri methi.</p>
+            <div style="font-size:0.78rem; color:var(--color-gold-primary); margin-bottom:0.8rem;">🌿 <strong>Ingredients:</strong> Fresh Paneer, Amul Butter, Cashew Paste, Tomato Gravy, Kasuri Methi, Cream</div>
+            <div class="menu-item-tags">
+              <span class="menu-tag">Bestseller</span><span class="menu-tag">Chef Special</span><span class="menu-tag">Vegetarian</span>
+            </div>
+          </div>
+
+          <!-- 2. Kadhai Paneer Special -->
+          <div class="menu-item-card reveal-up in-view" data-menu-category="north-indian">
+            <div style="height: 180px; border-radius: 4px; overflow: hidden; margin-bottom: 1rem; position: relative;">
+              <img src="assets/images/kadhai-paneer.jpg" alt="Kadhai Paneer Special" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <div class="menu-item-header">
+              <h4 class="menu-item-title">Kadhai Paneer Special</h4>
+              <span class="menu-item-price">₹425</span>
+            </div>
+            <p class="menu-item-desc">Succulent paneer cubes wok-tossed with freshly ground coriander, whole red chilies, bell peppers, onions, and spicy kadhai masala.</p>
+            <div style="font-size:0.78rem; color:var(--color-gold-primary); margin-bottom:0.8rem;">🌿 <strong>Ingredients:</strong> Paneer, Bell Peppers, Onion, Kadhai Masala, Fresh Coriander, Whole Spices</div>
+            <div class="menu-item-tags">
+              <span class="menu-tag">Spicy & Flavorful</span><span class="menu-tag">Vegetarian</span>
+            </div>
+          </div>
+
+          <!-- 3. Palak Paneer Royal -->
+          <div class="menu-item-card reveal-up in-view" data-menu-category="north-indian">
+            <div style="height: 180px; border-radius: 4px; overflow: hidden; margin-bottom: 1rem; position: relative;">
+              <img src="assets/images/palak-paneer.jpg" alt="Palak Paneer Royal" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <div class="menu-item-header">
+              <h4 class="menu-item-title">Palak Paneer Royal</h4>
+              <span class="menu-item-price">₹395</span>
+            </div>
+            <p class="menu-item-desc">Tender cottage cheese cooked in a silky smooth garlic-infused spinach puree, tempered with cumin and topped with fresh malai.</p>
+            <div style="font-size:0.78rem; color:var(--color-gold-primary); margin-bottom:0.8rem;">🌿 <strong>Ingredients:</strong> Fresh Spinach, Cottage Cheese, Garlic, Cumin, Malai, Green Chilies</div>
+            <div class="menu-item-tags">
+              <span class="menu-tag">Healthy Choice</span><span class="menu-tag">Vegetarian</span>
+            </div>
+          </div>
+
+          <!-- 4. Tandoori Paneer Tikka Shashlik -->
+          <div class="menu-item-card reveal-up in-view" data-menu-category="north-indian">
+            <div style="height: 180px; border-radius: 4px; overflow: hidden; margin-bottom: 1rem; position: relative;">
+              <img src="assets/images/paneer-tikka.jpg" alt="Tandoori Paneer Tikka Shashlik" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <div class="menu-item-header">
+              <h4 class="menu-item-title">Tandoori Paneer Tikka Shashlik</h4>
+              <span class="menu-item-price">₹425</span>
+            </div>
+            <p class="menu-item-desc">Charcoal-charred paneer cubes marinated in mustard oil, hung curd, and roasted spices, grilled on skewers with capsicum & red onions.</p>
+            <div style="font-size:0.78rem; color:var(--color-gold-primary); margin-bottom:0.8rem;">🌿 <strong>Ingredients:</strong> Paneer, Hung Curd, Mustard Oil, Carom Seeds, Bell Peppers, Lemon</div>
+            <div class="menu-item-tags">
+              <span class="menu-tag">Clay Oven Tandoori</span><span class="menu-tag">Vegetarian</span>
+            </div>
+          </div>
+
+          <!-- 5. Shahi Malai Paneer Kofta -->
+          <div class="menu-item-card reveal-up in-view" data-menu-category="north-indian">
+            <div style="height: 180px; border-radius: 4px; overflow: hidden; margin-bottom: 1rem; position: relative;">
+              <img src="assets/images/malai-kofta.jpg" alt="Shahi Malai Paneer Kofta" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <div class="menu-item-header">
+              <h4 class="menu-item-title">Shahi Malai Paneer Kofta</h4>
+              <span class="menu-item-price">₹465</span>
+            </div>
+            <p class="menu-item-desc">Delicate melt-in-mouth cottage cheese and potato dumplings stuffed with khoya & nuts, served in a rich white cardamom gravy.</p>
+            <div style="font-size:0.78rem; color:var(--color-gold-primary); margin-bottom:0.8rem;">🌿 <strong>Ingredients:</strong> Cottage Cheese, Khoya, Cashews, Cardamom, Cream, Saffron</div>
+            <div class="menu-item-tags">
+              <span class="menu-tag">Royal Heritage</span><span class="menu-tag">Vegetarian</span>
+            </div>
+          </div>
+
+          <!-- 6. Paneer Lababdar -->
+          <div class="menu-item-card reveal-up in-view" data-menu-category="north-indian">
+            <div style="height: 180px; border-radius: 4px; overflow: hidden; margin-bottom: 1rem; position: relative;">
+              <img src="assets/images/paneer-lababdar.jpg" alt="Paneer Lababdar" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <div class="menu-item-header">
+              <h4 class="menu-item-title">Paneer Lababdar</h4>
+              <span class="menu-item-price">₹450</span>
+            </div>
+            <p class="menu-item-desc">Grated and cubed cottage cheese cooked together in a thick chunky onion-tomato gravy with ginger juliennes and fresh coriander.</p>
+            <div style="font-size:0.78rem; color:var(--color-gold-primary); margin-bottom:0.8rem;">🌿 <strong>Ingredients:</strong> Paneer, Grated Cottage Cheese, Onion Tomato Gravy, Ginger, Butter</div>
+            <div class="menu-item-tags">
+              <span class="menu-tag">Rich & Creamy</span><span class="menu-tag">Vegetarian</span>
+            </div>
+          </div>
+
+          <!-- 7. Paneer Do Pyaza -->
+          <div class="menu-item-card reveal-up in-view" data-menu-category="north-indian">
+            <div style="height: 180px; border-radius: 4px; overflow: hidden; margin-bottom: 1rem; position: relative;">
+              <img src="assets/images/paneer-do-pyaza.jpg" alt="Paneer Do Pyaza" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <div class="menu-item-header">
+              <h4 class="menu-item-title">Paneer Do Pyaza</h4>
+              <span class="menu-item-price">₹415</span>
+            </div>
+            <p class="menu-item-desc">Cottage cheese cooked with double the onions — diced shallots and caramelized onion paste, spiked with whole cloves and black cardamom.</p>
+            <div style="font-size:0.78rem; color:var(--color-gold-primary); margin-bottom:0.8rem;">🌿 <strong>Ingredients:</strong> Paneer, Shallots, Caramelized Onion, Whole Spices, Green Cardamom</div>
+            <div class="menu-item-tags">
+              <span class="menu-tag">Traditional Recipe</span><span class="menu-tag">Vegetarian</span>
+            </div>
+          </div>
+
+          <!-- 8. Tandoori Paneer Malai Tikka -->
+          <div class="menu-item-card reveal-up in-view" data-menu-category="north-indian">
+            <div style="height: 180px; border-radius: 4px; overflow: hidden; margin-bottom: 1rem; position: relative;">
+              <img src="assets/images/paneer-malai-tikka.jpg" alt="Tandoori Paneer Malai Tikka" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <div class="menu-item-header">
+              <h4 class="menu-item-title">Tandoori Paneer Malai Tikka</h4>
+              <span class="menu-item-price">₹445</span>
+            </div>
+            <p class="menu-item-desc">Creamy cottage cheese marinated in cashew paste, cardamom, cheese, and white pepper, roasted gently in the tandoor.</p>
+            <div style="font-size:0.78rem; color:var(--color-gold-primary); margin-bottom:0.8rem;">🌿 <strong>Ingredients:</strong> Paneer, Cashew Paste, Amul Cheese, Cream, White Pepper, Cardamom</div>
+            <div class="menu-item-tags">
+              <span class="menu-tag">Mild & Creamy</span><span class="menu-tag">Vegetarian</span>
+            </div>
+          </div>
+
+          <!-- 9. Classic Butter Chicken -->
+          <div class="menu-item-card reveal-up in-view" data-menu-category="north-indian">
+            <div style="height: 180px; border-radius: 4px; overflow: hidden; margin-bottom: 1rem; position: relative;">
+              <img src="assets/images/butter-chicken.jpg" alt="Classic Butter Chicken" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <div class="menu-item-header">
+              <h4 class="menu-item-title">Classic Butter Chicken</h4>
+              <span class="menu-item-price">₹495</span>
+            </div>
+            <p class="menu-item-desc">Tender tandoori chicken simmered in a velvety tomato, butter & cashew gravy flavored with Kasuri methi.</p>
+            <div style="font-size:0.78rem; color:var(--color-gold-primary); margin-bottom:0.8rem;">🌿 <strong>Ingredients:</strong> Tandoori Chicken, Amul Butter, Tomato Makhani Gravy, Cashews, Cream</div>
+            <div class="menu-item-tags">
+              <span class="menu-tag">Chef Special</span><span class="menu-tag">Must Try</span>
+            </div>
+          </div>
+
+          <!-- 10. Dal Makhani Royal -->
+          <div class="menu-item-card reveal-up in-view" data-menu-category="north-indian">
+            <div style="height: 180px; border-radius: 4px; overflow: hidden; margin-bottom: 1rem; position: relative;">
+              <img src="assets/images/dal-makhani.jpg" alt="Dal Makhani Royal" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <div class="menu-item-header">
+              <h4 class="menu-item-title">Dal Makhani Royal</h4>
+              <span class="menu-item-price">₹380</span>
+            </div>
+            <p class="menu-item-desc">Black lentils slow-cooked overnight on charcoal embers with white butter, cream and secret royal spices.</p>
+            <div style="font-size:0.78rem; color:var(--color-gold-primary); margin-bottom:0.8rem;">🌿 <strong>Ingredients:</strong> Black Urad Dal, Kidney Beans, White Butter, Cream, Garlic, Kasuri Methi</div>
+            <div class="menu-item-tags">
+              <span class="menu-tag">Vegetarian</span><span class="menu-tag">Bestseller</span>
+            </div>
+          </div>
+
+          <!-- 11. Hyderabadi Chicken Dum Biryani -->
+          <div class="menu-item-card reveal-up in-view" data-menu-category="mughlai">
+            <div style="height: 180px; border-radius: 4px; overflow: hidden; margin-bottom: 1rem; position: relative;">
+              <img src="assets/images/biryani.jpg" alt="Hyderabadi Chicken Dum Biryani" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <div class="menu-item-header">
+              <h4 class="menu-item-title">Hyderabadi Chicken Dum Biryani</h4>
+              <span class="menu-item-price">₹550</span>
+            </div>
+            <p class="menu-item-desc">Fragrant long-grain basmati rice layered with marinated chicken, saffron & fried onions, served with Mirchi Ka Salan & Raita.</p>
+            <div style="font-size:0.78rem; color:var(--color-gold-primary); margin-bottom:0.8rem;">🌿 <strong>Ingredients:</strong> Basmati Rice, Marinated Chicken, Saffron, Fried Onions, Mint, Whole Spices</div>
+            <div class="menu-item-tags">
+              <span class="menu-tag">Royal Recipe</span><span class="menu-tag">Signature</span>
+            </div>
+          </div>
+
+          <!-- 12. Tandoori Non-Veg Feast Platter -->
+          <div class="menu-item-card reveal-up in-view" data-menu-category="mughlai">
+            <div style="height: 180px; border-radius: 4px; overflow: hidden; margin-bottom: 1rem; position: relative;">
+              <img src="assets/images/tandoori-platter.jpg" alt="Tandoori Non-Veg Feast Platter" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <div class="menu-item-header">
+              <h4 class="menu-item-title">Tandoori Non-Veg Feast Platter</h4>
+              <span class="menu-item-price">₹950</span>
+            </div>
+            <p class="menu-item-desc">Platter containing Mutton Seekh Kebab, Murgh Malai Tikka, Fish Amritsari and Tandoori Prawns.</p>
+            <div style="font-size:0.78rem; color:var(--color-gold-primary); margin-bottom:0.8rem;">🌿 <strong>Ingredients:</strong> Mutton Seekh, Chicken Tikka, Fish Amritsari, Tandoori Prawns, Mint Chutney</div>
+            <div class="menu-item-tags">
+              <span class="menu-tag">Chef Special</span>
+            </div>
+          </div>
+
+          <!-- 13. Mysore Masala Dosa -->
+          <div class="menu-item-card reveal-up in-view" data-menu-category="south-indian">
+            <div style="height: 180px; border-radius: 4px; overflow: hidden; margin-bottom: 1rem; position: relative;">
+              <img src="assets/images/masala-dosa.jpg" alt="Mysore Masala Dosa" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <div class="menu-item-header">
+              <h4 class="menu-item-title">Mysore Masala Dosa</h4>
+              <span class="menu-item-price">₹290</span>
+            </div>
+            <p class="menu-item-desc">Crispy rice & lentil crepe smeared with spicy garlic-chili paste, filled with potato masala, served with sambar & coconut chutneys.</p>
+            <div style="font-size:0.78rem; color:var(--color-gold-primary); margin-bottom:0.8rem;">🌿 <strong>Ingredients:</strong> Fermented Rice Batter, Potato Masala, Red Garlic Chutney, Sambar, Coconut Chutney</div>
+            <div class="menu-item-tags">
+              <span class="menu-tag">Vegetarian</span><span class="menu-tag">South Special</span>
+            </div>
+          </div>
+
+          <!-- 14. Veg Hakka Noodles & Chili Paneer -->
+          <div class="menu-item-card reveal-up in-view" data-menu-category="chinese">
+            <div style="height: 180px; border-radius: 4px; overflow: hidden; margin-bottom: 1rem; position: relative;">
+              <img src="assets/images/chinese-noodles.jpg" alt="Veg Hakka Noodles & Chili Paneer" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <div class="menu-item-header">
+              <h4 class="menu-item-title">Veg Hakka Noodles & Chili Paneer</h4>
+              <span class="menu-item-price">₹380</span>
+            </div>
+            <p class="menu-item-desc">Wok-tossed stir fry noodles with crunchy vegetables, garlic and soy sauce served with wok-tossed chili paneer.</p>
+            <div style="font-size:0.78rem; color:var(--color-gold-primary); margin-bottom:0.8rem;">🌿 <strong>Ingredients:</strong> Noodles, Cottage Cheese, Bell Peppers, Soy Sauce, Garlic, Chili Paste</div>
+            <div class="menu-item-tags">
+              <span class="menu-tag">Pan Asian</span>
+            </div>
+          </div>
+
+          <!-- 15. Shahi Gulab Jamun with Kesar Rabri -->
+          <div class="menu-item-card reveal-up in-view" data-menu-category="desserts">
+            <div style="height: 180px; border-radius: 4px; overflow: hidden; margin-bottom: 1rem; position: relative;">
+              <img src="assets/images/gulab-jamun.jpg" alt="Shahi Gulab Jamun with Kesar Rabri" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <div class="menu-item-header">
+              <h4 class="menu-item-title">Shahi Gulab Jamun with Kesar Rabri</h4>
+              <span class="menu-item-price">₹280</span>
+            </div>
+            <p class="menu-item-desc">Warm pistachio-stuffed khoya dumplings served over chilled saffron-infused thick rabri.</p>
+            <div style="font-size:0.78rem; color:var(--color-gold-primary); margin-bottom:0.8rem;">🌿 <strong>Ingredients:</strong> Khoya, Pistachios, Cardamom Syrup, Saffron Rabri, Silver Vark</div>
+            <div class="menu-item-tags">
+              <span class="menu-tag">Vegetarian</span><span class="menu-tag">Royal Dessert</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== 5. OFFERS PAGE VIEW ==================== -->
+  <main class="page-view" id="page-offers">
+    <section class="section">
+      <div class="container">
+        <div class="section-header reveal-up in-view">
+          <span class="section-subtitle">CURRENT DEALS & PROMOTIONS</span>
+          <h2 class="section-title">Exclusive Hotel Stay & Dining Offers</h2>
+          <p class="section-desc">Save more with our current promotional packages, staycation deals, and dining discounts.</p>
+        </div>
+
+        <!-- Offers Grid Container Pre-rendered -->
+        <div class="offers-grid" id="offersGrid">
+
+          <div class="offer-card reveal-up in-view">
+            <div class="offer-img">
+              <img src="assets/images/offer-stay2get1.jpg" alt="Stay 2 Nights & Get 1 Night Free">
+              <span class="offer-tag">1 Night Free</span>
+            </div>
+            <div class="offer-body">
+              <span class="offer-validity">📅 Valid till Oct 31, 2026</span>
+              <h3 class="offer-title">Stay 2 Nights & Get 1 Night Free</h3>
+              <p class="exp-desc">Book a 2-night stay in any Executive Room or Suite and enjoy the 3rd consecutive night completely free.</p>
+              <ul class="offer-list">
+                <li>✓ 3rd Night Stay Complimentary</li>
+                <li>✓ Free Buffet Breakfast for 2</li>
+                <li>✓ Complimentary Wi-Fi Access</li>
+                <li>✓ 15% Off Food & Soft Beverages</li>
+              </ul>
+              <div class="offer-footer">
+                <span class="offer-price">₹14,998 total</span>
+                <button class="btn btn-gold btn-sm" data-open-booking data-booking-type="suite">Book Offer</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="offer-card reveal-up in-view">
+            <div class="offer-img">
+              <img src="assets/images/offer-weekend.jpg" alt="Weekend Staycation – 20% Off">
+              <span class="offer-tag">20% OFF</span>
+            </div>
+            <div class="offer-body">
+              <span class="offer-validity">📅 Valid Fri - Sun</span>
+              <h3 class="offer-title">Weekend Staycation – 20% Off</h3>
+              <p class="exp-desc">Unwind with your loved ones on weekends with 20% off room tariffs and free late checkout till 4 PM.</p>
+              <ul class="offer-list">
+                <li>✓ 20% Discount on Room Tariff</li>
+                <li>✓ Free Late Checkout till 4:00 PM</li>
+                <li>✓ Complimentary Swimming Pool Access</li>
+                <li>✓ Welcome Drinks on Arrival</li>
+              </ul>
+              <div class="offer-footer">
+                <span class="offer-price">₹5,999 / night</span>
+                <button class="btn btn-gold btn-sm" data-open-booking data-booking-type="suite">Book Offer</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="offer-card reveal-up in-view">
+            <div class="offer-img">
+              <img src="assets/images/offer-couple.jpg" alt="Royal Couple Stay Package">
+              <span class="offer-tag">Romantic Special</span>
+            </div>
+            <div class="offer-body">
+              <span class="offer-validity">📅 Year-Round</span>
+              <h3 class="offer-title">Royal Couple Stay Package</h3>
+              <p class="exp-desc">Specially curated for couples: includes romantic suite setup, candlelight dinner with wine, and 60-min spa voucher.</p>
+              <ul class="offer-list">
+                <li>✓ 1 Night Stay in Luxury Suite</li>
+                <li>✓ Candlelight Dinner at Le Celestia</li>
+                <li>✓ 60-min Couple Spa Voucher</li>
+                <li>✓ Romantic Flower Decor & Cake</li>
+              </ul>
+              <div class="offer-footer">
+                <span class="offer-price">₹19,999 / package</span>
+                <button class="btn btn-gold btn-sm" data-open-booking data-booking-type="suite">Book Offer</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="offer-card reveal-up in-view">
+            <div class="offer-img">
+              <img src="assets/images/offer-family.jpg" alt="Family Holiday Package">
+              <span class="offer-tag">Family Special</span>
+            </div>
+            <div class="offer-body">
+              <span class="offer-validity">📅 Valid All Seasons</span>
+              <h3 class="offer-title">Family Holiday Package</h3>
+              <p class="exp-desc">A fun-filled getaway for the entire family with free meals for kids under 10 and complimentary city sightseeing tour.</p>
+              <ul class="offer-list">
+                <li>✓ 2 Nights in Royal Family Suite</li>
+                <li>✓ Kids Under 10 Eat Free</li>
+                <li>✓ Guided Half-Day City Tour</li>
+                <li>✓ Complimentary Extra Bed</li>
+              </ul>
+              <div class="offer-footer">
+                <span class="offer-price">₹42,999 / package</span>
+                <button class="btn btn-gold btn-sm" data-open-booking data-booking-type="suite">Book Offer</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="offer-card reveal-up in-view">
+            <div class="offer-img">
+              <img src="assets/images/offer-earlybird.jpg" alt="Early Bird Booking – 15% Off">
+              <span class="offer-tag">15% OFF</span>
+            </div>
+            <div class="offer-body">
+              <span class="offer-validity">📅 Book 30 Days Prior</span>
+              <h3 class="offer-title">Early Bird Booking – 15% Off</h3>
+              <p class="exp-desc">Plan your trip in advance and unlock 15% instant savings on all room categories.</p>
+              <ul class="offer-list">
+                <li>✓ 15% Discount on Any Room Category</li>
+                <li>✓ Complimentary Breakfast Included</li>
+                <li>✓ Free Date Change Privilege</li>
+              </ul>
+              <div class="offer-footer">
+                <span class="offer-price">₹4,249 / night</span>
+                <button class="btn btn-gold btn-sm" data-open-booking data-booking-type="suite">Book Offer</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="offer-card reveal-up in-view">
+            <div class="offer-img">
+              <img src="assets/images/offer-dining.jpg" alt="Restaurant Dining Special – 20% Off">
+              <span class="offer-tag">20% OFF Food</span>
+            </div>
+            <div class="offer-body">
+              <span class="offer-validity">📅 Daily 7 PM - 11 PM</span>
+              <h3 class="offer-title">Restaurant Dining Special – 20% Off</h3>
+              <p class="exp-desc">Enjoy 20% off total food bill at Le Celestia Fine Dining restaurant for all hotel guests & online reservations.</p>
+              <ul class="offer-list">
+                <li>✓ 20% Off A La Carte Food Bill</li>
+                <li>✓ Complimentary Chef Special Dessert</li>
+                <li>✓ Reserved Priority Seating</li>
+              </ul>
+              <div class="offer-footer">
+                <span class="offer-price">Valid at Restaurant</span>
+                <button class="btn btn-gold btn-sm" data-open-booking data-booking-type="table">Book Offer</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== 6. BANQUETS & EVENTS PAGE VIEW ==================== -->
+  <main class="page-view" id="page-events">
+    <section class="section">
+      <div class="container">
+        <div class="section-header reveal-up in-view">
+          <span class="section-subtitle">GRAND CELEBRATIONS</span>
+          <h2 class="section-title">Banquets & Event Venues</h2>
+          <p class="section-desc">Host royal weddings, corporate summits, birthday parties, and Sangeet celebrations in our pillarless grand ballrooms.</p>
+        </div>
+
+        <!-- Events Grid Container Pre-rendered -->
+        <div class="experiences-grid" id="eventsGrid">
+
+          <div class="exp-card tilt-card reveal-up in-view">
+            <div class="exp-img">
+              <img src="assets/images/wedding-hall.jpg" alt="Royal Indian Weddings & Receptions">
+              <span class="exp-duration">🏰 Up to 1,200 Guests</span>
+            </div>
+            <div class="exp-body">
+              <span class="exp-subtitle">BANQUETS & EVENTS</span>
+              <h3 class="exp-title">Royal Indian Weddings & Receptions</h3>
+              <p class="exp-desc">Pillarless grand ballroom with opulent crystal chandeliers, mandap floral decor setup, and customized royal Indian buffet catering.</p>
+              <button class="btn btn-gold btn-sm" onclick="alert('Thank you for your interest. Our Banquets Manager will contact you shortly.')">Enquire Now</button>
+            </div>
+          </div>
+
+          <div class="exp-card tilt-card reveal-up in-view">
+            <div class="exp-img">
+              <img src="assets/images/corporate-event.jpg" alt="Corporate Conferences & Summits">
+              <span class="exp-duration">🏰 Up to 400 Delegates</span>
+            </div>
+            <div class="exp-body">
+              <span class="exp-subtitle">BANQUETS & EVENTS</span>
+              <h3 class="exp-title">Corporate Conferences & Summits</h3>
+              <p class="exp-desc">High-tech corporate convention center equipped with 4K LED video walls, high-speed Wi-Fi, spatial sound systems, and business lounge.</p>
+              <button class="btn btn-gold btn-sm" onclick="alert('Thank you for your interest. Our Banquets Manager will contact you shortly.')">Enquire Now</button>
+            </div>
+          </div>
+
+          <div class="exp-card tilt-card reveal-up in-view">
+            <div class="exp-img">
+              <img src="assets/images/rooftop-dining.jpg" alt="Birthday Parties & Anniversaries">
+              <span class="exp-duration">🏰 Up to 250 Guests</span>
+            </div>
+            <div class="exp-body">
+              <span class="exp-subtitle">BANQUETS & EVENTS</span>
+              <h3 class="exp-title">Birthday Parties & Anniversaries</h3>
+              <p class="exp-desc">Poolside or rooftop lounge venue with live DJ setup, theme decoration, cocktail bar, and multi-cuisine buffet counters.</p>
+              <button class="btn btn-gold btn-sm" onclick="alert('Thank you for your interest. Our Banquets Manager will contact you shortly.')">Enquire Now</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== 7. GALLERY PAGE VIEW ==================== -->
+  <main class="page-view" id="page-gallery">
+    <section class="section">
+      <div class="container">
+        <div class="section-header reveal-up in-view">
+          <span class="section-subtitle">VISUAL IMMERSION</span>
+          <h2 class="section-title">Photo Gallery</h2>
+          <p class="section-desc">Explore actual photographs of our hotel exterior, lobby, rooms, restaurant, food, pool, and banquet halls.</p>
+        </div>
+
+        <!-- Gallery Filters -->
+        <div class="filter-bar">
+          <button class="filter-btn active" data-filter-gallery="all">All Photos (9)</button>
+          <button class="filter-btn" data-filter-gallery="architecture">Exterior</button>
+          <button class="filter-btn" data-filter-gallery="lobby">Lobby & Reception</button>
+          <button class="filter-btn" data-filter-gallery="rooms">Rooms</button>
+          <button class="filter-btn" data-filter-gallery="restaurant">Restaurant</button>
+          <button class="filter-btn" data-filter-gallery="food">Indian Food</button>
+          <button class="filter-btn" data-filter-gallery="pool">Pool</button>
+          <button class="filter-btn" data-filter-gallery="banquet">Banquet Hall</button>
+        </div>
+
+        <!-- Gallery Grid Container Pre-rendered -->
+        <div class="gallery-grid" id="galleryGrid">
+
+          <div class="gallery-item landscape reveal-up in-view" data-gallery-cat="architecture" data-lightbox-src="assets/images/hero-1.jpg" data-title="Grand Palace Hotel Exterior" data-cursor="ZOOM">
+            <img src="assets/images/hero-1.jpg" alt="Grand Palace Hotel Exterior" loading="lazy">
+            <div class="gallery-overlay">
+              <span class="gallery-cat-badge">ARCHITECTURE</span>
+              <h4 class="gallery-title">Grand Palace Hotel Exterior</h4>
+            </div>
+          </div>
+
+          <div class="gallery-item portrait reveal-up in-view" data-gallery-cat="lobby" data-lightbox-src="assets/images/lobby.jpg" data-title="Opulent Hotel Lobby & Reception" data-cursor="ZOOM">
+            <img src="assets/images/lobby.jpg" alt="Opulent Hotel Lobby & Reception" loading="lazy">
+            <div class="gallery-overlay">
+              <span class="gallery-cat-badge">LOBBY</span>
+              <h4 class="gallery-title">Opulent Hotel Lobby & Reception</h4>
+            </div>
+          </div>
+
+          <div class="gallery-item landscape reveal-up in-view" data-gallery-cat="rooms" data-lightbox-src="assets/images/luxury-suite.jpg" data-title="Luxury Suite Bedroom" data-cursor="ZOOM">
+            <img src="assets/images/luxury-suite.jpg" alt="Luxury Suite Bedroom" loading="lazy">
+            <div class="gallery-overlay">
+              <span class="gallery-cat-badge">ROOMS</span>
+              <h4 class="gallery-title">Luxury Suite Bedroom</h4>
+            </div>
+          </div>
+
+          <div class="gallery-item square reveal-up in-view" data-gallery-cat="restaurant" data-lightbox-src="assets/images/restaurant-main.jpg" data-title="Le Celestia Fine Dining Interior" data-cursor="ZOOM">
+            <img src="assets/images/restaurant-main.jpg" alt="Le Celestia Fine Dining Interior" loading="lazy">
+            <div class="gallery-overlay">
+              <span class="gallery-cat-badge">RESTAURANT</span>
+              <h4 class="gallery-title">Le Celestia Fine Dining Interior</h4>
+            </div>
+          </div>
+
+          <div class="gallery-item portrait reveal-up in-view" data-gallery-cat="food" data-lightbox-src="assets/images/biryani.jpg" data-title="Authentic Hyderabadi Dum Biryani" data-cursor="ZOOM">
+            <img src="assets/images/biryani.jpg" alt="Authentic Hyderabadi Dum Biryani" loading="lazy">
+            <div class="gallery-overlay">
+              <span class="gallery-cat-badge">FOOD</span>
+              <h4 class="gallery-title">Authentic Hyderabadi Dum Biryani</h4>
+            </div>
+          </div>
+
+          <div class="gallery-item landscape reveal-up in-view" data-gallery-cat="pool" data-lightbox-src="assets/images/swimming-pool.jpg" data-title="Temperature Controlled Swimming Pool" data-cursor="ZOOM">
+            <img src="assets/images/swimming-pool.jpg" alt="Temperature Controlled Swimming Pool" loading="lazy">
+            <div class="gallery-overlay">
+              <span class="gallery-cat-badge">POOL</span>
+              <h4 class="gallery-title">Temperature Controlled Swimming Pool</h4>
+            </div>
+          </div>
+
+          <div class="gallery-item landscape reveal-up in-view" data-gallery-cat="banquet" data-lightbox-src="assets/images/wedding-hall.jpg" data-title="Royal Wedding Banquet Hall" data-cursor="ZOOM">
+            <img src="assets/images/wedding-hall.jpg" alt="Royal Wedding Banquet Hall" loading="lazy">
+            <div class="gallery-overlay">
+              <span class="gallery-cat-badge">BANQUET</span>
+              <h4 class="gallery-title">Royal Wedding Banquet Hall</h4>
+            </div>
+          </div>
+
+          <div class="gallery-item square reveal-up in-view" data-gallery-cat="rooftop" data-lightbox-src="assets/images/rooftop-dining.jpg" data-title="Rooftop Sky Lounge Dining" data-cursor="ZOOM">
+            <img src="assets/images/rooftop-dining.jpg" alt="Rooftop Sky Lounge Dining" loading="lazy">
+            <div class="gallery-overlay">
+              <span class="gallery-cat-badge">ROOFTOP</span>
+              <h4 class="gallery-title">Rooftop Sky Lounge Dining</h4>
+            </div>
+          </div>
+
+          <div class="gallery-item portrait reveal-up in-view" data-gallery-cat="food" data-lightbox-src="assets/images/paneer-butter-masala.jpg" data-title="North Indian Shahi Paneer Butter Masala" data-cursor="ZOOM">
+            <img src="assets/images/paneer-butter-masala.jpg" alt="North Indian Shahi Paneer Butter Masala" loading="lazy">
+            <div class="gallery-overlay">
+              <span class="gallery-cat-badge">FOOD</span>
+              <h4 class="gallery-title">North Indian Shahi Paneer Butter Masala</h4>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== 8. CONTACT PAGE VIEW ==================== -->
+  <main class="page-view" id="page-contact">
+    <section class="section">
+      <div class="container">
+        <div class="section-header reveal-up in-view">
+          <span class="section-subtitle">GET IN TOUCH</span>
+          <h2 class="section-title">Reservations & Concierge Desk</h2>
+          <p class="section-desc">Contact our front desk team for room bookings, event inquiries, or table reservations.</p>
+        </div>
+
+        <div class="about-grid">
+          <div class="form-grid" style="background: var(--color-bg-card); padding: 2.5rem; border: 1px solid var(--color-border-glass); border-radius: 4px;">
+            <div class="form-group span-2">
+              <label>Your Full Name</label>
+              <input type="text" placeholder="e.g. Ramesh Kumar" class="form-input">
+            </div>
+            <div class="form-group">
+              <label>Email Address</label>
+              <input type="email" placeholder="ramesh@gmail.com" class="form-input">
+            </div>
+            <div class="form-group">
+              <label>Phone / WhatsApp Number</label>
+              <input type="tel" placeholder="+91 98765 43210" class="form-input">
+            </div>
+            <div class="form-group span-2">
+              <label>Inquiry Type & Message</label>
+              <textarea placeholder="Tell us about your travel dates, room preference, or event requirements..." class="form-input" style="height: 120px;"></textarea>
+            </div>
+            <div class="span-2">
+              <button class="btn btn-gold" onclick="alert('Thank you for contacting AURELIA Grand Hotel. Our team will call you back within 15 minutes.')">Submit Message</button>
+            </div>
+          </div>
+
+          <div>
+            <h3 style="font-family: var(--font-serif); font-size: 2rem; color: var(--color-gold-light); margin-bottom: 1.5rem;">Hotel Address</h3>
+            <p style="color: var(--color-text-muted); margin-bottom: 1rem;">777 Grand Palace Road, Lake Pichola, Udaipur, Rajasthan 313001, India</p>
+            <p style="color: var(--color-text-muted); margin-bottom: 1rem;"><strong>Phone / WhatsApp:</strong> +91 98765 43210 / +91 (0294) 240 0000</p>
+            <p style="color: var(--color-text-muted); margin-bottom: 2rem;"><strong>Email:</strong> reservations@aureliahotels.in</p>
+
+            <!-- Dark Luxury Map Container -->
+            <div style="width: 100%; height: 260px; background: #07080b; border: 1px solid var(--color-border-glass); border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+              <div style="color: var(--color-gold-primary); font-size: 2rem; margin-bottom: 0.5rem;">📍</div>
+              <div style="font-family: var(--font-serif); font-size: 1.2rem; color: var(--color-gold-light);">AURELIA Grand Hotel</div>
+              <div style="font-size: 0.75rem; color: var(--color-text-muted); margin-top: 4px;">Udaipur & New Delhi Locations</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- ========================================================================== -->
+  <!-- MODALS & OVERLAYS                                                         -->
+  <!-- ========================================================================== -->
+
+  <!-- 1. MULTI-STEP RESERVATION MODAL -->
+  <div class="modal-backdrop" id="bookingModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 class="modal-title">Room & Table Booking Engine</h2>
+        <div class="step-indicator">
+          <div class="step-dot active">1</div>
+          <div class="step-dot">2</div>
+          <div class="step-dot">3</div>
+          <div class="step-dot">4</div>
+          <div class="step-dot">5</div>
+        </div>
+        <button class="modal-close" data-close-booking aria-label="Close Modal">✕</button>
+      </div>
+
+      <div class="modal-body" id="bookingModalBody">
+        <!-- Rendered dynamically via js/booking.js -->
+      </div>
+
+      <div class="modal-footer" id="bookingModalFooter">
+        <!-- Controls -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. ROOM DETAIL MODAL -->
+  <div class="modal-backdrop" id="suiteDetailModal">
+    <div class="modal-card" style="max-width: 1000px;">
+      <div class="modal-header">
+        <h2 class="modal-title">Room Particulars</h2>
+        <button class="modal-close" data-close-suite-detail aria-label="Close Modal">✕</button>
+      </div>
+      <div class="modal-body" id="suiteDetailBody">
+        <!-- Rendered dynamically via js/app.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. GALLERY LIGHTBOX MODAL -->
+  <div class="modal-backdrop" id="lightboxModal">
+    <div style="position: relative; max-width: 90vw; max-height: 90vh;">
+      <button class="modal-close" data-close-lightbox style="position: absolute; top: -40px; right: 0; color: #fff;">✕</button>
+      <img id="lightboxImg" src="" alt="Gallery Preview" style="max-width: 100%; max-height: 80vh; border-radius: 4px; border: 1px solid var(--color-gold-primary);">
+      <h4 id="lightboxTitle" style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--color-gold-light); margin-top: 1rem; text-align: center;"></h4>
+    </div>
+  </div>
+
+  <!-- ==================== CONCIERGE AI CHAT WIDGET ==================== -->
+  <button class="concierge-widget-btn" id="conciergeWidgetBtn" title="Ask AURELIA Hotel Concierge">
+    💬
+  </button>
+
+  <div class="concierge-widget-box" id="conciergeWidgetBox">
+    <div class="widget-header">
+      <div class="widget-title">AURELIA Hotel Assistant</div>
+      <button class="modal-close" id="closeConcierge" style="width: 24px; height: 24px; font-size: 0.8rem;">✕</button>
+    </div>
+    <div class="widget-messages" id="conciergeMessages">
+      <div class="chat-msg bot">
+        Namaste & welcome to AURELIA Grand Hotel. How may our concierge team assist your stay or reservation today?
+      </div>
+    </div>
+    <div class="widget-input-row">
+      <input type="text" id="conciergeInput" class="widget-input" placeholder="Ask about room rates, food, banquets...">
+      <button class="btn btn-gold btn-sm" id="conciergeSend" style="padding: 0.4rem 0.8rem;">Send</button>
+    </div>
+  </div>
+
+  <!-- ==================== MAIN FOOTER ==================== -->
+  <footer class="main-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#home" class="brand-logo" data-page-link="home">
+            <div class="brand-icon"><span>A</span></div>
+            <div class="brand-text">
+              <span class="brand-name">AURELIA</span>
+              <span class="brand-sub">Grand Hotel & Dining</span>
+            </div>
+          </a>
+          <p class="footer-desc">An iconic 5-star Indian hotel destination offering luxury rooms, authentic North Indian dining, grand wedding banquets, and 25+ years of hospitality excellence.</p>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="#home" data-page-link="home">Home</a></li>
+            <li><a href="#about" data-page-link="about">About Hotel</a></li>
+            <li><a href="#suites" data-page-link="suites">Rooms & Suites</a></li>
+            <li><a href="#menu" data-page-link="menu">Le Celestia Restaurant</a></li>
+            <li><a href="#offers" data-page-link="offers">Special Offers</a></li>
+            <li><a href="#events" data-page-link="events">Banquets & Events</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Facilities</h4>
+          <ul class="footer-links">
+            <li><a href="#home" data-page-link="home">Swimming Pool</a></li>
+            <li><a href="#home" data-page-link="home">Ayurveda Spa & Gym</a></li>
+            <li><a href="#events" data-page-link="events">Grand Wedding Lawns</a></li>
+            <li><a href="#offers" data-page-link="offers">Weekend Staycations</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Contact Desk</h4>
+          <p style="font-size: 0.88rem; color: var(--color-text-muted); margin-bottom: 0.8rem;">777 Grand Palace Road, Udaipur, Rajasthan, India</p>
+          <p style="font-size: 0.88rem; color: var(--color-text-muted); margin-bottom: 0.8rem;">+91 98765 43210 / +91 (0294) 240 0000</p>
+          <p style="font-size: 0.88rem; color: var(--color-gold-primary);">reservations@aureliahotels.in</p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 1999-2026 AURELIA Grand Hotel & Fine Dining. All Rights Reserved.</span>
+        <div style="display: flex; gap: 1.5rem;">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms & Conditions</a>
+          <a href="#">Hotel Brochure</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts Execution Order -->
+  <script src="js/data.js"></script>
+  <script src="js/router.js"></script>
+  <script src="js/animations.js"></script>
+  <script src="js/cursor.js"></script>
+  <script src="js/booking.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
