@@ -12,19 +12,31 @@ class LuxuryCursor {
 
     this.mouse = { x: -100, y: -100 };
     this.pos = { x: -100, y: -100 };
-    this.speed = 0.15; // Smooth spring lag factor
+    this.speed = 0.4; // Fast responsive tracking factor
     this.isHovered = false;
 
     this.init();
   }
 
   init() {
+    // Hide custom cursor on small mobile screens (< 768px)
+    if (window.innerWidth <= 768) {
+      if (this.dot) this.dot.style.display = 'none';
+      if (this.ring) this.ring.style.display = 'none';
+      return;
+    }
+
+    if (this.dot) this.dot.style.display = 'block';
+    if (this.ring) this.ring.style.display = 'flex';
+
     window.addEventListener('mousemove', (e) => {
       this.mouse.x = e.clientX;
       this.mouse.y = e.clientY;
 
-      // Direct placement for small dot
-      this.dot.style.transform = `translate3d(${this.mouse.x}px, ${this.mouse.y}px, 0)`;
+      // Instant 1-to-1 placement for dot
+      if (this.dot) {
+        this.dot.style.transform = `translate3d(${this.mouse.x}px, ${this.mouse.y}px, 0)`;
+      }
     });
 
     this.render();

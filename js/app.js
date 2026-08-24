@@ -310,7 +310,7 @@ function renderTestimonials() {
 
   const tests = window.AURELIA_DATA.testimonials;
   slider.innerHTML = tests.map(t => `
-    <div class="testimonial-card reveal-fade">
+    <div class="testimonial-card reveal-fade in-view">
       <div class="stars">${'★'.repeat(t.rating)}</div>
       <blockquote class="quote-text">"${t.quote}"</blockquote>
       <div class="author-row">
