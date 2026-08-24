@@ -297,6 +297,7 @@ img {
   display: flex;
   align-items: center;
   gap: 0.8rem;
+  flex-shrink: 0;
 }
 
 .brand-icon {
@@ -323,16 +324,16 @@ img {
 
 .brand-name {
   font-family: var(--font-serif);
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-weight: 600;
-  letter-spacing: 3px;
+  letter-spacing: 2px;
   color: var(--color-text-main);
   line-height: 1;
 }
 
 .brand-sub {
-  font-size: 0.6rem;
-  letter-spacing: 3px;
+  font-size: 0.55rem;
+  letter-spacing: 2.5px;
   color: var(--color-gold-primary);
   text-transform: uppercase;
   margin-top: 3px;
@@ -341,18 +342,19 @@ img {
 .nav-menu {
   display: flex;
   align-items: center;
-  gap: 2.2rem;
+  gap: 1.1rem;
   list-style: none;
 }
 
 .nav-link {
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   font-weight: 500;
-  letter-spacing: 1.5px;
+  letter-spacing: 1px;
   text-transform: uppercase;
   color: var(--color-text-muted);
   position: relative;
-  padding: 0.5rem 0;
+  padding: 0.4rem 0;
+  white-space: nowrap;
 }
 
 .nav-link::after {
@@ -377,7 +379,8 @@ img {
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 1.2rem;
+  gap: 0.8rem;
+  flex-shrink: 0;
 }
 
 /* Sound Toggle Button */
@@ -1809,7 +1812,7 @@ img {
 }
 
 /* --- RESPONSIVE BREAKPOINTS --- */
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
   .nav-menu { display: none; }
   .menu-toggle { display: flex; }
   .about-grid, .restaurant-spotlight, .suite-detail-layout { grid-template-columns: 1fr; gap: 3rem; }
