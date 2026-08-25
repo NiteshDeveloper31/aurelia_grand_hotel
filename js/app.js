@@ -399,12 +399,11 @@ window.openSuiteDetail = function(suiteId) {
       title: 'Royal Family Suite',
       subtitle: 'Connected Rooms for Families',
       price: 24999,
-      size: '145 m² / 1,560 sq.ft',
-      capacity: '4 Adults + 2 Children',
-      bedType: '2 Master King Beds',
-      description: 'Ideal for family holidays, featuring 2 connected master bedrooms, 2 full marble bathrooms, a dining table for 6, kids play area, and free dinner for kids.',
-      amenities: ['2 Connected Bedrooms', '2 Full Marble Bathrooms', 'Dining Table for 6 Guests', 'Kids Games & Play Area', 'Free Dinner for Kids'],
-      image: 'assets/images/family-suite.jpg'
+      capacity: '2 Guests (Couples / Business)',
+      bedType: 'King Size Heritage Bed',
+      description: 'Elegantly styled heritage room featuring traditional Rajasthani Jharokha seating, carved teakwood furniture, modern high-speed Wi-Fi, and a spa-inspired marble bathroom.',
+      amenities: ['Free High-Speed Wi-Fi', 'Marble Bathroom with Rain Shower', 'Traditional Jharokha Window', 'Minibar & Tea/Coffee Station'],
+      image: 'assets/images/deluxe-room.jpg'
     }
   };
 
@@ -416,71 +415,198 @@ window.openSuiteDetail = function(suiteId) {
     suite = fallbackSuites[suiteId] || fallbackSuites['deluxe-room'];
   }
 
-  const body = document.getElementById('suiteDetailBody');
-  if (body) {
-    body.innerHTML = `
-      <div class="suite-detail-layout" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; align-items: start;">
-        
-        <!-- Left Column: HD Image & Room Highlights Box (No Empty Space) -->
-        <div class="suite-detail-media">
-          <img src="${suite.image}" alt="${suite.title}" style="width: 100%; height: 310px; object-fit: cover; border-radius: 8px; border: 1px solid var(--color-border-glass); margin-bottom: 1.2rem;">
-          
-          <!-- Key Highlights & Room Features Box -->
-          <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--color-border-glass); border-radius: 8px; padding: 1.2rem; margin-bottom: 1.2rem;">
-            <h4 style="font-size: 0.85rem; color: var(--color-gold-primary); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 0.8rem; display: flex; align-items: center;">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2" style="margin-right: 6px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-              Room Features & View
-            </h4>
-            <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.84rem; color: var(--color-text-muted);">
-              <li style="display: flex; justify-content: space-between;"><strong style="color: var(--color-gold-light);">Scenic View:</strong> <span>Lake Pichola / City View</span></li>
-              <li style="display: flex; justify-content: space-between;"><strong style="color: var(--color-gold-light);">Floor Levels:</strong> <span>Floors 2 to 6</span></li>
-              <li style="display: flex; justify-content: space-between;"><strong style="color: var(--color-gold-light);">Bathroom:</strong> <span>Italian Marble & Rain Shower</span></li>
-              <li style="display: flex; justify-content: space-between;"><strong style="color: var(--color-gold-light);">Inclusions:</strong> <span>Complimentary Breakfast</span></li>
-            </ul>
-          </div>
-
-          <!-- Guest Services & Check-In Box -->
-          <div style="background: rgba(201, 160, 99, 0.05); border: 1px solid rgba(201, 160, 99, 0.2); border-radius: 8px; padding: 1rem; font-size: 0.82rem; color: var(--color-text-muted);">
-            <div style="color: var(--color-gold-light); font-weight: 600; margin-bottom: 0.3rem; display: flex; align-items: center;">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2" style="margin-right: 6px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              Standard Check-In Terms
-            </div>
-            <div>Check-In: 2:00 PM | Check-Out: 12:00 PM. Free Cancellation up to 48 Hours prior.</div>
-          </div>
+  const container = document.getElementById('roomDetailContainer');
+  if (container) {
+    container.innerHTML = `
+      <!-- Breadcrumb Navigation & Top Action Bar -->
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
+        <div style="font-size: 0.85rem; color: var(--color-text-muted);">
+          <a href="#home" onclick="window.router.navigateTo('home')" style="color: var(--color-gold-primary); text-decoration: none;">HOME</a>
+          <span style="margin: 0 0.4rem;">/</span>
+          <a href="#suites" onclick="window.router.navigateTo('suites')" style="color: var(--color-gold-primary); text-decoration: none;">ACCOMMODATION</a>
+          <span style="margin: 0 0.4rem;">/</span>
+          <span style="color: var(--color-gold-light); font-weight: 600;">${suite.title.toUpperCase()}</span>
         </div>
+        <button class="btn btn-gold btn-sm" onclick="window.router.navigateTo('suites')" style="display: inline-flex; align-items: center; gap: 0.4rem;">
+          ← Back to All Rooms
+        </button>
+      </div>
 
-        <!-- Right Column: Room Title, Specs, Description & Full Amenities -->
-        <div class="suite-detail-info">
-          <span class="detail-badge" style="background: rgba(201, 160, 99, 0.15); color: var(--color-gold-light); padding: 0.3rem 0.8rem; border-radius: 4px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; display: inline-block; margin-bottom: 0.8rem;">${suite.badge}</span>
-          <h2 class="detail-title" style="font-family: var(--font-serif); font-size: 2.2rem; color: var(--color-gold-light); margin-bottom: 0.4rem; line-height: 1.2;">${suite.title}</h2>
-          <p class="detail-subtitle" style="font-size: 0.95rem; color: var(--color-gold-primary); margin-bottom: 1.2rem;">${suite.subtitle}</p>
-          
-          <div class="detail-specs-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.8rem; background: rgba(255,255,255,0.03); padding: 1.1rem; border-radius: 8px; margin-bottom: 1.2rem; border: 1px solid var(--color-border-glass); font-size: 0.88rem;">
-            <div><strong style="color: var(--color-gold-light);">Room Size:</strong> ${suite.size}</div>
-            <div><strong style="color: var(--color-gold-light);">Max Occupancy:</strong> ${suite.capacity}</div>
-            <div><strong style="color: var(--color-gold-light);">Bed Setup:</strong> ${suite.bedType}</div>
-            <div><strong style="color: var(--color-gold-light);">Nightly Rate:</strong> <span style="color: var(--color-gold-light); font-weight:700;">₹${suite.price.toLocaleString('en-IN')}</span> / night</div>
+      <!-- Suite Hero Showcase Card -->
+      <div style="position: relative; border-radius: 12px; overflow: hidden; border: 1px solid var(--color-border-glass); margin-bottom: 2.5rem; box-shadow: 0 20px 60px rgba(0,0,0,0.6);">
+        <img src="${suite.image}" alt="${suite.title}" style="width: 100%; height: 440px; object-fit: cover; filter: brightness(0.88);">
+        
+        <!-- Hero Overlay Badges -->
+        <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 2.2rem; background: linear-gradient(180deg, rgba(8, 9, 13, 0) 0%, rgba(8, 9, 13, 0.95) 100%); display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem;">
+          <div>
+            <span style="background: var(--color-gold-primary); color: #000; font-size: 0.75rem; font-weight: 700; padding: 0.3rem 0.8rem; border-radius: 4px; text-transform: uppercase; letter-spacing: 1px; display: inline-block; margin-bottom: 0.6rem;">${suite.badge || '5-STAR LUXURY PALACE SUITE'}</span>
+            <h1 style="font-family: var(--font-serif); font-size: 2.4rem; color: #fff; margin-bottom: 0.4rem; line-height: 1.1;">${suite.title}</h1>
+            <p style="font-size: 1.05rem; color: var(--color-gold-light); margin: 0;">${suite.subtitle}</p>
           </div>
-
-          <p class="detail-description" style="font-size: 0.92rem; line-height: 1.65; color: var(--color-text-muted); margin-bottom: 1.5rem;">${suite.description}</p>
-
-          <div class="detail-amenities">
-            <h4 style="font-size: 0.9rem; color: var(--color-gold-light); margin-bottom: 0.8rem; letter-spacing: 1px; text-transform: uppercase;">Inclusive Signature Amenities:</h4>
-            <ul style="list-style: none; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.6rem;">
-              ${suite.amenities.map(a => `<li style="font-size: 0.85rem; color: var(--color-text-muted); display: flex; align-items: center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2.5" style="flex-shrink:0; margin-right:6px;"><polyline points="20 6 9 17 4 12"/></svg>${a}</li>`).join('')}
-              <li style="font-size: 0.85rem; color: var(--color-text-muted); display: flex; align-items: center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2.5" style="flex-shrink:0; margin-right:6px;"><polyline points="20 6 9 17 4 12"/></svg>24/7 Dedicated Butler Service</li>
-              <li style="font-size: 0.85rem; color: var(--color-text-muted); display: flex; align-items: center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2.5" style="flex-shrink:0; margin-right:6px;"><polyline points="20 6 9 17 4 12"/></svg>Complimentary Bottled Water & Tea</li>
-            </ul>
-          </div>
-
-          <div class="detail-cta-row" style="margin-top: 2rem;">
-            <button class="btn btn-gold" data-open-booking data-booking-type="suite" data-item-id="${suite.id}" onclick="closeSuiteDetailModal()" style="width: 100%; text-align: center; padding: 1.1rem 1.5rem; font-size: 1rem; font-weight: 700;">Proceed to Booking (₹${suite.price.toLocaleString('en-IN')})</button>
+          <div style="text-align: right;">
+            <div style="font-size: 0.8rem; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 1px;">Starting From</div>
+            <div style="font-size: 2.2rem; font-family: var(--font-serif); color: var(--color-gold-primary); font-weight: 700;">₹${suite.price.toLocaleString('en-IN')} <span style="font-size: 0.85rem; font-weight: 400; color: var(--color-text-muted);">/ night</span></div>
           </div>
         </div>
       </div>
+
+      <!-- Main Room Details 2-Column Grid (Equal Height Alignment) -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.2rem; align-items: stretch;">
+        
+        <!-- Left Column: Full Specifications, Description & Signature Amenities -->
+        <div style="display: flex; flex-direction: column; gap: 1.8rem;">
+          <!-- Architecture & Overview Narrative -->
+          <div style="background: var(--color-bg-card); border: 1px solid var(--color-border-glass); border-radius: 10px; padding: 1.8rem;">
+            <h3 style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--color-gold-light); margin-bottom: 0.8rem;">Suite Overview & Architecture</h3>
+            <p style="font-size: 0.95rem; line-height: 1.65; color: var(--color-text-muted); margin: 0;">${suite.description}</p>
+          </div>
+
+          <!-- Room Specifications 6-Card Grid -->
+          <div style="background: var(--color-bg-card); border: 1px solid var(--color-border-glass); border-radius: 10px; padding: 1.8rem;">
+            <h3 style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--color-gold-light); margin-bottom: 1.2rem;">Room Specifications & Specs</h3>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem;">
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border-glass); border-radius: 8px; padding: 1rem;">
+                <span style="font-size: 0.75rem; color: var(--color-gold-primary); text-transform: uppercase; display: block; margin-bottom: 0.3rem;">Room Size</span>
+                <strong style="font-size: 1.05rem; color: #fff;">${suite.size}</strong>
+              </div>
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border-glass); border-radius: 8px; padding: 1rem;">
+                <span style="font-size: 0.75rem; color: var(--color-gold-primary); text-transform: uppercase; display: block; margin-bottom: 0.3rem;">Max Occupancy</span>
+                <strong style="font-size: 1.05rem; color: #fff;">${suite.capacity}</strong>
+              </div>
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border-glass); border-radius: 8px; padding: 1rem;">
+                <span style="font-size: 0.75rem; color: var(--color-gold-primary); text-transform: uppercase; display: block; margin-bottom: 0.3rem;">Bed Setup</span>
+                <strong style="font-size: 1.05rem; color: #fff;">${suite.bedType}</strong>
+              </div>
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border-glass); border-radius: 8px; padding: 1rem;">
+                <span style="font-size: 0.75rem; color: var(--color-gold-primary); text-transform: uppercase; display: block; margin-bottom: 0.3rem;">Scenic View</span>
+                <strong style="font-size: 1.05rem; color: #fff;">Lake Pichola Waterfront</strong>
+              </div>
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border-glass); border-radius: 8px; padding: 1rem;">
+                <span style="font-size: 0.75rem; color: var(--color-gold-primary); text-transform: uppercase; display: block; margin-bottom: 0.3rem;">Bathroom Spec</span>
+                <strong style="font-size: 1.05rem; color: #fff;">Marble & Rain Shower</strong>
+              </div>
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border-glass); border-radius: 8px; padding: 1rem;">
+                <span style="font-size: 0.75rem; color: var(--color-gold-primary); text-transform: uppercase; display: block; margin-bottom: 0.3rem;">Butler Service</span>
+                <strong style="font-size: 1.05rem; color: #fff;">24/7 Dedicated Butler</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- Included Signature Amenities -->
+          <div style="background: var(--color-bg-card); border: 1px solid var(--color-border-glass); border-radius: 10px; padding: 1.8rem; flex-grow: 1;">
+            <h3 style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--color-gold-light); margin-bottom: 1.2rem;">Inclusive Suite Privileges</h3>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.8rem;">
+              ${(suite.amenities || ['Lake View Balcony', 'Free Breakfast', 'Jacuzzi', '24/7 Butler']).map(a => `
+                <div style="display: flex; align-items: center; gap: 0.6rem; background: rgba(201, 160, 99, 0.05); padding: 0.8rem 1rem; border-radius: 6px; border: 1px solid rgba(201, 160, 99, 0.15);">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2.5" style="flex-shrink:0;"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span style="font-size: 0.88rem; color: var(--color-text-main); font-weight: 500;">${a}</span>
+                </div>
+              `).join('')}
+              <div style="display: flex; align-items: center; gap: 0.6rem; background: rgba(201, 160, 99, 0.05); padding: 0.8rem 1rem; border-radius: 6px; border: 1px solid rgba(201, 160, 99, 0.15);">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2.5" style="flex-shrink:0;"><polyline points="20 6 9 17 4 12"/></svg>
+                <span style="font-size: 0.88rem; color: var(--color-text-main); font-weight: 500;">24/7 In-Room Fine Dining</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 0.6rem; background: rgba(201, 160, 99, 0.05); padding: 0.8rem 1rem; border-radius: 6px; border: 1px solid rgba(201, 160, 99, 0.15);">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2.5" style="flex-shrink:0;"><polyline points="20 6 9 17 4 12"/></svg>
+                <span style="font-size: 0.88rem; color: var(--color-text-main); font-weight: 500;">High-Speed Fiber Wi-Fi</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Instant Reservation, Stay Guidelines & Heritage Privileges (Equal Height Stack) -->
+        <div style="display: flex; flex-direction: column; gap: 1.5rem; justify-content: space-between;">
+          
+          <!-- Box 1: Instant Suite Reservation & Pricing -->
+          <div style="background: var(--color-bg-card); border: 1px solid var(--color-gold-primary); border-radius: 12px; padding: 1.8rem; box-shadow: 0 15px 40px rgba(0,0,0,0.6);">
+            
+            <div style="margin-bottom: 1.2rem; border-bottom: 1px solid var(--color-border-subtle); padding-bottom: 1rem;">
+              <span style="font-size: 0.78rem; color: var(--color-gold-primary); text-transform: uppercase; letter-spacing: 1px;">Instant Suite Reservation</span>
+              <div style="display: flex; align-items: baseline; justify-content: space-between; margin-top: 0.4rem;">
+                <h3 style="font-family: var(--font-serif); font-size: 2.1rem; color: var(--color-gold-light); margin: 0;">₹${suite.price.toLocaleString('en-IN')}</h3>
+                <span style="font-size: 0.85rem; color: var(--color-text-muted);">per night + taxes</span>
+              </div>
+            </div>
+
+            <!-- Privilege Highlights List -->
+            <ul style="list-style: none; padding: 0; margin: 0 0 1.4rem 0; display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.85rem; color: var(--color-text-muted);">
+              <li style="display: flex; align-items: center; gap: 0.6rem;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> 100% Free Date Changes up to 48h</li>
+              <li style="display: flex; align-items: center; gap: 0.6rem;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Complimentary Welcome Drinks & Basket</li>
+              <li style="display: flex; align-items: center; gap: 0.6rem;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Free Chauffeur Airport Transfer</li>
+              <li style="display: flex; align-items: center; gap: 0.6rem;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> 20% Spa Discount Coupon Included</li>
+            </ul>
+
+            <!-- Book Now CTA Button -->
+            <button class="btn btn-gold" data-open-booking data-booking-type="suite" data-item-id="${suite.id}" style="width: 100%; padding: 1rem; font-size: 0.95rem; font-weight: 700; text-align: center; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.8rem;">
+              Reserve This Suite Now
+            </button>
+            
+            <p style="font-size: 0.78rem; text-align: center; color: var(--color-text-muted); margin: 0;">Instant Confirmation • No Pre-payment Required</p>
+          </div>
+
+          <!-- Box 2: Palace Check-In & Stay Policy Box -->
+          <div style="background: var(--color-bg-card); border: 1px solid var(--color-border-glass); border-radius: 10px; padding: 1.4rem;">
+            <h4 style="font-size: 0.85rem; color: var(--color-gold-light); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 0.8rem; display: flex; align-items: center;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2" style="margin-right: 6px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Check-In & Guarantee Policy
+            </h4>
+            <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.84rem; color: var(--color-text-muted);">
+              <li style="display: flex; justify-content: space-between;"><strong style="color: var(--color-gold-light);">Standard Check-In:</strong> <span>2:00 PM</span></li>
+              <li style="display: flex; justify-content: space-between;"><strong style="color: var(--color-gold-light);">Standard Check-Out:</strong> <span>12:00 Noon</span></li>
+              <li style="display: flex; justify-content: space-between;"><strong style="color: var(--color-gold-light);">Cancellation:</strong> <span style="color: var(--color-gold-primary);">Free 48-Hour Refund</span></li>
+            </ul>
+          </div>
+
+          <!-- Box 3: 5-Star Heritage Privileges Box (Matched Length to Left Box) -->
+          <div style="background: rgba(201, 160, 99, 0.06); border: 1px solid rgba(201, 160, 99, 0.25); border-radius: 10px; padding: 1.8rem;">
+            <span style="font-size: 0.72rem; color: var(--color-gold-primary); text-transform: uppercase; letter-spacing: 1.5px; display: block; margin-bottom: 0.3rem;">5-STAR HERITAGE HOSPITALITY</span>
+            <h4 style="font-size: 1.15rem; font-family: var(--font-serif); color: var(--color-gold-light); margin-bottom: 1rem;">Inclusive VIP Suite Privileges</h4>
+            
+            <ul style="list-style: none; padding: 0; margin: 0 0 1.2rem 0; display: flex; flex-direction: column; gap: 0.65rem; font-size: 0.85rem; color: var(--color-text-muted);">
+              <li style="display: flex; align-items: center; gap: 0.65rem;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2.5" style="flex-shrink: 0;"><polyline points="20 6 9 17 4 12"/></svg>
+                <span><strong style="color: var(--color-gold-light);">24/7 Personal Butler:</strong> Private unpacking & royal care</span>
+              </li>
+              <li style="display: flex; align-items: center; gap: 0.65rem;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2.5" style="flex-shrink: 0;"><polyline points="20 6 9 17 4 12"/></svg>
+                <span><strong style="color: var(--color-gold-light);">Priority Fine Dining:</strong> Table & buffet breakfast at Le Celestia</span>
+              </li>
+              <li style="display: flex; align-items: center; gap: 0.65rem;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2.5" style="flex-shrink: 0;"><polyline points="20 6 9 17 4 12"/></svg>
+                <span><strong style="color: var(--color-gold-light);">Jivana Spa Hydrotherapy:</strong> Free steam, sauna & Jacuzzi access</span>
+              </li>
+              <li style="display: flex; align-items: center; gap: 0.65rem;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2.5" style="flex-shrink: 0;"><polyline points="20 6 9 17 4 12"/></svg>
+                <span><strong style="color: var(--color-gold-light);">Private Chauffeur:</strong> Free airport pickup & drop in luxury sedan</span>
+              </li>
+            </ul>
+
+            <!-- 24/7 Helpline Badge -->
+            <div style="padding-top: 0.8rem; border-top: 1px dashed rgba(201, 160, 99, 0.25); display: flex; align-items: center; justify-content: space-between; font-size: 0.78rem; color: var(--color-gold-primary);">
+              <span style="font-weight: 600;">24/7 Butler Desk: Ext. 101</span>
+              <span style="font-weight: 600;">WhatsApp Direct</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
     `;
-    modal.style.cssText = "display: flex !important; opacity: 1 !important; pointer-events: auto !important; position: fixed !important; inset: 0 !important; z-index: 9999999 !important; background: rgba(8, 9, 13, 0.95) !important; backdrop-filter: blur(16px) !important; padding: 1.5rem !important; align-items: center !important; justify-content: center !important;";
-    modal.classList.add('open');
+
+    // Also populate modal for fallback compatibility
+    const modalBody = document.getElementById('suiteDetailBody');
+    if (modalBody) {
+      modalBody.innerHTML = container.innerHTML;
+    }
+  }
+
+  // Navigate to dedicated full-page room-detail view!
+  if (window.router) {
+    window.router.navigateTo('room-detail');
+  } else {
+    window.location.hash = '#room-detail';
   }
 };
 

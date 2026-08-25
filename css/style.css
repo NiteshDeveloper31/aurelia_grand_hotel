@@ -248,8 +248,30 @@ img {
   pointer-events: none;
 }
 
-.page-curtain.active {
-  transform: translateY(0%);
+/* --- AOS & Scroll Reveal Animation Engine --- */
+.reveal-up, .reveal-fade, .reveal-scale, .reveal-left, .reveal-right, [data-aos] {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+[data-aos="fade-down"] { transform: translateY(-30px); }
+[data-aos="fade-left"] { transform: translateX(30px); }
+[data-aos="fade-right"] { transform: translateX(-30px); }
+[data-aos="zoom-in"] { transform: scale(0.92); }
+[data-aos="zoom-out"] { transform: scale(1.08); }
+
+.reveal-up.in-view, 
+.reveal-fade.in-view, 
+.reveal-scale.in-view, 
+.reveal-left.in-view, 
+.reveal-right.in-view, 
+.aos-animate, 
+[data-aos].in-view, 
+[data-aos].aos-animate {
+  opacity: 1 !important;
+  transform: translate(0, 0) scale(1) !important;
 }
 
 /* --- SPA Page Views Controller --- */

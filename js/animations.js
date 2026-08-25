@@ -20,14 +20,14 @@ class AnimationEngine {
   setupScrollObserver() {
     const observerOptions = {
       root: null,
-      rootMargin: '0px 0px -100px 0px',
-      threshold: 0.15
+      rootMargin: '120px 0px 120px 0px', // Pre-trigger 120px before entering viewport
+      threshold: 0.01 // Trigger immediately on 1% visibility
     };
 
     this.observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('in-view');
+          entry.target.classList.add('in-view', 'aos-animate');
           
           // If element has counter data, trigger counter animation
           if (entry.target.classList.contains('stat-number') && !entry.target.dataset.counted) {
@@ -41,9 +41,15 @@ class AnimationEngine {
   }
 
   refreshObserver() {
-    const revealElements = document.querySelectorAll('.reveal-up, .reveal-fade, .reveal-scale, .reveal-left, .reveal-right, .stat-number');
+    const revealElements = document.querySelectorAll('.reveal-up, .reveal-fade, .reveal-scale, .reveal-left, .reveal-right, .stat-number, [data-aos], .suite-card, .menu-item-card, .gallery-item, .offer-card, .exp-card, .amenity-card');
     revealElements.forEach(el => {
       if (this.observer) this.observer.observe(el);
+      
+      // Instant fail-safe: reveal if element is already in viewport
+      const rect = el.getBoundingClientRect();
+      if (rect.top < (window.innerHeight + 150) && rect.bottom > -100) {
+        el.classList.add('in-view', 'aos-animate');
+      }
     });
   }
 
