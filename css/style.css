@@ -2102,19 +2102,20 @@ img {
 
   /* Modals & Booking Engine Mobile & Tablet Overhaul */
   .modal-backdrop {
-    padding: 0.6rem !important;
+    padding: 0.5rem !important;
     align-items: center !important;
   }
 
   .modal-card {
     width: 96vw !important;
+    max-width: 100% !important;
     max-height: 92vh !important;
     padding: 0 !important;
-    margin: 0.5rem auto !important;
+    margin: 0 auto !important;
     overflow: hidden !important;
     display: flex !important;
     flex-direction: column !important;
-    border-radius: 8px !important;
+    border-radius: 10px !important;
   }
 
   .modal-header {
@@ -2123,29 +2124,19 @@ img {
     align-items: center !important;
     justify-content: space-between !important;
     gap: 0.8rem !important;
-    flex-wrap: wrap !important;
     border-bottom: 1px solid var(--color-border-subtle) !important;
   }
 
-  .step-indicator {
-    order: 3;
-    width: 100%;
-    display: flex !important;
-    justify-content: center !important;
-    gap: 0.6rem !important;
-    margin-top: 0.4rem !important;
-  }
-
   .modal-title {
-    font-size: 1.15rem !important;
-    line-height: 1.25 !important;
+    font-size: 1.1rem !important;
+    line-height: 1.3 !important;
     margin: 0 !important;
   }
 
   .modal-close {
-    width: 32px !important;
-    height: 32px !important;
-    font-size: 1rem !important;
+    width: 34px !important;
+    height: 34px !important;
+    font-size: 1.1rem !important;
     flex-shrink: 0 !important;
   }
 
@@ -2155,8 +2146,61 @@ img {
     flex: 1 !important;
   }
 
+  .modal-step-title {
+    font-size: 1.3rem !important;
+    margin-bottom: 0.3rem !important;
+  }
+
+  .modal-step-subtitle {
+    font-size: 0.85rem !important;
+    margin-bottom: 1.2rem !important;
+  }
+
+  /* Booking Type Toggle Buttons Mobile: Full Width Stacked */
+  .booking-type-toggle {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.6rem !important;
+    margin-bottom: 1.4rem !important;
+  }
+
+  .type-btn {
+    width: 100% !important;
+    padding: 0.85rem 1rem !important;
+    font-size: 0.85rem !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    gap: 0.5rem !important;
+    border-radius: 6px !important;
+  }
+
+  /* Form & Selection Grids in Modal Mobile: 1 Column Stacked */
+  .form-grid, .suite-select-grid, .table-select-grid, .addons-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.1rem !important;
+  }
+
+  .form-group, .form-group.span-2 {
+    grid-column: span 1 !important;
+    width: 100% !important;
+  }
+
+  .form-input {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    padding: 0.85rem 0.9rem !important;
+    font-size: 0.9rem !important;
+  }
+
+  .select-card {
+    padding: 1rem !important;
+  }
+
   .modal-footer {
-    padding: 0.9rem 1.2rem !important;
+    padding: 1rem 1.2rem !important;
     display: flex !important;
     justify-content: space-between !important;
     align-items: center !important;
@@ -2165,47 +2209,10 @@ img {
   }
 
   .modal-footer .btn {
-    padding: 0.65rem 1.2rem !important;
-    font-size: 0.78rem !important;
-  }
-
-  .step-indicator {
-    display: flex !important;
-    gap: 0.5rem !important;
-    margin-bottom: 1.2rem !important;
-  }
-
-  .step-dot {
-    width: 24px !important;
-    height: 24px !important;
-    font-size: 0.7rem !important;
-  }
-
-  /* Form & Selection Grids in Modal Mobile */
-  .form-grid, .suite-select-grid, .table-select-grid, .addons-grid {
-    grid-template-columns: 1fr !important;
-    gap: 1rem !important;
-  }
-
-  .form-group.span-2 {
-    grid-column: span 1 !important;
-  }
-
-  .booking-type-toggle {
-    gap: 0.5rem !important;
-    margin-bottom: 1.2rem !important;
-  }
-
-  .type-btn {
-    padding: 0.75rem 0.5rem !important;
-    font-size: 0.78rem !important;
-    flex-direction: column !important;
+    flex: 1 !important;
+    padding: 0.85rem 1rem !important;
+    font-size: 0.82rem !important;
     text-align: center !important;
-    gap: 0.3rem !important;
-  }
-
-  .select-card {
-    padding: 1rem !important;
   }
 
   /* AI Concierge Widget Mobile */
