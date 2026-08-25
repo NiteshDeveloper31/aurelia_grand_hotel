@@ -10,6 +10,6 @@
   <polygon points="50,15 85,50 50,85 15,50" fill="none" stroke="url(#favGold)" stroke-width="1.5" opacity="0.6" />
   <!-- 5-Star Crown -->
   <path d="M35 32 L41 40 L50 26 L59 40 L65 32 L62 48 L38 48 Z" fill="url(#favGold)" />
-  <!-- Monogram A -->
-  <text x="50" y="77" font-family="Georgia, serif" font-size="34" font-weight="bold" fill="url(#favGold)" text-anchor="middle">A</text>
+  <!-- Monogram H -->
+  <text x="50" y="77" font-family="Georgia, serif" font-size="34" font-weight="bold" fill="url(#favGold)" text-anchor="middle">H</text>
 </svg>

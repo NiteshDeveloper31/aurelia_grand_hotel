@@ -195,7 +195,7 @@ class BookingEngine {
       bodyContent.innerHTML = `
         <div class="booking-step-content reveal-fade in-view">
           <h3 class="modal-step-title">Select Travel Dates & Guests</h3>
-          <p class="modal-step-subtitle">Begin your stay at AURELIA Palace Hotel & Fine Dining</p>
+          <p class="modal-step-subtitle">Begin your stay at The Haveli Royale</p>
 
           <div class="booking-type-toggle">
             <button class="type-btn ${this.bookingState.type === 'suite' ? 'active' : ''}" data-set-type="suite">
@@ -437,7 +437,7 @@ class BookingEngine {
     else if (step === 5) {
       // Confirmation Step
       if (!this.bookingState.bookingRef) {
-        this.bookingState.bookingRef = 'AUR-' + Math.floor(100000 + Math.random() * 900000);
+        this.bookingState.bookingRef = 'HVR-' + Math.floor(100000 + Math.random() * 900000);
       }
 
       bodyContent.innerHTML = `
@@ -446,7 +446,7 @@ class BookingEngine {
             <div class="crest-icon">✓</div>
           </div>
           <h3 class="modal-step-title">Reservation Confirmed</h3>
-          <p class="modal-step-subtitle">Your luxury stay at AURELIA Palace is secured.</p>
+          <p class="modal-step-subtitle">Your luxury stay at The Haveli Royale is secured.</p>
 
           <div class="confirmation-card">
             <div class="ref-badge">REFERENCE NO: <strong>${this.bookingState.bookingRef}</strong></div>

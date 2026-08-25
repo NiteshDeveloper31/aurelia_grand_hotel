@@ -12,15 +12,15 @@ class LuxuryCursor {
 
     this.mouse = { x: -100, y: -100 };
     this.pos = { x: -100, y: -100 };
-    this.speed = 0.4; // Fast responsive tracking factor
+    this.speed = 0.85; // Instant zero-lag responsive tracking factor
     this.isHovered = false;
 
     this.init();
   }
 
   init() {
-    // Hide custom cursor on small mobile screens (< 768px)
-    if (window.innerWidth <= 768) {
+    // Hide custom cursor on small touch screens (< 768px)
+    if (window.innerWidth <= 768 || ('ontouchstart' in window)) {
       if (this.dot) this.dot.style.display = 'none';
       if (this.ring) this.ring.style.display = 'none';
       return;
@@ -33,11 +33,14 @@ class LuxuryCursor {
       this.mouse.x = e.clientX;
       this.mouse.y = e.clientY;
 
-      // Instant 1-to-1 placement for dot
       if (this.dot) {
+        this.dot.style.display = 'block';
         this.dot.style.transform = `translate3d(${this.mouse.x}px, ${this.mouse.y}px, 0)`;
       }
-    });
+      if (this.ring) {
+        this.ring.style.display = 'flex';
+      }
+    }, { passive: true });
 
     this.render();
     this.setupInteractions();

@@ -103,7 +103,7 @@ img {
   background: var(--color-gold-light);
   border-radius: 50%;
   pointer-events: none !important;
-  z-index: 99999;
+  z-index: 2147483647 !important;
   will-change: transform;
 }
 
@@ -116,7 +116,7 @@ img {
   border: 1px solid var(--color-gold-primary);
   border-radius: 50%;
   pointer-events: none !important;
-  z-index: 99998;
+  z-index: 2147483646 !important;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -620,20 +620,23 @@ img {
   position: relative;
   z-index: 10;
   max-width: 900px;
+  margin-top: 4.5rem; /* Generous breathing space below sticky header navbar */
 }
 
 .hero-subtitle {
   display: inline-block;
-  padding: 0.4rem 1rem;
+  padding: 0.45rem 1.2rem;
   border: 1px solid var(--color-border-glass);
-  background: rgba(18, 20, 29, 0.6);
-  backdrop-filter: blur(8px);
+  background: rgba(18, 20, 29, 0.7);
+  backdrop-filter: blur(12px);
   color: var(--color-gold-light);
   font-size: 0.8rem;
   letter-spacing: 3px;
   text-transform: uppercase;
   border-radius: 20px;
+  margin-top: 0.5rem;
   margin-bottom: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
 .hero-title {
@@ -760,19 +763,28 @@ img {
 /* --- STATS BAR --- */
 .stats-section {
   background: var(--color-bg-alt);
-  border-y: 1px solid var(--color-border-subtle);
-  padding: 4rem 0;
+  border-top: 1px solid var(--color-border-glass);
+  border-bottom: 1px solid var(--color-border-glass);
+  padding: 3.5rem 0;
+  position: relative;
+  z-index: 10;
 }
 
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 2rem;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
   text-align: center;
+  align-items: center;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
 .stat-item {
   position: relative;
+  padding: 1.2rem 1rem;
+  text-align: center;
+  cursor: pointer;
 }
 
 .stat-item:not(:last-child)::after {
@@ -787,18 +799,32 @@ img {
 
 .stat-number {
   font-family: var(--font-serif);
-  font-size: 3.5rem;
-  font-weight: 500;
-  color: var(--color-gold-light);
+  font-size: 4.2rem;
+  font-weight: 600;
   line-height: 1;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.6rem;
+  background: linear-gradient(135deg, #FCE8A6 0%, #C9A063 55%, #8E6A2B 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+  display: inline-block;
+}
+
+.stat-item:hover .stat-number {
+  transform: scale(1.18);
 }
 
 .stat-label {
-  font-size: 0.8rem;
-  letter-spacing: 1.5px;
+  font-size: 0.82rem;
+  letter-spacing: 2px;
   color: var(--color-text-muted);
   text-transform: uppercase;
+  transition: color 0.3s ease;
+}
+
+.stat-item:hover .stat-label {
+  color: var(--color-gold-light);
 }
 
 /* --- ABOUT SECTION --- */
@@ -1301,9 +1327,9 @@ img {
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(8, 9, 13, 0.85);
+  background: rgba(8, 9, 13, 0.92);
   backdrop-filter: blur(16px);
-  z-index: 10000;
+  z-index: 999999 !important;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1817,12 +1843,15 @@ img {
   .about-grid, .restaurant-spotlight, .suite-detail-layout { grid-template-columns: 1fr; gap: 3rem; }
   .suites-grid, .gallery-grid { grid-template-columns: repeat(2, 1fr); }
   .quick-booking-bar { grid-template-columns: 1fr 1fr; bottom: 1rem; }
-  .stats-grid { grid-template-columns: repeat(3, 1fr); }
+  .stats-grid { grid-template-columns: repeat(4, 1fr); gap: 1rem; }
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 3rem; }
 }
 
 @media (max-width: 768px) {
   .cursor-dot, .cursor-ring { display: none !important; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 1.2rem !important; }
+  .stat-number { font-size: 2.8rem !important; }
+  .stat-item::after { display: none !important; }
   :root {
     --header-height: 70px;
   }
@@ -2071,10 +2100,10 @@ img {
     border-radius: 8px !important;
   }
 
-  /* Modals & Booking Engine Mobile Overhaul */
+  /* Modals & Booking Engine Mobile & Tablet Overhaul */
   .modal-backdrop {
     padding: 0.6rem !important;
-    align-items: flex-start !important;
+    align-items: center !important;
   }
 
   .modal-card {
@@ -2093,9 +2122,18 @@ img {
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
-    gap: 0.5rem !important;
-    flex-wrap: nowrap !important;
+    gap: 0.8rem !important;
+    flex-wrap: wrap !important;
     border-bottom: 1px solid var(--color-border-subtle) !important;
+  }
+
+  .step-indicator {
+    order: 3;
+    width: 100%;
+    display: flex !important;
+    justify-content: center !important;
+    gap: 0.6rem !important;
+    margin-top: 0.4rem !important;
   }
 
   .modal-title {
