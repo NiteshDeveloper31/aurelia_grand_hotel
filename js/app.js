@@ -61,24 +61,19 @@ function renderSuitesPage() {
       </div>
       <div class="suite-card-body">
         <div class="suite-meta">
-          <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><path d="M21 3L3 21M3 21h5M3 21v-5M8 16l3 3M11 13l3 3M14 10l3 3M17 7l3 3"/></svg>${suite.size}</span>
-          <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>${suite.capacity}</span>
-          <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><path d="M2 4v16M2 8h20v12M2 17h20M6 8v3M10 8v3"/></svg>${suite.bedType}</span>
+          <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><path d="M21 3L3 21M3 21h5M3 21v-5M8 16l3 3M11 13l3 3M14 10l3 3M17 7l3 3"/></svg>${suite.size}</span>
+          <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>${suite.capacity}</span>
+          <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><path d="M2 4v16M2 8h20v12M2 17h20M6 8v3M10 8v3"/></svg>${suite.bedType}</span>
         </div>
         <h3 class="suite-title">${suite.title}</h3>
-        <p class="suite-subtitle">${suite.subtitle}</p>
-        <p class="suite-desc">${suite.description.substring(0, 110)}...</p>
-
-        <div style="margin: 1rem 0; font-size: 0.82rem; color: var(--color-text-muted);">
-          ${suite.amenities.slice(0, 3).map(a => `<span style="display:inline-block; margin-right:8px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2.5" style="vertical-align:middle; margin-right:4px;"><polyline points="20 6 9 17 4 12"/></svg>${a}</span>`).join('')}
-        </div>
+        <p class="suite-subtitle" style="margin-bottom: 1.2rem;">${suite.subtitle}</p>
 
         <div class="suite-card-footer">
           <div class="suite-price">
             <span class="price-val">₹${suite.price.toLocaleString('en-IN')}</span>
             <span class="price-unit">/ night</span>
           </div>
-          <button class="btn btn-gold btn-sm" data-open-booking data-booking-type="suite" data-item-id="${suite.id}" onclick="event.stopPropagation();">Book Now</button>
+          <button class="btn btn-gold btn-sm" onclick="openSuiteDetail('${suite.id}'); event.stopPropagation();">View Details</button>
         </div>
       </div>
     </div>
@@ -117,36 +112,44 @@ function setupSuiteFilters() {
   });
 }
 
-// Render Menu Items (40 Dishes with Details & Offers)
+// Render Menu Items (Home gets 6 featured dishes, Dedicated Menu page gets all 40 dishes)
 function renderDiningMenuPage() {
-  const menuContainers = [document.getElementById('menuGrid'), document.getElementById('menuGridHome')];
+  const homeContainer = document.getElementById('menuGridHome');
+  const fullContainer = document.getElementById('menuGrid');
   if (!window.AURELIA_DATA) return;
 
   const items = window.AURELIA_DATA.menuItems;
-  const cardsHtml = items.map(item => `
-    <div class="menu-item-card reveal-up in-view" data-menu-category="${item.category}" onclick="openDishDetail('${item.id}')" style="cursor: pointer; position: relative;">
-      <div style="height: 180px; border-radius: 6px; overflow: hidden; margin-bottom: 1rem; position: relative;">
+
+  const createCardHtml = (item) => `
+    <div class="menu-item-card reveal-up in-view" data-menu-category="${item.category}" onclick="openDishDetail('${item.id}')" style="cursor: pointer; position: relative; background: #FFFFFF; border: 1px solid var(--color-border-subtle); border-radius: 10px; padding: 1.2rem; box-shadow: 0 10px 30px rgba(26,29,36,0.05);">
+      <div style="height: 180px; border-radius: 8px; overflow: hidden; margin-bottom: 1rem; position: relative;">
         <img src="${item.image}" onerror="this.src=generatePlaceholderSvg('${item.title}', 'INDIAN GASTRONOMY', 600, 400, 'dining')" alt="${item.title}" style="width:100%; height:100%; object-fit:cover;">
-        ${item.offer ? `<span style="position: absolute; top: 10px; right: 10px; background: var(--color-gold-primary); color: #000; font-size: 0.68rem; font-weight: 700; padding: 0.25rem 0.6rem; border-radius: 4px; text-transform: uppercase;">${item.offer}</span>` : ''}
+        ${item.offer ? `<span style="position: absolute; top: 10px; right: 10px; background: var(--color-gold-primary); color: #FFFFFF; font-size: 0.68rem; font-weight: 700; padding: 0.25rem 0.6rem; border-radius: 4px; text-transform: uppercase;">${item.offer}</span>` : ''}
       </div>
       <div class="menu-item-header">
-        <h4 class="menu-item-title" style="font-family: var(--font-serif); font-size: 1.15rem; color: var(--color-gold-light);">${item.title}</h4>
-        <span class="menu-item-price" style="color: var(--color-gold-light); font-weight: 700;">${item.price}</span>
+        <h4 class="menu-item-title" style="font-family: var(--font-serif); font-size: 1.15rem; color: var(--color-text-main);">${item.title}</h4>
+        <span class="menu-item-price" style="color: var(--color-gold-primary); font-weight: 700;">${item.price}</span>
       </div>
       <p class="menu-item-desc" style="font-size: 0.88rem; color: var(--color-text-muted); margin-bottom: 0.8rem;">${item.desc.substring(0, 95)}...</p>
-      ${item.ingredients ? `<div style="font-size:0.78rem; color:var(--color-gold-primary); margin-bottom:0.8rem;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><path d="M12 2a10 10 0 0 1 10 10c0 5.523-4.477 10-10 10S2 17.523 2 12a10 10 0 0 1 10-10z"/></svg><strong>Key Ingredients:</strong> ${item.ingredients}</div>` : ''}
+      ${item.ingredients ? `<div style="font-size:0.78rem; color:var(--color-gold-primary); margin-bottom:0.8rem;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><path d="M12 2a10 10 0 0 1 10 10c0 5.523-4.477 10-10 10S2 17.523 2 12a10 10 0 0 1 10-10z"/></svg><strong>Key Ingredients:</strong> ${item.ingredients}</div>` : ''}
       <div class="menu-item-tags" style="display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: space-between; align-items: center; margin-top: 0.6rem;">
         <div>
-          ${item.tags.map(t => `<span class="menu-tag" style="background: rgba(255,255,255,0.05); color: var(--color-gold-primary); padding: 0.2rem 0.5rem; border-radius: 3px; font-size: 0.72rem;">${t}</span>`).join('')}
+          ${item.tags.map(t => `<span class="menu-tag" style="background: #FAF8F5; color: var(--color-gold-primary); padding: 0.2rem 0.5rem; border-radius: 3px; font-size: 0.72rem; border: 1px solid var(--color-border-subtle);">${t}</span>`).join('')}
         </div>
-        <button style="background: rgba(201, 160, 99, 0.1); border: 1px solid var(--color-gold-primary); color: var(--color-gold-light); padding: 0.35rem 0.75rem; border-radius: 4px; font-size: 0.75rem; cursor: pointer;">View Details</button>
+        <button class="btn btn-gold btn-sm" style="padding: 0.35rem 0.7rem; font-size: 0.72rem;">View Details</button>
       </div>
     </div>
-  `).join('');
+  `;
 
-  menuContainers.forEach(container => {
-    if (container) container.innerHTML = cardsHtml;
-  });
+  // Home Page gets STRICTLY 6 Dishes
+  if (homeContainer) {
+    homeContainer.innerHTML = items.slice(0, 6).map(createCardHtml).join('');
+  }
+
+  // Dedicated MENU Page gets ALL 40 Dishes
+  if (fullContainer) {
+    fullContainer.innerHTML = items.map(createCardHtml).join('');
+  }
 }
 
 // Menu Category Filter Handler
@@ -174,32 +177,64 @@ function setupMenuFilters() {
   });
 }
 
-// Render Offers
+// Render Offers (Home & Dedicated Offers Grid)
 function renderOffers() {
-  const offersGrid = document.getElementById('offersGrid');
-  if (!offersGrid || !window.AURELIA_DATA) return;
+  const containers = [document.getElementById('offersGridHome'), document.getElementById('offersGrid')].filter(Boolean);
+  if (containers.length === 0 || !window.AURELIA_DATA) return;
 
-  const offers = window.AURELIA_DATA.offers;
-  offersGrid.innerHTML = offers.map(offer => `
-    <div class="offer-card reveal-up in-view">
-      <div class="offer-img">
-        <img src="${offer.image}" onerror="this.src='${offer.fallback}'" alt="${offer.title}">
-        <span class="offer-tag">${offer.discount}</span>
+  const offers = window.AURELIA_DATA.offers || [
+    {
+      id: "leela-discovery",
+      title: "Double Rewards & Member Privileges",
+      discount: "DISCOVERY Special",
+      validity: "Valid Year-Round",
+      desc: "Book directly as a DISCOVERY member to earn 2X D$ rewards, free breakfast, and 2:00 PM late check-out.",
+      priceFrom: "From ₹8,999 / night",
+      image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      id: "weekend-staycation",
+      title: "Weekend Palace Staycation & Spa Credit",
+      discount: "20% OFF Staycation",
+      validity: "Valid Fri - Sun",
+      desc: "Includes ₹2,000 Jivana Spa voucher, 20% off room tariffs, and complimentary high tea over Lake Pichola.",
+      priceFrom: "From ₹6,499 / night",
+      image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      id: "honeymoon-escape",
+      title: "Palace Romance & Candlelight Dinner",
+      discount: "Romantic Package",
+      validity: "Valid for Couples",
+      desc: "Private poolside candlelight dinner with vintage wine, rose petal turndown, and floating plunge pool breakfast.",
+      priceFrom: "From ₹14,500 / night",
+      image: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80"
+    }
+  ];
+
+  const cardsHtml = offers.slice(0, 3).map(offer => `
+    <div class="offer-card reveal-up in-view" style="background: #FFFFFF; border: 1px solid var(--color-border-subtle); border-radius: 10px; overflow: hidden; box-shadow: 0 10px 30px rgba(26,29,36,0.05); display: flex; flex-direction: column; justify-content: space-between;">
+      <div style="height: 190px; overflow: hidden; position: relative;">
+        <img src="${offer.image}" alt="${offer.title}" style="width: 100%; height: 100%; object-fit: cover;">
+        <span style="position: absolute; top: 12px; right: 12px; background: var(--color-gold-primary); color: #FFFFFF; font-size: 0.72rem; font-weight: 700; padding: 0.3rem 0.7rem; border-radius: 4px; text-transform: uppercase;">${offer.discount}</span>
       </div>
-      <div class="offer-body">
-        <span class="offer-validity"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${offer.validity}</span>
-        <h3 class="offer-title">${offer.title}</h3>
-        <p class="exp-desc">${offer.desc}</p>
-        <ul class="offer-list">
-          ${offer.includes.map(inc => `<li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2.5" style="vertical-align:middle; margin-right:4px;"><polyline points="20 6 9 17 4 12"/></svg>${inc}</li>`).join('')}
-        </ul>
-        <div class="offer-footer">
-          <span class="offer-price">${offer.priceFrom}</span>
-          <button class="btn btn-gold btn-sm" data-open-booking data-booking-type="suite">Book Offer</button>
+      <div style="padding: 1.5rem; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <span style="font-size: 0.75rem; color: var(--color-gold-primary); font-weight: 600; text-transform: uppercase; display: block; margin-bottom: 0.4rem;">${offer.validity}</span>
+          <h3 style="font-family: var(--font-serif); font-size: 1.3rem; color: var(--color-text-main); margin-bottom: 0.6rem; line-height: 1.25;">${offer.title}</h3>
+          <p style="font-size: 0.88rem; color: var(--color-text-muted); line-height: 1.55; margin-bottom: 1.2rem;">${offer.desc}</p>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; padding-top: 1rem; border-top: 1px solid var(--color-border-subtle); margin-top: auto;">
+          <span style="font-size: 1.05rem; font-weight: 700; color: var(--color-gold-primary);">${offer.priceFrom}</span>
+          <button class="btn btn-gold btn-sm" data-open-booking data-booking-type="suite">Claim Offer</button>
         </div>
       </div>
     </div>
   `).join('');
+
+  containers.forEach(c => {
+    c.innerHTML = cardsHtml;
+  });
 }
 
 // Render Banquets & Events
@@ -226,20 +261,22 @@ function renderEvents() {
   `).join('');
 }
 
-// Render 10 Premium Hotel Amenities Cards
+// Render 10 Premium Hotel Amenities Cards (Minimal Outside Cards)
 function renderAmenities() {
   const container = document.getElementById('amenitiesGrid');
   if (!container || !window.AURELIA_DATA) return;
 
   const items = window.AURELIA_DATA.amenities;
   container.innerHTML = items.map(item => `
-    <div class="menu-item-card reveal-up in-view" onclick="openAmenityDetail('${item.id}')" style="cursor: pointer; background: var(--color-bg-card); border: 1px solid var(--color-border-glass); border-radius: 10px; padding: 1.6rem; transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;" onmouseover="this.style.transform='translateY(-6px)'; this.style.borderColor='var(--color-gold-primary)'; this.style.boxShadow='0 12px 30px rgba(201,160,99,0.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--color-border-glass)'; this.style.boxShadow='none';">
-      <div style="width: 52px; height: 52px; border-radius: 50%; background: rgba(201, 160, 99, 0.12); border: 1px solid rgba(201, 160, 99, 0.3); color: var(--color-gold-light); display: flex; align-items: center; justify-content: center; margin-bottom: 1.2rem; transition: transform 0.3s ease;">
-        ${item.svg}
+    <div class="menu-item-card reveal-up in-view" onclick="openAmenityDetail('${item.id}')" style="cursor: pointer; background: #FFFFFF; border: 1px solid var(--color-border-subtle); border-radius: 10px; padding: 1.5rem; transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease; box-shadow: 0 8px 25px rgba(26,29,36,0.04); display: flex; flex-direction: column; justify-content: space-between;" onmouseover="this.style.transform='translateY(-6px)'; this.style.borderColor='var(--color-gold-primary)';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--color-border-subtle)';">
+      <div>
+        <div style="width: 48px; height: 48px; border-radius: 50%; background: #FAF8F5; border: 1px solid var(--color-border-subtle); color: var(--color-gold-primary); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
+          ${item.svg}
+        </div>
+        <h4 style="font-family: var(--font-serif); font-size: 1.2rem; color: var(--color-text-main); margin-bottom: 0.3rem;">${item.name}</h4>
+        <p style="font-size: 0.82rem; color: var(--color-gold-primary); margin-bottom: 1.2rem; font-weight: 600;">${item.sub}</p>
       </div>
-      <h4 style="font-family: var(--font-serif); font-size: 1.25rem; color: var(--color-gold-light); margin-bottom: 0.4rem;">${item.name}</h4>
-      <p style="font-size: 0.85rem; color: var(--color-gold-primary); margin-bottom: 0.6rem; font-weight: 500;">${item.sub}</p>
-      <p style="font-size: 0.86rem; color: var(--color-text-muted); line-height: 1.5; margin: 0;">${item.desc.substring(0, 85)}...</p>
+      <button class="btn btn-outline btn-sm" style="width: 100%; padding: 0.35rem 0.65rem; font-size: 0.75rem;">View Details</button>
     </div>
   `).join('');
 }
@@ -418,15 +455,8 @@ window.openSuiteDetail = function(suiteId) {
   const container = document.getElementById('roomDetailContainer');
   if (container) {
     container.innerHTML = `
-      <!-- Breadcrumb Navigation & Top Action Bar -->
-      <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
-        <div style="font-size: 0.85rem; color: var(--color-text-muted);">
-          <a href="#home" onclick="window.router.navigateTo('home')" style="color: var(--color-gold-primary); text-decoration: none;">HOME</a>
-          <span style="margin: 0 0.4rem;">/</span>
-          <a href="#suites" onclick="window.router.navigateTo('suites')" style="color: var(--color-gold-primary); text-decoration: none;">ACCOMMODATION</a>
-          <span style="margin: 0 0.4rem;">/</span>
-          <span style="color: var(--color-gold-light); font-weight: 600;">${suite.title.toUpperCase()}</span>
-        </div>
+      <!-- Top Action Bar -->
+      <div style="display: flex; align-items: center; justify-content: flex-end; margin-bottom: 1.5rem;">
         <button class="btn btn-gold btn-sm" onclick="window.router.navigateTo('suites')" style="display: inline-flex; align-items: center; gap: 0.4rem;">
           ← Back to All Rooms
         </button>
@@ -456,60 +486,60 @@ window.openSuiteDetail = function(suiteId) {
         <!-- Left Column: Full Specifications, Description & Signature Amenities -->
         <div style="display: flex; flex-direction: column; gap: 1.8rem;">
           <!-- Architecture & Overview Narrative -->
-          <div style="background: var(--color-bg-card); border: 1px solid var(--color-border-glass); border-radius: 10px; padding: 1.8rem;">
-            <h3 style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--color-gold-light); margin-bottom: 0.8rem;">Suite Overview & Architecture</h3>
+          <div style="background: #FFFFFF; border: 1px solid var(--color-border-subtle); border-radius: 10px; padding: 1.8rem; box-shadow: 0 8px 30px rgba(26,29,36,0.04);">
+            <h3 style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--color-text-main); margin-bottom: 0.8rem;">Suite Overview & Architecture</h3>
             <p style="font-size: 0.95rem; line-height: 1.65; color: var(--color-text-muted); margin: 0;">${suite.description}</p>
           </div>
 
           <!-- Room Specifications 6-Card Grid -->
-          <div style="background: var(--color-bg-card); border: 1px solid var(--color-border-glass); border-radius: 10px; padding: 1.8rem;">
-            <h3 style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--color-gold-light); margin-bottom: 1.2rem;">Room Specifications & Specs</h3>
+          <div style="background: #FFFFFF; border: 1px solid var(--color-border-subtle); border-radius: 10px; padding: 1.8rem; box-shadow: 0 8px 30px rgba(26,29,36,0.04);">
+            <h3 style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--color-text-main); margin-bottom: 1.2rem;">Room Specifications & Specs</h3>
             
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem;">
-              <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border-glass); border-radius: 8px; padding: 1rem;">
-                <span style="font-size: 0.75rem; color: var(--color-gold-primary); text-transform: uppercase; display: block; margin-bottom: 0.3rem;">Room Size</span>
-                <strong style="font-size: 1.05rem; color: #fff;">${suite.size}</strong>
+              <div style="background: #FAF8F5; border: 1px solid var(--color-border-subtle); border-radius: 8px; padding: 1rem;">
+                <span style="font-size: 0.75rem; color: var(--color-gold-primary); text-transform: uppercase; display: block; margin-bottom: 0.3rem; font-weight: 600;">Room Size</span>
+                <strong style="font-size: 1.05rem; color: var(--color-text-main);">${suite.size}</strong>
               </div>
-              <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border-glass); border-radius: 8px; padding: 1rem;">
-                <span style="font-size: 0.75rem; color: var(--color-gold-primary); text-transform: uppercase; display: block; margin-bottom: 0.3rem;">Max Occupancy</span>
-                <strong style="font-size: 1.05rem; color: #fff;">${suite.capacity}</strong>
+              <div style="background: #FAF8F5; border: 1px solid var(--color-border-subtle); border-radius: 8px; padding: 1rem;">
+                <span style="font-size: 0.75rem; color: var(--color-gold-primary); text-transform: uppercase; display: block; margin-bottom: 0.3rem; font-weight: 600;">Max Occupancy</span>
+                <strong style="font-size: 1.05rem; color: var(--color-text-main);">${suite.capacity}</strong>
               </div>
-              <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border-glass); border-radius: 8px; padding: 1rem;">
-                <span style="font-size: 0.75rem; color: var(--color-gold-primary); text-transform: uppercase; display: block; margin-bottom: 0.3rem;">Bed Setup</span>
-                <strong style="font-size: 1.05rem; color: #fff;">${suite.bedType}</strong>
+              <div style="background: #FAF8F5; border: 1px solid var(--color-border-subtle); border-radius: 8px; padding: 1rem;">
+                <span style="font-size: 0.75rem; color: var(--color-gold-primary); text-transform: uppercase; display: block; margin-bottom: 0.3rem; font-weight: 600;">Bed Setup</span>
+                <strong style="font-size: 1.05rem; color: var(--color-text-main);">${suite.bedType}</strong>
               </div>
-              <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border-glass); border-radius: 8px; padding: 1rem;">
-                <span style="font-size: 0.75rem; color: var(--color-gold-primary); text-transform: uppercase; display: block; margin-bottom: 0.3rem;">Scenic View</span>
-                <strong style="font-size: 1.05rem; color: #fff;">Lake Pichola Waterfront</strong>
+              <div style="background: #FAF8F5; border: 1px solid var(--color-border-subtle); border-radius: 8px; padding: 1rem;">
+                <span style="font-size: 0.75rem; color: var(--color-gold-primary); text-transform: uppercase; display: block; margin-bottom: 0.3rem; font-weight: 600;">Scenic View</span>
+                <strong style="font-size: 1.05rem; color: var(--color-text-main);">Lake Pichola Waterfront</strong>
               </div>
-              <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border-glass); border-radius: 8px; padding: 1rem;">
-                <span style="font-size: 0.75rem; color: var(--color-gold-primary); text-transform: uppercase; display: block; margin-bottom: 0.3rem;">Bathroom Spec</span>
-                <strong style="font-size: 1.05rem; color: #fff;">Marble & Rain Shower</strong>
+              <div style="background: #FAF8F5; border: 1px solid var(--color-border-subtle); border-radius: 8px; padding: 1rem;">
+                <span style="font-size: 0.75rem; color: var(--color-gold-primary); text-transform: uppercase; display: block; margin-bottom: 0.3rem; font-weight: 600;">Bathroom Spec</span>
+                <strong style="font-size: 1.05rem; color: var(--color-text-main);">Marble & Rain Shower</strong>
               </div>
-              <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border-glass); border-radius: 8px; padding: 1rem;">
-                <span style="font-size: 0.75rem; color: var(--color-gold-primary); text-transform: uppercase; display: block; margin-bottom: 0.3rem;">Butler Service</span>
-                <strong style="font-size: 1.05rem; color: #fff;">24/7 Dedicated Butler</strong>
+              <div style="background: #FAF8F5; border: 1px solid var(--color-border-subtle); border-radius: 8px; padding: 1rem;">
+                <span style="font-size: 0.75rem; color: var(--color-gold-primary); text-transform: uppercase; display: block; margin-bottom: 0.3rem; font-weight: 600;">Butler Service</span>
+                <strong style="font-size: 1.05rem; color: var(--color-text-main);">24/7 Dedicated Butler</strong>
               </div>
             </div>
           </div>
 
           <!-- Included Signature Amenities -->
-          <div style="background: var(--color-bg-card); border: 1px solid var(--color-border-glass); border-radius: 10px; padding: 1.8rem; flex-grow: 1;">
-            <h3 style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--color-gold-light); margin-bottom: 1.2rem;">Inclusive Suite Privileges</h3>
+          <div style="background: #FFFFFF; border: 1px solid var(--color-border-subtle); border-radius: 10px; padding: 1.8rem; flex-grow: 1; box-shadow: 0 8px 30px rgba(26,29,36,0.04);">
+            <h3 style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--color-text-main); margin-bottom: 1.2rem;">Inclusive Suite Privileges</h3>
             
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.8rem;">
               ${(suite.amenities || ['Lake View Balcony', 'Free Breakfast', 'Jacuzzi', '24/7 Butler']).map(a => `
-                <div style="display: flex; align-items: center; gap: 0.6rem; background: rgba(201, 160, 99, 0.05); padding: 0.8rem 1rem; border-radius: 6px; border: 1px solid rgba(201, 160, 99, 0.15);">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2.5" style="flex-shrink:0;"><polyline points="20 6 9 17 4 12"/></svg>
+                <div style="display: flex; align-items: center; gap: 0.6rem; background: #FAF8F5; padding: 0.8rem 1rem; border-radius: 6px; border: 1px solid #E8E2D9;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2.5" style="flex-shrink:0;"><polyline points="20 6 9 17 4 12"/></svg>
                   <span style="font-size: 0.88rem; color: var(--color-text-main); font-weight: 500;">${a}</span>
                 </div>
               `).join('')}
-              <div style="display: flex; align-items: center; gap: 0.6rem; background: rgba(201, 160, 99, 0.05); padding: 0.8rem 1rem; border-radius: 6px; border: 1px solid rgba(201, 160, 99, 0.15);">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2.5" style="flex-shrink:0;"><polyline points="20 6 9 17 4 12"/></svg>
+              <div style="display: flex; align-items: center; gap: 0.6rem; background: #FAF8F5; padding: 0.8rem 1rem; border-radius: 6px; border: 1px solid #E8E2D9;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2.5" style="flex-shrink:0;"><polyline points="20 6 9 17 4 12"/></svg>
                 <span style="font-size: 0.88rem; color: var(--color-text-main); font-weight: 500;">24/7 In-Room Fine Dining</span>
               </div>
-              <div style="display: flex; align-items: center; gap: 0.6rem; background: rgba(201, 160, 99, 0.05); padding: 0.8rem 1rem; border-radius: 6px; border: 1px solid rgba(201, 160, 99, 0.15);">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2.5" style="flex-shrink:0;"><polyline points="20 6 9 17 4 12"/></svg>
+              <div style="display: flex; align-items: center; gap: 0.6rem; background: #FAF8F5; padding: 0.8rem 1rem; border-radius: 6px; border: 1px solid #E8E2D9;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2.5" style="flex-shrink:0;"><polyline points="20 6 9 17 4 12"/></svg>
                 <span style="font-size: 0.88rem; color: var(--color-text-main); font-weight: 500;">High-Speed Fiber Wi-Fi</span>
               </div>
             </div>
@@ -520,22 +550,22 @@ window.openSuiteDetail = function(suiteId) {
         <div style="display: flex; flex-direction: column; gap: 1.5rem; justify-content: space-between;">
           
           <!-- Box 1: Instant Suite Reservation & Pricing -->
-          <div style="background: var(--color-bg-card); border: 1px solid var(--color-gold-primary); border-radius: 12px; padding: 1.8rem; box-shadow: 0 15px 40px rgba(0,0,0,0.6);">
+          <div style="background: #FFFFFF; border: 1px solid var(--color-gold-primary); border-radius: 12px; padding: 1.8rem; box-shadow: 0 12px 35px rgba(26,29,36,0.08);">
             
             <div style="margin-bottom: 1.2rem; border-bottom: 1px solid var(--color-border-subtle); padding-bottom: 1rem;">
-              <span style="font-size: 0.78rem; color: var(--color-gold-primary); text-transform: uppercase; letter-spacing: 1px;">Instant Suite Reservation</span>
+              <span style="font-size: 0.78rem; color: var(--color-gold-primary); text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Instant Suite Reservation</span>
               <div style="display: flex; align-items: baseline; justify-content: space-between; margin-top: 0.4rem;">
-                <h3 style="font-family: var(--font-serif); font-size: 2.1rem; color: var(--color-gold-light); margin: 0;">₹${suite.price.toLocaleString('en-IN')}</h3>
+                <h3 style="font-family: var(--font-serif); font-size: 2.1rem; color: var(--color-text-main); margin: 0;">₹${suite.price.toLocaleString('en-IN')}</h3>
                 <span style="font-size: 0.85rem; color: var(--color-text-muted);">per night + taxes</span>
               </div>
             </div>
 
             <!-- Privilege Highlights List -->
             <ul style="list-style: none; padding: 0; margin: 0 0 1.4rem 0; display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.85rem; color: var(--color-text-muted);">
-              <li style="display: flex; align-items: center; gap: 0.6rem;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> 100% Free Date Changes up to 48h</li>
-              <li style="display: flex; align-items: center; gap: 0.6rem;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Complimentary Welcome Drinks & Basket</li>
-              <li style="display: flex; align-items: center; gap: 0.6rem;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Free Chauffeur Airport Transfer</li>
-              <li style="display: flex; align-items: center; gap: 0.6rem;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> 20% Spa Discount Coupon Included</li>
+              <li style="display: flex; align-items: center; gap: 0.6rem;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> 100% Free Date Changes up to 48h</li>
+              <li style="display: flex; align-items: center; gap: 0.6rem;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Complimentary Welcome Drinks & Basket</li>
+              <li style="display: flex; align-items: center; gap: 0.6rem;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Free Chauffeur Airport Transfer</li>
+              <li style="display: flex; align-items: center; gap: 0.6rem;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> 20% Spa Discount Coupon Included</li>
             </ul>
 
             <!-- Book Now CTA Button -->
@@ -547,44 +577,44 @@ window.openSuiteDetail = function(suiteId) {
           </div>
 
           <!-- Box 2: Palace Check-In & Stay Policy Box -->
-          <div style="background: var(--color-bg-card); border: 1px solid var(--color-border-glass); border-radius: 10px; padding: 1.4rem;">
-            <h4 style="font-size: 0.85rem; color: var(--color-gold-light); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 0.8rem; display: flex; align-items: center;">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2" style="margin-right: 6px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <div style="background: #FFFFFF; border: 1px solid var(--color-border-subtle); border-radius: 10px; padding: 1.4rem; box-shadow: 0 8px 30px rgba(26,29,36,0.04);">
+            <h4 style="font-size: 0.85rem; color: var(--color-gold-primary); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 0.8rem; display: flex; align-items: center; font-weight: 600;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2" style="margin-right: 6px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
               Check-In & Guarantee Policy
             </h4>
             <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.84rem; color: var(--color-text-muted);">
-              <li style="display: flex; justify-content: space-between;"><strong style="color: var(--color-gold-light);">Standard Check-In:</strong> <span>2:00 PM</span></li>
-              <li style="display: flex; justify-content: space-between;"><strong style="color: var(--color-gold-light);">Standard Check-Out:</strong> <span>12:00 Noon</span></li>
-              <li style="display: flex; justify-content: space-between;"><strong style="color: var(--color-gold-light);">Cancellation:</strong> <span style="color: var(--color-gold-primary);">Free 48-Hour Refund</span></li>
+              <li style="display: flex; justify-content: space-between;"><strong style="color: var(--color-text-main);">Standard Check-In:</strong> <span>2:00 PM</span></li>
+              <li style="display: flex; justify-content: space-between;"><strong style="color: var(--color-text-main);">Standard Check-Out:</strong> <span>12:00 Noon</span></li>
+              <li style="display: flex; justify-content: space-between;"><strong style="color: var(--color-text-main);">Cancellation:</strong> <span style="color: var(--color-gold-primary); font-weight: 600;">Free 48-Hour Refund</span></li>
             </ul>
           </div>
 
           <!-- Box 3: 5-Star Heritage Privileges Box (Matched Length to Left Box) -->
-          <div style="background: rgba(201, 160, 99, 0.06); border: 1px solid rgba(201, 160, 99, 0.25); border-radius: 10px; padding: 1.8rem;">
-            <span style="font-size: 0.72rem; color: var(--color-gold-primary); text-transform: uppercase; letter-spacing: 1.5px; display: block; margin-bottom: 0.3rem;">5-STAR HERITAGE HOSPITALITY</span>
-            <h4 style="font-size: 1.15rem; font-family: var(--font-serif); color: var(--color-gold-light); margin-bottom: 1rem;">Inclusive VIP Suite Privileges</h4>
+          <div style="background: #F3EFEA; border: 1px solid var(--color-border-subtle); border-radius: 10px; padding: 1.8rem;">
+            <span style="font-size: 0.72rem; color: var(--color-gold-primary); text-transform: uppercase; letter-spacing: 1.5px; display: block; margin-bottom: 0.3rem; font-weight: 600;">5-STAR HERITAGE HOSPITALITY</span>
+            <h4 style="font-size: 1.15rem; font-family: var(--font-serif); color: var(--color-text-main); margin-bottom: 1rem;">Inclusive VIP Suite Privileges</h4>
             
             <ul style="list-style: none; padding: 0; margin: 0 0 1.2rem 0; display: flex; flex-direction: column; gap: 0.65rem; font-size: 0.85rem; color: var(--color-text-muted);">
               <li style="display: flex; align-items: center; gap: 0.65rem;">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2.5" style="flex-shrink: 0;"><polyline points="20 6 9 17 4 12"/></svg>
-                <span><strong style="color: var(--color-gold-light);">24/7 Personal Butler:</strong> Private unpacking & royal care</span>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2.5" style="flex-shrink: 0;"><polyline points="20 6 9 17 4 12"/></svg>
+                <span><strong style="color: var(--color-text-main);">24/7 Personal Butler:</strong> Private unpacking & royal care</span>
               </li>
               <li style="display: flex; align-items: center; gap: 0.65rem;">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2.5" style="flex-shrink: 0;"><polyline points="20 6 9 17 4 12"/></svg>
-                <span><strong style="color: var(--color-gold-light);">Priority Fine Dining:</strong> Table & buffet breakfast at Le Celestia</span>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2.5" style="flex-shrink: 0;"><polyline points="20 6 9 17 4 12"/></svg>
+                <span><strong style="color: var(--color-text-main);">Priority Fine Dining:</strong> Table & buffet breakfast at Le Celestia</span>
               </li>
               <li style="display: flex; align-items: center; gap: 0.65rem;">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2.5" style="flex-shrink: 0;"><polyline points="20 6 9 17 4 12"/></svg>
-                <span><strong style="color: var(--color-gold-light);">Jivana Spa Hydrotherapy:</strong> Free steam, sauna & Jacuzzi access</span>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2.5" style="flex-shrink: 0;"><polyline points="20 6 9 17 4 12"/></svg>
+                <span><strong style="color: var(--color-text-main);">Jivana Spa Hydrotherapy:</strong> Free steam, sauna & Jacuzzi access</span>
               </li>
               <li style="display: flex; align-items: center; gap: 0.65rem;">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2.5" style="flex-shrink: 0;"><polyline points="20 6 9 17 4 12"/></svg>
-                <span><strong style="color: var(--color-gold-light);">Private Chauffeur:</strong> Free airport pickup & drop in luxury sedan</span>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2.5" style="flex-shrink: 0;"><polyline points="20 6 9 17 4 12"/></svg>
+                <span><strong style="color: var(--color-text-main);">Private Chauffeur:</strong> Free airport pickup & drop in luxury sedan</span>
               </li>
             </ul>
 
             <!-- 24/7 Helpline Badge -->
-            <div style="padding-top: 0.8rem; border-top: 1px dashed rgba(201, 160, 99, 0.25); display: flex; align-items: center; justify-content: space-between; font-size: 0.78rem; color: var(--color-gold-primary);">
+            <div style="padding-top: 0.8rem; border-top: 1px dashed #D4C9BA; display: flex; align-items: center; justify-content: space-between; font-size: 0.78rem; color: var(--color-gold-primary);">
               <span style="font-weight: 600;">24/7 Butler Desk: Ext. 101</span>
               <span style="font-weight: 600;">WhatsApp Direct</span>
             </div>
@@ -683,12 +713,12 @@ window.openDishDetail = function(dishId) {
         
         <!-- Left Column: HD Dish Photo & Offer Badge Box -->
         <div class="dish-detail-media">
-          <img src="${dish.image}" onerror="this.src=generatePlaceholderSvg('${dish.title}', 'FINE DINING DISH', 600, 400, 'dining')" alt="${dish.title}" style="width: 100%; height: 280px; object-fit: cover; border-radius: 8px; border: 1px solid var(--color-border-glass); margin-bottom: 1.2rem;">
+          <img src="${dish.image}" onerror="this.src=generatePlaceholderSvg('${dish.title}', 'FINE DINING DISH', 600, 400, 'dining')" alt="${dish.title}" style="width: 100%; height: 280px; object-fit: cover; border-radius: 8px; border: 1px solid var(--color-border-subtle); margin-bottom: 1.2rem;">
           
           <!-- Dish Offer & Special Inclusions Box -->
-          <div style="background: rgba(201, 160, 99, 0.08); border: 1px solid var(--color-gold-primary); border-radius: 8px; padding: 1.2rem; margin-bottom: 1rem;">
-            <span style="background: var(--color-gold-primary); color: #000; font-size: 0.7rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 4px; text-transform: uppercase; display: inline-block; margin-bottom: 0.5rem;">Special Dining Offer</span>
-            <h4 style="font-size: 1.1rem; color: var(--color-gold-light); margin-bottom: 0.4rem;">${dish.offer || '15% Discount on Dinner Booking'}</h4>
+          <div style="background: #FAF8F5; border: 1px solid var(--color-border-subtle); border-radius: 8px; padding: 1.2rem; margin-bottom: 1rem;">
+            <span style="background: var(--color-gold-primary); color: #FFFFFF; font-size: 0.7rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 4px; text-transform: uppercase; display: inline-block; margin-bottom: 0.5rem;">Special Dining Offer</span>
+            <h4 style="font-size: 1.1rem; color: var(--color-text-main); margin-bottom: 0.4rem;">${dish.offer || '15% Discount on Dinner Booking'}</h4>
             <p style="font-size: 0.84rem; color: var(--color-text-muted); margin: 0;">Included automatically when reserving a table at Le Celestia Fine Dining.</p>
           </div>
         </div>
@@ -696,17 +726,17 @@ window.openDishDetail = function(dishId) {
         <!-- Right Column: Dish Specs, Detailed Description & Ingredients -->
         <div class="dish-detail-info">
           <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.6rem;">
-            ${dish.tags.map(t => `<span style="background: rgba(201, 160, 99, 0.15); color: var(--color-gold-light); padding: 0.25rem 0.7rem; border-radius: 4px; font-size: 0.75rem; text-transform: uppercase;">${t}</span>`).join('')}
+            ${dish.tags.map(t => `<span style="background: #FAF8F5; color: var(--color-gold-primary); padding: 0.25rem 0.7rem; border-radius: 4px; font-size: 0.75rem; text-transform: uppercase; border: 1px solid var(--color-border-subtle);">${t}</span>`).join('')}
           </div>
 
-          <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--color-gold-light); margin-bottom: 0.4rem;">${dish.title}</h2>
+          <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--color-text-main); margin-bottom: 0.4rem;">${dish.title}</h2>
           <p style="font-size: 1.4rem; color: var(--color-gold-primary); font-weight: 700; margin-bottom: 1.2rem;">${dish.price} <span style="font-size: 0.85rem; font-weight: 400; color: var(--color-text-muted);">(Taxes & Service Included)</span></p>
 
           <p style="font-size: 0.95rem; line-height: 1.65; color: var(--color-text-muted); margin-bottom: 1.4rem;">${dish.desc}</p>
 
           <!-- Master Ingredients & Culinary Notes Box -->
-          <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border-glass); border-radius: 8px; padding: 1.1rem; margin-bottom: 1.4rem;">
-            <h4 style="font-size: 0.88rem; color: var(--color-gold-primary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.6rem;">Master Ingredients & Culinary Notes</h4>
+          <div style="background: #FAF8F5; border: 1px solid var(--color-border-subtle); border-radius: 8px; padding: 1.1rem; margin-bottom: 1.4rem;">
+            <h4 style="font-size: 0.88rem; color: var(--color-gold-primary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.6rem; font-weight: 600;">Master Ingredients & Culinary Notes</h4>
             <p style="font-size: 0.88rem; color: var(--color-text-main); line-height: 1.5; margin: 0;">${dish.ingredients}</p>
           </div>
 
@@ -715,7 +745,8 @@ window.openDishDetail = function(dishId) {
         </div>
       </div>
     `;
-    modal.style.cssText = "display: flex !important; opacity: 1 !important; pointer-events: auto !important; position: fixed !important; inset: 0 !important; z-index: 9999999 !important; background: rgba(8, 9, 13, 0.95) !important; backdrop-filter: blur(16px) !important; padding: 1.5rem !important; align-items: center !important; justify-content: center !important;";
+    modal.style.cssText = "display: flex !important; opacity: 1 !important; pointer-events: auto !important; position: fixed !important; inset: 0 !important; z-index: 9999999 !important; background: rgba(26, 29, 36, 0.7) !important; backdrop-filter: blur(12px) !important; padding: 1.5rem !important; align-items: center !important; justify-content: center !important;";
+    modal.classList.add('open');
     modal.classList.add('open');
   }
 };
@@ -745,20 +776,20 @@ window.openAmenityDetail = function(amenityId) {
         <!-- Left Column: Amenity Photo & Technical Specifications Box -->
         <div style="display: flex; flex-direction: column; justify-content: space-between; gap: 1rem;">
           <div>
-            <img src="${item.image}" alt="${item.name}" style="width: 100%; height: 220px; object-fit: cover; border-radius: 8px; border: 1px solid var(--color-border-glass);">
+            <img src="${item.image}" alt="${item.name}" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; border: 1px solid var(--color-border-subtle);">
           </div>
           
-          <!-- Detailed Specs & Location Box (Fluid Mobile Responsive) -->
-          <div style="background: rgba(201, 160, 99, 0.06); border: 1px solid rgba(201, 160, 99, 0.25); border-radius: 8px; padding: 1.1rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: center;">
-            <h4 style="font-size: 0.85rem; color: var(--color-gold-light); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 0.8rem; display: flex; align-items: center;">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2" style="margin-right: 6px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <!-- Detailed Specs & Location Box -->
+          <div style="background: #FAF8F5; border: 1px solid var(--color-border-subtle); border-radius: 8px; padding: 1.1rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: center;">
+            <h4 style="font-size: 0.82rem; color: var(--color-gold-primary); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 0.8rem; display: flex; align-items: center; font-weight: 600;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2" style="margin-right: 6px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
               Operational Specs & Guidelines
             </h4>
             <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.65rem; font-size: 0.84rem; color: var(--color-text-muted);">
-              <li style="display: flex; flex-direction: column; gap: 0.2rem;"><strong style="color: var(--color-gold-light);">Hours / Timings:</strong> <span style="color: #fff; font-weight: 500;">${item.sub.split('|')[1] || item.sub}</span></li>
-              <li style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.3rem;"><strong style="color: var(--color-gold-light);">Location:</strong> <span>Palace Main Wing</span></li>
-              <li style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.3rem;"><strong style="color: var(--color-gold-light);">Guest Privilege:</strong> <span>Complimentary Access</span></li>
-              <li style="display: flex; flex-direction: column; gap: 0.2rem;"><strong style="color: var(--color-gold-light);">Technical Specs:</strong> <span style="word-break: break-word;">${item.specs}</span></li>
+              <li style="display: flex; flex-direction: column; gap: 0.2rem;"><strong style="color: var(--color-gold-primary);">Hours / Timings:</strong> <span style="color: var(--color-text-main); font-weight: 600;">${item.sub.split('|')[1] || item.sub}</span></li>
+              <li style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.3rem;"><strong style="color: var(--color-gold-primary);">Location:</strong> <span style="color: var(--color-text-main); font-weight: 600;">Palace Main Wing</span></li>
+              <li style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.3rem;"><strong style="color: var(--color-gold-primary);">Guest Privilege:</strong> <span style="color: var(--color-gold-primary); font-weight: 700;">Complimentary Access</span></li>
+              <li style="display: flex; flex-direction: column; gap: 0.2rem;"><strong style="color: var(--color-gold-primary);">Technical Specs:</strong> <span style="color: var(--color-text-main); word-break: break-word;">${item.specs}</span></li>
             </ul>
           </div>
         </div>
@@ -767,22 +798,22 @@ window.openAmenityDetail = function(amenityId) {
         <div style="display: flex; flex-direction: column; justify-content: space-between; gap: 1rem;">
           <div>
             <div style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.8rem;">
-              <div style="width: 44px; height: 44px; border-radius: 50%; background: rgba(201, 160, 99, 0.15); border: 1px solid var(--color-gold-primary); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <div style="width: 44px; height: 44px; border-radius: 50%; background: #FAF8F5; border: 1px solid var(--color-border-subtle); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--color-gold-primary);">
                 ${item.svg}
               </div>
               <div>
-                <h2 style="font-family: var(--font-serif); font-size: 1.7rem; color: var(--color-gold-light); margin: 0; line-height: 1.1;">${item.name}</h2>
-                <span style="font-size: 0.8rem; color: var(--color-gold-primary); font-weight: 500;">${item.sub.split('|')[0]}</span>
+                <h2 style="font-family: var(--font-serif); font-size: 1.7rem; color: var(--color-text-main); margin: 0; line-height: 1.1;">${item.name}</h2>
+                <span style="font-size: 0.8rem; color: var(--color-gold-primary); font-weight: 600;">${item.sub.split('|')[0]}</span>
               </div>
             </div>
             
             <p style="font-size: 0.88rem; line-height: 1.55; color: var(--color-text-muted); margin-bottom: 1rem;">${item.desc}</p>
 
             <!-- Perks Box -->
-            <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--color-border-glass); border-radius: 8px; padding: 1rem; margin-bottom: 1rem;">
-              <h4 style="font-size: 0.8rem; color: var(--color-gold-light); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.6rem;">Inclusive Facility Perks</h4>
+            <div style="background: #FAF8F5; border: 1px solid var(--color-border-subtle); border-radius: 8px; padding: 1rem; margin-bottom: 1rem;">
+              <h4 style="font-size: 0.8rem; color: var(--color-gold-primary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.6rem; font-weight: 600;">Inclusive Facility Perks</h4>
               <ul style="list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.5rem; font-size: 0.82rem; color: var(--color-text-muted);">
-                ${item.inclusions.map(inc => `<li style="display: flex; align-items: center;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2.5" style="margin-right: 6px; flex-shrink: 0;"><polyline points="20 6 9 17 4 12"/></svg>${inc}</li>`).join('')}
+                ${item.inclusions.map(inc => `<li style="display: flex; align-items: center;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2.5" style="margin-right: 6px; flex-shrink: 0;"><polyline points="20 6 9 17 4 12"/></svg>${inc}</li>`).join('')}
               </ul>
             </div>
           </div>
@@ -793,7 +824,7 @@ window.openAmenityDetail = function(amenityId) {
 
       </div>
     `;
-    modal.style.cssText = "display: flex !important; opacity: 1 !important; pointer-events: auto !important; position: fixed !important; inset: 0 !important; z-index: 9999999 !important; background: rgba(8, 9, 13, 0.95) !important; backdrop-filter: blur(16px) !important; padding: 1.5rem !important; align-items: center !important; justify-content: center !important;";
+    modal.style.cssText = "display: flex !important; opacity: 1 !important; pointer-events: auto !important; position: fixed !important; inset: 0 !important; z-index: 9999999 !important; background: rgba(26, 29, 36, 0.45) !important; backdrop-filter: blur(10px) !important; padding: 1.5rem !important; align-items: center !important; justify-content: center !important;";
     modal.classList.add('open');
   }
 };
@@ -906,7 +937,7 @@ window.openEventDetail = function(eventId) {
 
       </div>
     `;
-    modal.style.cssText = "display: flex !important; opacity: 1 !important; pointer-events: auto !important; position: fixed !important; inset: 0 !important; z-index: 9999999 !important; background: rgba(8, 9, 13, 0.95) !important; backdrop-filter: blur(16px) !important; padding: 1.5rem !important; align-items: center !important; justify-content: center !important;";
+    modal.style.cssText = "display: flex !important; opacity: 1 !important; pointer-events: auto !important; position: fixed !important; inset: 0 !important; z-index: 9999999 !important; background: rgba(26, 29, 36, 0.45) !important; backdrop-filter: blur(10px) !important; padding: 1.5rem !important; align-items: center !important; justify-content: center !important;";
     modal.classList.add('open');
   }
 };
@@ -992,3 +1023,61 @@ function setupConciergeWidget() {
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
   }
 }
+
+/* --- 5-Star Hotel Cookie Preference Manager --- */
+window.initCookieConsent = function() {
+  const banner = document.getElementById('cookieConsentBanner');
+  if (!banner) return;
+
+  const consent = localStorage.getItem('haveli_cookie_consent');
+  if (!consent) {
+    setTimeout(() => {
+      banner.style.display = 'block';
+    }, 800); // Auto pops up 0.8s after site opens
+  }
+};
+
+window.openCookieConsent = function(force = false) {
+  const banner = document.getElementById('cookieConsentBanner');
+  if (!banner) return;
+  
+  if (force) {
+    const mainView = document.getElementById('cookieMainView');
+    const prefView = document.getElementById('cookiePreferencesView');
+    if (mainView) mainView.style.display = 'block';
+    if (prefView) prefView.style.display = 'none';
+  }
+  banner.style.display = 'block';
+};
+
+window.acceptAllCookies = function() {
+  localStorage.setItem('haveli_cookie_consent', 'accepted_all');
+  const banner = document.getElementById('cookieConsentBanner');
+  if (banner) banner.style.display = 'none';
+};
+
+window.rejectOptionalCookies = function() {
+  localStorage.setItem('haveli_cookie_consent', 'rejected_optional');
+  const banner = document.getElementById('cookieConsentBanner');
+  if (banner) banner.style.display = 'none';
+};
+
+window.toggleCookiePreferences = function() {
+  const prefView = document.getElementById('cookiePreferencesView');
+  if (prefView) {
+    prefView.style.display = prefView.style.display === 'none' ? 'block' : 'none';
+  }
+};
+
+window.saveCustomCookiePreferences = function() {
+  const analytics = document.getElementById('cookieAnalyticsCheck')?.checked;
+  const marketing = document.getElementById('cookieMarketingCheck')?.checked;
+  localStorage.setItem('haveli_cookie_consent', JSON.stringify({ analytics, marketing }));
+  const banner = document.getElementById('cookieConsentBanner');
+  if (banner) banner.style.display = 'none';
+};
+
+// Auto initialize on DOM load
+document.addEventListener('DOMContentLoaded', () => {
+  window.initCookieConsent();
+});
