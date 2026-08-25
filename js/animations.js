@@ -67,46 +67,50 @@ class AnimationEngine {
   }
 
   setupTiltCards() {
+    let ticking = false;
     document.addEventListener('mousemove', (e) => {
-      const tiltCards = document.querySelectorAll('.tilt-card');
-      tiltCards.forEach(card => {
-        const rect = card.getBoundingClientRect();
-        const cardX = rect.left + rect.width / 2;
-        const cardY = rect.top + rect.height / 2;
-
-        // Calculate distance from cursor to card center
-        const distX = e.clientX - cardX;
-        const distY = e.clientY - cardY;
-
-        // Check if cursor is near/over card
-        if (
-          e.clientX >= rect.left - 50 &&
-          e.clientX <= rect.right + 50 &&
-          e.clientY >= rect.top - 50 &&
-          e.clientY <= rect.bottom + 50
-        ) {
-          const rotateX = (distY / (rect.height / 2)) * -8;
-          const rotateY = (distX / (rect.width / 2)) * 8;
-          card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateZ(10px)`;
-        } else {
-          card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)`;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const hoverCard = e.target.closest('.tilt-card');
+        if (hoverCard) {
+          const rect = hoverCard.getBoundingClientRect();
+          const cardX = rect.left + rect.width / 2;
+          const cardY = rect.top + rect.height / 2;
+          const distX = e.clientX - cardX;
+          const distY = e.clientY - cardY;
+          const rotateX = (distY / (rect.height / 2)) * -6;
+          const rotateY = (distX / (rect.width / 2)) * 6;
+          hoverCard.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(1)}deg) rotateY(${rotateY.toFixed(1)}deg)`;
         }
+        ticking = false;
       });
-    });
+    }, { passive: true });
+
+    document.addEventListener('mouseout', (e) => {
+      const card = e.target.closest('.tilt-card');
+      if (card && (!e.relatedTarget || !card.contains(e.relatedTarget))) {
+        card.style.transform = 'none';
+      }
+    }, { passive: true });
   }
 
   setupParallax() {
+    let ticking = false;
     window.addEventListener('scroll', () => {
-      const parallaxElements = document.querySelectorAll('.parallax-img');
-      const scrolled = window.scrollY;
-
-      parallaxElements.forEach(el => {
-        const speed = el.dataset.speed || 0.25;
-        const rect = el.getBoundingClientRect();
-        if (rect.top < window.innerHeight && rect.bottom > 0) {
-          const yPos = (rect.top - window.innerHeight / 2) * speed;
-          el.style.transform = `translate3d(0, ${yPos.toFixed(2)}px, 0)`;
-        }
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const parallaxElements = document.querySelectorAll('.parallax-img');
+        parallaxElements.forEach(el => {
+          const speed = el.dataset.speed || 0.15;
+          const rect = el.getBoundingClientRect();
+          if (rect.top < window.innerHeight && rect.bottom > 0) {
+            const yPos = (rect.top - window.innerHeight / 2) * speed;
+            el.style.transform = `translate3d(0, ${yPos.toFixed(1)}px, 0)`;
+          }
+        });
+        ticking = false;
       });
     }, { passive: true });
   }
