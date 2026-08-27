@@ -333,7 +333,7 @@ function renderAmenities() {
 
   const items = window.AURELIA_DATA.amenities;
   container.innerHTML = items.map(item => `
-    <div class="menu-item-card reveal-up in-view" onclick="openAmenityDetail('${item.id}')" style="cursor: pointer; background: #FFFFFF; border: 1px solid var(--color-border-subtle); border-radius: 10px; padding: 1.5rem; transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between;" onmouseover="this.style.transform='translateY(-4px)'; this.style.borderColor='var(--color-gold-primary)';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--color-border-subtle)';">
+    <div class="menu-item-card reveal-up in-view" onclick="navigateToAmenity('${item.id}')" style="cursor: pointer; background: #FFFFFF; border: 1px solid var(--color-border-subtle); border-radius: 10px; padding: 1.5rem; transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between;" onmouseover="this.style.transform='translateY(-4px)'; this.style.borderColor='var(--color-gold-primary)';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--color-border-subtle)';">
       <div>
         <div style="width: 48px; height: 48px; border-radius: 50%; background: #FAF8F5; border: 1px solid var(--color-border-subtle); color: var(--color-gold-primary); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
           ${item.svg}
@@ -341,10 +341,31 @@ function renderAmenities() {
         <h4 style="font-family: var(--font-serif); font-size: 1.2rem; color: var(--color-text-main); margin-bottom: 0.3rem;">${item.name}</h4>
         <p style="font-size: 0.82rem; color: var(--color-gold-primary); margin-bottom: 1.2rem; font-weight: 600;">${item.sub}</p>
       </div>
-      <button class="btn btn-outline btn-sm" style="width: 100%; padding: 0.35rem 0.65rem; font-size: 0.75rem;">View Details</button>
+      <button class="btn btn-outline btn-sm" onclick="navigateToAmenity('${item.id}'); event.stopPropagation();" style="width: 100%; padding: 0.35rem 0.65rem; font-size: 0.75rem;">View Details</button>
     </div>
   `).join('');
 }
+
+// Global Navigator to Amenities Page with Auto-Focus
+window.navigateToAmenity = function(amenityId) {
+  if (window.router) {
+    window.router.navigateTo('amenities');
+    if (amenityId) {
+      setTimeout(() => {
+        const targetCard = document.getElementById(`amenity-card-${amenityId}`);
+        if (targetCard) {
+          targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          targetCard.style.borderColor = 'var(--color-gold-primary)';
+          targetCard.style.boxShadow = '0 6px 20px rgba(140, 109, 56, 0.18)';
+          setTimeout(() => {
+            targetCard.style.borderColor = 'var(--color-border-subtle)';
+            targetCard.style.boxShadow = '0 2px 8px rgba(0,0,0,0.04)';
+          }, 2400);
+        }
+      }, 550);
+    }
+  }
+};
 
 // Render All Amenities Dedicated Page Grid
 function renderAmenitiesPage() {
@@ -353,7 +374,7 @@ function renderAmenitiesPage() {
 
   const items = window.AURELIA_DATA.amenities;
   container.innerHTML = items.map(item => `
-    <div class="amenity-full-card reveal-up in-view" data-amenity-cat="${item.category || 'services'}" style="background: #FFFFFF; border: 1px solid var(--color-border-subtle); border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.04); display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;" onmouseover="this.style.transform='translateY(-4px)'; this.style.borderColor='var(--color-gold-primary)';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--color-border-subtle)';">
+    <div class="amenity-full-card reveal-up in-view" id="amenity-card-${item.id}" data-amenity-cat="${item.category || 'services'}" style="background: #FFFFFF; border: 1px solid var(--color-border-subtle); border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.04); display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;" onmouseover="this.style.transform='translateY(-4px)'; this.style.borderColor='var(--color-gold-primary)';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--color-border-subtle)';">
       
       <!-- Card Image with Feature Badge -->
       <div style="position: relative; height: 210px; overflow: hidden;">
@@ -404,12 +425,12 @@ function renderAmenitiesPage() {
 
         <!-- Action Button Row -->
         <div style="display: flex; gap: 0.6rem; padding-top: 1.1rem; border-top: 1px solid var(--color-border-subtle);">
-          <button class="btn btn-gold btn-sm" onclick="openAmenityDetail('${item.id}')" style="flex: 1; padding: 0.7rem 0.9rem; font-size: 0.8rem; font-weight: 700; justify-content: center;">
-            Full Specifications
+          <button class="btn btn-gold btn-sm" onclick="document.getElementById('conciergeWidgetBtn').click();" style="flex: 1; padding: 0.7rem 0.9rem; font-size: 0.8rem; font-weight: 700; justify-content: center;">
+            Enquire & Reserve
           </button>
-          <button class="btn btn-outline btn-sm" onclick="document.getElementById('conciergeWidgetBtn').click();" style="padding: 0.7rem 0.9rem; font-size: 0.8rem; font-weight: 600;">
-            Enquire
-          </button>
+          <a href="#contact" class="btn btn-outline btn-sm" data-page-link="contact" style="padding: 0.7rem 0.9rem; font-size: 0.8rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center;">
+            Contact Desk
+          </a>
         </div>
 
       </div>

@@ -710,6 +710,23 @@ img {
   flex-wrap: wrap;
 }
 
+.hero-actions .btn-outline,
+.hero-slide .btn-outline,
+.hero-content .btn-outline {
+  border: 1.5px solid var(--color-gold-primary);
+  color: #FFFFFF !important;
+  background: rgba(18, 20, 29, 0.5);
+  backdrop-filter: blur(8px);
+}
+
+.hero-actions .btn-outline:hover,
+.hero-slide .btn-outline:hover,
+.hero-content .btn-outline:hover {
+  background: var(--color-gold-primary);
+  color: #FFFFFF !important;
+  border-color: var(--color-gold-primary);
+}
+
 /* Quick Search Floating Bar (Clean 5-Star Ivory Bar) */
 .quick-booking-bar {
   position: absolute;
@@ -2453,7 +2470,7 @@ img {
 
   .hero-actions .btn-outline {
     background: rgba(18, 20, 29, 0.7) !important;
-    border: 1.5px solid rgba(255, 255, 255, 0.35) !important;
+    border: 1.5px solid var(--color-gold-primary) !important;
     color: #FFFFFF !important;
   }
 
