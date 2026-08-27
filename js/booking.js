@@ -443,7 +443,7 @@ class BookingEngine {
       bodyContent.innerHTML = `
         <div class="booking-step-content reveal-fade in-view text-center">
           <div class="confirmation-crest">
-            <div class="crest-icon">✓</div>
+            <div class="crest-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
           </div>
           <h3 class="modal-step-title">Reservation Confirmed</h3>
           <p class="modal-step-subtitle">Your luxury stay at The Haveli Royale is secured.</p>

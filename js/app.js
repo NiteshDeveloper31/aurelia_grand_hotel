@@ -16,12 +16,14 @@ document.addEventListener('DOMContentLoaded', () => {
   renderOffers();
   renderEvents();
   renderAmenities();
+  renderAmenitiesPage();
   renderGalleryPage();
   renderTestimonials();
 
   // Setup Interaction Handlers
   setupSuiteFilters();
   setupMenuFilters();
+  setupAmenityFilters();
   setupGalleryFilters();
   setupLightbox();
   setupSuiteDetailModal();
@@ -46,38 +48,81 @@ function dismissPreloader() {
 window.addEventListener('load', dismissPreloader);
 setTimeout(dismissPreloader, 1000);
 
+// Amenity icon mapping for pills (exact match with reference design)
+function getAmenityIcon(amenity) {
+  const a = amenity.toLowerCase();
+  if (a.includes('wi-fi') || a.includes('wifi')) return '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2" style="vertical-align:middle;"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1"/></svg>';
+  if (a.includes('ac') || a.includes('air con') || a.includes('air conditioning')) return '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2" style="vertical-align:middle;"><path d="M7 8h10M4 12h16M7 16h10M4 8l3-3M20 16l-3 3"/></svg>';
+  if (a.includes('tv') || a.includes('smart tv') || a.includes('led')) return '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2" style="vertical-align:middle;"><rect x="2" y="7" width="20" height="14" rx="2"/><polyline points="16 3 12 7 8 3"/></svg>';
+  if (a.includes('shower') || a.includes('bath') || a.includes('rain')) return '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2" style="vertical-align:middle;"><path d="M4 4v5a7 7 0 0 0 7 7h2a7 7 0 0 0 7-7V4"/><line x1="12" y1="18" x2="12" y2="22"/></svg>';
+  if (a.includes('pool') || a.includes('jacuzzi')) return '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2" style="vertical-align:middle;"><path d="M2 20c2-1 4-1 6 0s4 1 6 0 4-1 6 0"/><path d="M2 16c2-1 4-1 6 0s4 1 6 0 4-1 6 0"/><path d="M6 12V4M10 12V4"/></svg>';
+  if (a.includes('breakfast') || a.includes('dining')) return '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2" style="vertical-align:middle;"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/></svg>';
+  if (a.includes('balcony') || a.includes('terrace') || a.includes('view')) return '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2" style="vertical-align:middle;"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 12h18"/></svg>';
+  if (a.includes('butler') || a.includes('service')) return '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2" style="vertical-align:middle;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>';
+  if (a.includes('coffee') || a.includes('bar') || a.includes('tea')) return '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2" style="vertical-align:middle;"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg>';
+  if (a.includes('safe') || a.includes('locker')) return '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2" style="vertical-align:middle;"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>';
+  // Default clean checkmark
+  return '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2.5" style="vertical-align:middle;"><polyline points="20 6 9 17 4 12"/></svg>';
+}
+
 // Render Rooms & Suites Cards
 function renderSuitesPage() {
   const containers = [document.getElementById('suitesGrid'), document.getElementById('suitesGridHome')];
   if (!window.AURELIA_DATA) return;
 
   const suites = window.AURELIA_DATA.suites;
-  const cardsHtml = suites.map(suite => `
+  const cardsHtml = suites.map(suite => {
+    const roomsLeft = suite.roomsLeft || 2;
+    const breakfastIncluded = suite.breakfastIncluded !== undefined ? suite.breakfastIncluded : true;
+    
+    // Format 4 standard amenity pills exactly as seen in reference image
+    const standardAmenities = ['Free Wi-Fi', 'AC', 'Smart TV', 'Rain Shower'];
+    const displayAmenities = (suite.amenities && suite.amenities.length >= 4) ? 
+      suite.amenities.slice(0, 4) : standardAmenities;
+
+    return `
     <div class="suite-card tilt-card reveal-up in-view" data-category="${suite.category}" onclick="openSuiteDetail('${suite.id}')" style="cursor: pointer;">
       <div class="suite-card-img">
         <img src="${suite.image}" onerror="this.src='${suite.fallback}'" alt="${suite.title}" loading="lazy">
-        <span class="suite-badge">${suite.badge}</span>
+        <span class="suite-badge">${suite.badge || 'POPULAR CHOICE'}</span>
+        <div class="room-overlay-badges">
+          <span class="room-overlay-badge urgency"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 23c-4.97 0-9-4.03-9-9 0-3.64 2.16-6.78 5.27-8.23.51-.24 1.12.04 1.25.6.3 1.29.98 2.45 1.93 3.32.22.2.55.22.79.05.69-.49 1.16-1.25 1.34-2.1.09-.45.45-.79.91-.84.46-.05.9.19 1.09.61C16.89 9.87 18 12.31 18 15c0 .74-.1 1.45-.29 2.13-.13.48.16.97.64 1.1.49.12.98-.17 1.11-.66C19.79 16.51 20 15.3 20 14c0-3.48-1.57-6.59-4.04-8.67-.38-.32-.91-.32-1.29 0C12.3 7.31 10.5 10.42 10.5 14c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5c0-.41-.34-.75-.75-.75-.28 0-.5-.22-.5-.5 0-.96.42-1.83 1.09-2.42 1.31 1.17 2.16 2.87 2.16 4.67 0 3.86-3.14 7-7 7z"/></svg> Only ${roomsLeft} rooms left</span>
+          ${breakfastIncluded ? '<span class="room-overlay-badge breakfast"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg> Breakfast Included</span>' : ''}
+        </div>
         <button class="suite-quick-view-btn" onclick="openSuiteDetail('${suite.id}'); event.stopPropagation();" data-cursor="VIEW">View Details</button>
       </div>
       <div class="suite-card-body">
         <div class="suite-meta">
-          <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><path d="M21 3L3 21M3 21h5M3 21v-5M8 16l3 3M11 13l3 3M14 10l3 3M17 7l3 3"/></svg>${suite.size}</span>
-          <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>${suite.capacity}</span>
-          <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><path d="M2 4v16M2 8h20v12M2 17h20M6 8v3M10 8v3"/></svg>${suite.bedType}</span>
+          <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><path d="M21 3L3 21M3 21h5M3 21v-5M8 16l3 3M11 13l3 3M14 10l3 3M17 7l3 3"/></svg>${suite.size}</span>
+          <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>${suite.capacity}</span>
+          <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><path d="M2 4v16M2 8h20v12M2 17h20M6 8v3M10 8v3"/></svg>${suite.bedType}</span>
         </div>
         <h3 class="suite-title">${suite.title}</h3>
-        <p class="suite-subtitle" style="margin-bottom: 1.2rem;">${suite.subtitle}</p>
+        <p class="suite-subtitle">${suite.subtitle}</p>
+
+        <div class="room-amenity-pills">
+          ${displayAmenities.map(a => `<span class="room-amenity-pill">${getAmenityIcon(a)} ${a}</span>`).join('')}
+        </div>
+
+        <div class="room-free-cancel">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#276749" stroke-width="2.2" style="vertical-align:middle;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+          Free Cancellation
+        </div>
 
         <div class="suite-card-footer">
           <div class="suite-price">
             <span class="price-val">₹${suite.price.toLocaleString('en-IN')}</span>
-            <span class="price-unit">/ night</span>
+            <span class="price-unit">/night</span>
           </div>
-          <button class="btn btn-gold btn-sm" onclick="openSuiteDetail('${suite.id}'); event.stopPropagation();">View Details</button>
+          <div class="footer-buttons">
+            <button class="btn-view-details" onclick="openSuiteDetail('${suite.id}'); event.stopPropagation();">VIEW DETAILS</button>
+            <button class="btn-book-now" data-open-booking data-booking-type="suite" data-item-id="${suite.id}" onclick="event.stopPropagation();">BOOK NOW</button>
+          </div>
         </div>
       </div>
     </div>
-  `).join('');
+  `;
+  }).join('');
 
   containers.forEach(container => {
     if (container) container.innerHTML = cardsHtml;
@@ -120,26 +165,46 @@ function renderDiningMenuPage() {
 
   const items = window.AURELIA_DATA.menuItems;
 
-  const createCardHtml = (item) => `
-    <div class="menu-item-card reveal-up in-view" data-menu-category="${item.category}" onclick="openDishDetail('${item.id}')" style="cursor: pointer; position: relative; background: #FFFFFF; border: 1px solid var(--color-border-subtle); border-radius: 10px; padding: 1.2rem; box-shadow: 0 10px 30px rgba(26,29,36,0.05);">
+  const createCardHtml = (item) => {
+    const isVeg = !item.tags.some(t => {
+      const s = t.toLowerCase();
+      return s.includes('non-veg') || s.includes('chicken') || s.includes('mutton') || s.includes('fish') || s.includes('prawn');
+    });
+    const isDessert = item.category === 'desserts';
+    const prepTime = isDessert ? '5–10 Mins' : '15–20 Mins';
+    const serves = isDessert ? 'Serves 1–2' : 'Serves 2';
+
+    return `
+    <div class="menu-item-card reveal-up in-view" data-menu-category="${item.category}" onclick="openDishDetail('${item.id}')" style="cursor: pointer; position: relative; background: #FFFFFF; border: 1px solid var(--color-border-subtle); border-radius: 10px; padding: 1.2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
       <div style="height: 180px; border-radius: 8px; overflow: hidden; margin-bottom: 1rem; position: relative;">
         <img src="${item.image}" onerror="this.src=generatePlaceholderSvg('${item.title}', 'INDIAN GASTRONOMY', 600, 400, 'dining')" alt="${item.title}" style="width:100%; height:100%; object-fit:cover;">
+        <div style="position: absolute; top: 10px; left: 10px; display: flex; gap: 4px;">
+          <span style="background: ${isVeg ? '#38A169' : '#E53E3E'}; color: #FFFFFF; font-size: 0.65rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 4px; text-transform: uppercase;">${isVeg ? 'Pure Veg' : 'Non-Veg'}</span>
+        </div>
         ${item.offer ? `<span style="position: absolute; top: 10px; right: 10px; background: var(--color-gold-primary); color: #FFFFFF; font-size: 0.68rem; font-weight: 700; padding: 0.25rem 0.6rem; border-radius: 4px; text-transform: uppercase;">${item.offer}</span>` : ''}
       </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.72rem; color: var(--color-text-muted); margin-bottom: 0.35rem;">
+        <span style="color: var(--color-gold-primary); font-weight: 600; text-transform: uppercase; display: flex; align-items: center; gap: 4px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>${prepTime} • <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>${serves}</span>
+        <span style="color: var(--color-gold-primary); font-weight: 700; display: flex; align-items: center; gap: 3px;"><svg width="11" height="11" viewBox="0 0 24 24" fill="#8C6D38"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>4.8 (126)</span>
+      </div>
+
       <div class="menu-item-header">
         <h4 class="menu-item-title" style="font-family: var(--font-serif); font-size: 1.15rem; color: var(--color-text-main);">${item.title}</h4>
         <span class="menu-item-price" style="color: var(--color-gold-primary); font-weight: 700;">${item.price}</span>
       </div>
       <p class="menu-item-desc" style="font-size: 0.88rem; color: var(--color-text-muted); margin-bottom: 0.8rem;">${item.desc.substring(0, 95)}...</p>
-      ${item.ingredients ? `<div style="font-size:0.78rem; color:var(--color-gold-primary); margin-bottom:0.8rem;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><path d="M12 2a10 10 0 0 1 10 10c0 5.523-4.477 10-10 10S2 17.523 2 12a10 10 0 0 1 10-10z"/></svg><strong>Key Ingredients:</strong> ${item.ingredients}</div>` : ''}
+      ${item.ingredients ? `<div style="font-size:0.78rem; color:var(--color-gold-primary); margin-bottom:0.8rem;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg><strong>Ingredients:</strong> ${item.ingredients}</div>` : ''}
       <div class="menu-item-tags" style="display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: space-between; align-items: center; margin-top: 0.6rem;">
-        <div>
-          ${item.tags.map(t => `<span class="menu-tag" style="background: #FAF8F5; color: var(--color-gold-primary); padding: 0.2rem 0.5rem; border-radius: 3px; font-size: 0.72rem; border: 1px solid var(--color-border-subtle);">${t}</span>`).join('')}
+        <div style="display: flex; gap: 0.3rem; flex-wrap: wrap;">
+          <span class="menu-tag" style="background: #FAF8F5; color: var(--color-gold-primary); padding: 0.2rem 0.5rem; border-radius: 3px; font-size: 0.72rem; border: 1px solid var(--color-border-subtle);">Bestseller</span>
+          ${item.tags.filter(t => t.toLowerCase() !== 'pure veg').map(t => `<span class="menu-tag" style="background: #FAF8F5; color: var(--color-gold-primary); padding: 0.2rem 0.5rem; border-radius: 3px; font-size: 0.72rem; border: 1px solid var(--color-border-subtle);">${t}</span>`).join('')}
         </div>
         <button class="btn btn-gold btn-sm" style="padding: 0.35rem 0.7rem; font-size: 0.72rem;">View Details</button>
       </div>
     </div>
   `;
+  };
 
   // Home Page gets STRICTLY 6 Dishes
   if (homeContainer) {
@@ -213,7 +278,7 @@ function renderOffers() {
   ];
 
   const cardsHtml = offers.slice(0, 3).map(offer => `
-    <div class="offer-card reveal-up in-view" style="background: #FFFFFF; border: 1px solid var(--color-border-subtle); border-radius: 10px; overflow: hidden; box-shadow: 0 10px 30px rgba(26,29,36,0.05); display: flex; flex-direction: column; justify-content: space-between;">
+    <div class="offer-card reveal-up in-view" style="background: #FFFFFF; border: 1px solid var(--color-border-subtle); border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.04); display: flex; flex-direction: column; justify-content: space-between;">
       <div style="height: 190px; overflow: hidden; position: relative;">
         <img src="${offer.image}" alt="${offer.title}" style="width: 100%; height: 100%; object-fit: cover;">
         <span style="position: absolute; top: 12px; right: 12px; background: var(--color-gold-primary); color: #FFFFFF; font-size: 0.72rem; font-weight: 700; padding: 0.3rem 0.7rem; border-radius: 4px; text-transform: uppercase;">${offer.discount}</span>
@@ -247,7 +312,7 @@ function renderEvents() {
     <div class="exp-card tilt-card reveal-up in-view" onclick="openEventDetail('${evt.id}')" style="cursor: pointer;">
       <div class="exp-img">
         <img src="${evt.image}" onerror="this.src='${evt.fallback}'" alt="${evt.title}">
-        <span class="exp-duration">🏰 ${evt.capacity}</span>
+        <span class="exp-duration"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2" style="vertical-align:middle; margin-right:3px;"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/></svg>${evt.capacity}</span>
       </div>
       <div class="exp-body">
         <span class="exp-subtitle">BANQUETS & EVENTS</span>
@@ -268,7 +333,7 @@ function renderAmenities() {
 
   const items = window.AURELIA_DATA.amenities;
   container.innerHTML = items.map(item => `
-    <div class="menu-item-card reveal-up in-view" onclick="openAmenityDetail('${item.id}')" style="cursor: pointer; background: #FFFFFF; border: 1px solid var(--color-border-subtle); border-radius: 10px; padding: 1.5rem; transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease; box-shadow: 0 8px 25px rgba(26,29,36,0.04); display: flex; flex-direction: column; justify-content: space-between;" onmouseover="this.style.transform='translateY(-6px)'; this.style.borderColor='var(--color-gold-primary)';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--color-border-subtle)';">
+    <div class="menu-item-card reveal-up in-view" onclick="openAmenityDetail('${item.id}')" style="cursor: pointer; background: #FFFFFF; border: 1px solid var(--color-border-subtle); border-radius: 10px; padding: 1.5rem; transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between;" onmouseover="this.style.transform='translateY(-4px)'; this.style.borderColor='var(--color-gold-primary)';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--color-border-subtle)';">
       <div>
         <div style="width: 48px; height: 48px; border-radius: 50%; background: #FAF8F5; border: 1px solid var(--color-border-subtle); color: var(--color-gold-primary); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
           ${item.svg}
@@ -279,6 +344,102 @@ function renderAmenities() {
       <button class="btn btn-outline btn-sm" style="width: 100%; padding: 0.35rem 0.65rem; font-size: 0.75rem;">View Details</button>
     </div>
   `).join('');
+}
+
+// Render All Amenities Dedicated Page Grid
+function renderAmenitiesPage() {
+  const container = document.getElementById('allAmenitiesPageGrid');
+  if (!container || !window.AURELIA_DATA) return;
+
+  const items = window.AURELIA_DATA.amenities;
+  container.innerHTML = items.map(item => `
+    <div class="amenity-full-card reveal-up in-view" data-amenity-cat="${item.category || 'services'}" style="background: #FFFFFF; border: 1px solid var(--color-border-subtle); border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.04); display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;" onmouseover="this.style.transform='translateY(-4px)'; this.style.borderColor='var(--color-gold-primary)';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--color-border-subtle)';">
+      
+      <!-- Card Image with Feature Badge -->
+      <div style="position: relative; height: 210px; overflow: hidden;">
+        <img src="${item.image}" alt="${item.name}" style="width: 100%; height: 100%; object-fit: cover;">
+        <div style="position: absolute; top: 12px; left: 12px; display: flex; gap: 0.4rem;">
+          <span style="background: rgba(18, 20, 29, 0.85); backdrop-filter: blur(4px); color: var(--color-gold-light); font-size: 0.7rem; font-weight: 700; padding: 0.25rem 0.6rem; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px;">
+            ${(item.category || 'FACILITY').toUpperCase()}
+          </span>
+        </div>
+      </div>
+
+      <!-- Card Body -->
+      <div style="padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between;">
+        <div>
+          <!-- Title & Icon Row -->
+          <div style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.8rem;">
+            <div style="width: 42px; height: 42px; border-radius: 50%; background: #FAF8F5; border: 1px solid var(--color-border-subtle); display: flex; align-items: center; justify-content: center; color: var(--color-gold-primary); flex-shrink: 0;">
+              ${item.svg}
+            </div>
+            <div>
+              <h3 style="font-family: var(--font-serif); font-size: 1.35rem; color: var(--color-text-main); margin: 0 0 0.15rem 0;">${item.name}</h3>
+              <span style="font-size: 0.76rem; color: var(--color-gold-primary); font-weight: 600;">${item.sub}</span>
+            </div>
+          </div>
+
+          <!-- Description -->
+          <p style="font-size: 0.88rem; line-height: 1.6; color: var(--color-text-muted); margin-bottom: 1.1rem;">${item.desc}</p>
+
+          <!-- Specs Info Bar -->
+          <div style="background: #FAF8F5; border: 1px solid var(--color-border-subtle); border-radius: 6px; padding: 0.55rem 0.8rem; font-size: 0.78rem; color: var(--color-text-muted); margin-bottom: 1.1rem; display: flex; align-items: center; gap: 0.4rem;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2" style="flex-shrink:0;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span><strong style="color: var(--color-text-main);">Specs:</strong> ${item.specs}</span>
+          </div>
+
+          <!-- Inclusions List -->
+          <div style="margin-bottom: 1.3rem;">
+            <span style="font-size: 0.72rem; color: var(--color-gold-primary); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; display: block; margin-bottom: 0.5rem;">Inclusive Highlights</span>
+            <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.45rem; font-size: 0.82rem; color: var(--color-text-muted);">
+              ${(item.inclusions || []).map(inc => `
+                <li style="display: flex; align-items: center; gap: 0.45rem;">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2.5" style="flex-shrink: 0;"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>${inc}</span>
+                </li>
+              `).join('')}
+            </ul>
+          </div>
+        </div>
+
+        <!-- Action Button Row -->
+        <div style="display: flex; gap: 0.6rem; padding-top: 1.1rem; border-top: 1px solid var(--color-border-subtle);">
+          <button class="btn btn-gold btn-sm" onclick="openAmenityDetail('${item.id}')" style="flex: 1; padding: 0.7rem 0.9rem; font-size: 0.8rem; font-weight: 700; justify-content: center;">
+            Full Specifications
+          </button>
+          <button class="btn btn-outline btn-sm" onclick="document.getElementById('conciergeWidgetBtn').click();" style="padding: 0.7rem 0.9rem; font-size: 0.8rem; font-weight: 600;">
+            Enquire
+          </button>
+        </div>
+
+      </div>
+    </div>
+  `).join('');
+}
+
+// Setup Amenities Page Category Filter Handler
+function setupAmenityFilters() {
+  const filterBtns = document.querySelectorAll('[data-filter-amenity]');
+  const container = document.getElementById('allAmenitiesPageGrid');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const filter = btn.getAttribute('data-filter-amenity');
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      if (!container) return;
+      const cards = container.querySelectorAll('.amenity-full-card');
+      cards.forEach(card => {
+        const cat = card.getAttribute('data-amenity-cat');
+        if (filter === 'all' || cat === filter) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
 }
 
 // Render Gallery Grid
@@ -359,7 +520,7 @@ function renderTestimonials() {
   const tests = window.AURELIA_DATA.testimonials;
   slider.innerHTML = tests.map(t => `
     <div class="testimonial-card reveal-fade in-view">
-      <div class="stars" style="color: var(--color-gold-primary); margin-bottom: 0.8rem;">${'★'.repeat(t.rating)}</div>
+      <div class="stars" style="color: var(--color-gold-primary); margin-bottom: 0.8rem; display: flex; gap: 3px;">${Array.from({length: t.rating}).map(() => '<svg width="14" height="14" viewBox="0 0 24 24" fill="#8C6D38"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>').join('')}</div>
       <blockquote class="quote-text">"${t.quote}"</blockquote>
       <div class="author-row" style="display: flex; align-items: center; gap: 1rem; margin-top: 1.2rem;">
         <img src="${t.avatar}" onerror="this.src='${t.avatarFallback}'" alt="${t.author}" class="author-avatar" style="width: 54px; height: 54px; border-radius: 50%; border: 2px solid var(--color-gold-primary); object-fit: cover; flex-shrink: 0;">
@@ -463,7 +624,7 @@ window.openSuiteDetail = function(suiteId) {
       </div>
 
       <!-- Suite Hero Showcase Card -->
-      <div style="position: relative; border-radius: 12px; overflow: hidden; border: 1px solid var(--color-border-glass); margin-bottom: 2.5rem; box-shadow: 0 20px 60px rgba(0,0,0,0.6);">
+      <div style="position: relative; border-radius: 12px; overflow: hidden; border: 1px solid var(--color-border-subtle); margin-bottom: 2.5rem; box-shadow: 0 4px 16px rgba(0,0,0,0.08);">
         <img src="${suite.image}" alt="${suite.title}" style="width: 100%; height: 440px; object-fit: cover; filter: brightness(0.88);">
         
         <!-- Hero Overlay Badges -->
@@ -486,13 +647,13 @@ window.openSuiteDetail = function(suiteId) {
         <!-- Left Column: Full Specifications, Description & Signature Amenities -->
         <div style="display: flex; flex-direction: column; gap: 1.8rem;">
           <!-- Architecture & Overview Narrative -->
-          <div style="background: #FFFFFF; border: 1px solid var(--color-border-subtle); border-radius: 10px; padding: 1.8rem; box-shadow: 0 8px 30px rgba(26,29,36,0.04);">
+          <div style="background: #FFFFFF; border: 1px solid var(--color-border-subtle); border-radius: 10px; padding: 1.8rem; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
             <h3 style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--color-text-main); margin-bottom: 0.8rem;">Suite Overview & Architecture</h3>
             <p style="font-size: 0.95rem; line-height: 1.65; color: var(--color-text-muted); margin: 0;">${suite.description}</p>
           </div>
 
           <!-- Room Specifications 6-Card Grid -->
-          <div style="background: #FFFFFF; border: 1px solid var(--color-border-subtle); border-radius: 10px; padding: 1.8rem; box-shadow: 0 8px 30px rgba(26,29,36,0.04);">
+          <div style="background: #FFFFFF; border: 1px solid var(--color-border-subtle); border-radius: 10px; padding: 1.8rem; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
             <h3 style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--color-text-main); margin-bottom: 1.2rem;">Room Specifications & Specs</h3>
             
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem;">
@@ -524,7 +685,7 @@ window.openSuiteDetail = function(suiteId) {
           </div>
 
           <!-- Included Signature Amenities -->
-          <div style="background: #FFFFFF; border: 1px solid var(--color-border-subtle); border-radius: 10px; padding: 1.8rem; flex-grow: 1; box-shadow: 0 8px 30px rgba(26,29,36,0.04);">
+          <div style="background: #FFFFFF; border: 1px solid var(--color-border-subtle); border-radius: 10px; padding: 1.8rem; flex-grow: 1; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
             <h3 style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--color-text-main); margin-bottom: 1.2rem;">Inclusive Suite Privileges</h3>
             
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.8rem;">
@@ -550,7 +711,7 @@ window.openSuiteDetail = function(suiteId) {
         <div style="display: flex; flex-direction: column; gap: 1.5rem; justify-content: space-between;">
           
           <!-- Box 1: Instant Suite Reservation & Pricing -->
-          <div style="background: #FFFFFF; border: 1px solid var(--color-gold-primary); border-radius: 12px; padding: 1.8rem; box-shadow: 0 12px 35px rgba(26,29,36,0.08);">
+          <div style="background: #FFFFFF; border: 1px solid var(--color-gold-primary); border-radius: 12px; padding: 1.8rem; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
             
             <div style="margin-bottom: 1.2rem; border-bottom: 1px solid var(--color-border-subtle); padding-bottom: 1rem;">
               <span style="font-size: 0.78rem; color: var(--color-gold-primary); text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Instant Suite Reservation</span>
@@ -577,7 +738,7 @@ window.openSuiteDetail = function(suiteId) {
           </div>
 
           <!-- Box 2: Palace Check-In & Stay Policy Box -->
-          <div style="background: #FFFFFF; border: 1px solid var(--color-border-subtle); border-radius: 10px; padding: 1.4rem; box-shadow: 0 8px 30px rgba(26,29,36,0.04);">
+          <div style="background: #FFFFFF; border: 1px solid var(--color-border-subtle); border-radius: 10px; padding: 1.4rem; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
             <h4 style="font-size: 0.85rem; color: var(--color-gold-primary); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 0.8rem; display: flex; align-items: center; font-weight: 600;">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2" style="margin-right: 6px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
               Check-In & Guarantee Policy
@@ -624,6 +785,60 @@ window.openSuiteDetail = function(suiteId) {
 
       </div>
     `;
+
+    // Build reviews section HTML
+    const reviews = suite.reviews || [];
+    let reviewsHtml = '';
+    if (reviews.length > 0) {
+      const avgRating = (reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length).toFixed(1);
+      const fullStars = Math.floor(avgRating);
+      const starFull = '<svg width="18" height="18" viewBox="0 0 24 24" fill="#F6AD55" stroke="#F6AD55" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
+      const starEmpty = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E8E2D9" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
+      const sStarFull = '<svg width="14" height="14" viewBox="0 0 24 24" fill="#F6AD55" stroke="#F6AD55" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
+      const sStarEmpty = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E8E2D9" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
+
+      const summaryStarsHtml = Array.from({length: 5}, (_, i) => i < fullStars ? starFull : starEmpty).join('');
+
+      let cardsHtml2 = '';
+      reviews.forEach((r, idx) => {
+        const initials = r.name.split(' ').map(n => n[0]).join('').slice(0, 2);
+        const starsRow = Array.from({length: 5}, (_, i) => i < r.rating ? sStarFull : sStarEmpty).join('');
+        const hiddenAttr = idx >= 6 ? ' style="display:none;" data-hidden-review' : '';
+        cardsHtml2 += '<div class="review-card"' + hiddenAttr + '>' +
+          '<div class="review-card-header">' +
+            '<div class="review-avatar">' + initials + '</div>' +
+            '<div class="review-info">' +
+              '<div class="review-name">' + r.name + '</div>' +
+              '<div class="review-location">' + r.location + '</div>' +
+            '</div>' +
+            '<div class="review-date">' + r.date + '</div>' +
+          '</div>' +
+          '<div class="review-stars">' + starsRow + '</div>' +
+          '<p class="review-text">' + r.text + '</p>' +
+        '</div>';
+      });
+
+      const showMoreBtn = reviews.length > 6 ?
+        '<div class="reviews-show-more"><button onclick="document.querySelectorAll(\'[data-hidden-review]\').forEach(function(el){el.style.display=\'block\'});this.parentElement.style.display=\'none\';">Show All ' + reviews.length + ' Reviews</button></div>' : '';
+
+      reviewsHtml = '<div class="room-reviews-section">' +
+        '<h3 style="font-family: var(--font-serif); font-size: 1.8rem; color: var(--color-text-main); margin-bottom: 1.5rem;">Guest Reviews</h3>' +
+        '<div class="review-summary">' +
+          '<div class="review-summary-score">' +
+            '<div class="big-rating">' + avgRating + '</div>' +
+            '<div class="rating-label">out of 5</div>' +
+          '</div>' +
+          '<div>' +
+            '<div class="review-summary-stars">' + summaryStarsHtml + '</div>' +
+            '<div class="review-summary-info" style="margin-top: 0.4rem;">Based on <strong>' + reviews.length + ' verified reviews</strong></div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="reviews-grid">' + cardsHtml2 + '</div>' +
+        showMoreBtn +
+      '</div>';
+    }
+
+    container.innerHTML += reviewsHtml;
 
     // Also populate modal for fallback compatibility
     const modalBody = document.getElementById('suiteDetailBody');
@@ -706,47 +921,164 @@ window.openDishDetail = function(dishId) {
   const dish = items.find(d => d.id === dishId) || items[0];
   if (!dish) return;
 
+  const isVeg = !dish.tags.some(t => {
+    const s = t.toLowerCase();
+    return s.includes('non-veg') || s.includes('chicken') || s.includes('mutton') || s.includes('fish') || s.includes('prawn') || s.includes('meat');
+  });
+  const isDessert = dish.category === 'desserts';
+  const isSouth = dish.category === 'south-indian';
+  const isBiryani = dish.title.toLowerCase().includes('biryani');
+
+  const categoryName = dish.category === 'north-indian' ? 'North Indian' :
+                       dish.category === 'south-indian' ? 'South Indian' :
+                       dish.category === 'mughlai' ? 'Mughlai & Biryani' :
+                       dish.category === 'continental' ? 'Continental' :
+                       dish.category === 'chinese' ? 'Pan-Asian & Chinese' : 'Desserts & Sweets';
+
+  const subCategory = isDessert ? 'Dessert / Royal Beverage' : isBiryani ? 'Royal Rice & Dum Biryani' : 'Main Course';
+  const spiceLevel = isDessert ? 'Mild Sweet' : (dish.desc.toLowerCase().includes('spicy') || dish.tags.some(t => t.toLowerCase().includes('spicy')) ? 'Spicy (Authentic Indian)' : 'Medium Spiced');
+  const prepTime = isDessert ? '5–10 Minutes' : '15–20 Minutes';
+  const servingSize = isDessert ? 'Serves 1–2' : 'Serves 2';
+  const portion = 'Regular / Full';
+  const calories = isDessert ? 'Approx. 280–340 kcal' : 'Approx. 420 kcal (Rich Protein)';
+  const rating = '4.8';
+  const reviewsCount = '126 Reviews';
+  const popularWith = 'Popular among dinner guests • Guest favourite';
+  const chefRec = dish.title.includes('Paneer') ? 'Recommended with Butter Naan, Garlic Naan & Jeera Rice' :
+                  isSouth ? 'Best enjoyed with hot Gunpowder & Sambar' :
+                  isBiryani ? 'Best enjoyed with Mirchi Ka Salan & Cucumber Raita' :
+                  isDessert ? 'Best served chilled with Rabri or Kesar Milk' : 'Recommended with Laccha Paratha & Steamed Basmati Rice';
+  const bestPairedWith = dish.title.includes('Paneer') ? ['Butter Naan', 'Garlic Naan', 'Jeera Rice', 'Laccha Paratha'] :
+                        isSouth ? ['Sambar', 'Coconut Chutney', 'Filter Coffee', 'Butter Naan'] :
+                        isBiryani ? ['Mirchi Ka Salan', 'Burani Raita', 'Sirka Onion', 'Butter Naan'] :
+                        isDessert ? ['Kesar Rabri', 'Vanilla Bean Scoop', 'Masala Chai', 'Almond Flakes'] :
+                        ['Butter Naan', 'Garlic Naan', 'Jeera Rice', 'Laccha Paratha'];
+  const dietaryInfo = isVeg ? 'Vegetarian • Vegan & Jain Available' : 'Non-Vegetarian • Halal Certified';
+  const allergenInfo = isVeg ? 'Contains Dairy, Contains Cashews / Nuts' : 'Contains Poultry / Meat, Dairy, Nuts';
+  const customizations = isVeg ? ['Less Spicy', 'Extra Cream', 'Jain Preparation', 'Extra Gravy'] : ['Mild Spicy', 'Extra Gravy', 'Boneless Option', 'Less Oil'];
+  const chefNote = 'Prepared fresh in small batches using traditional copper handis and authentic slow-dum technique to preserve natural aroma and flavours.';
+
   const body = document.getElementById('dishDetailBody');
   if (body) {
     body.innerHTML = `
-      <div class="dish-detail-layout" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; align-items: start;">
+      <div class="dish-detail-layout" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.8rem; align-items: start;">
         
-        <!-- Left Column: HD Dish Photo & Offer Badge Box -->
+        <!-- Left Column: HD Dish Photo & Quick Specs -->
         <div class="dish-detail-media">
-          <img src="${dish.image}" onerror="this.src=generatePlaceholderSvg('${dish.title}', 'FINE DINING DISH', 600, 400, 'dining')" alt="${dish.title}" style="width: 100%; height: 280px; object-fit: cover; border-radius: 8px; border: 1px solid var(--color-border-subtle); margin-bottom: 1.2rem;">
-          
-          <!-- Dish Offer & Special Inclusions Box -->
-          <div style="background: #FAF8F5; border: 1px solid var(--color-border-subtle); border-radius: 8px; padding: 1.2rem; margin-bottom: 1rem;">
-            <span style="background: var(--color-gold-primary); color: #FFFFFF; font-size: 0.7rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 4px; text-transform: uppercase; display: inline-block; margin-bottom: 0.5rem;">Special Dining Offer</span>
-            <h4 style="font-size: 1.1rem; color: var(--color-text-main); margin-bottom: 0.4rem;">${dish.offer || '15% Discount on Dinner Booking'}</h4>
-            <p style="font-size: 0.84rem; color: var(--color-text-muted); margin: 0;">Included automatically when reserving a table at Le Celestia Fine Dining.</p>
+          <div style="position: relative; border-radius: 8px; overflow: hidden; border: 1px solid var(--color-border-subtle); margin-bottom: 1rem;">
+            <img src="${dish.image}" onerror="this.src=generatePlaceholderSvg('${dish.title}', 'FINE DINING DISH', 600, 400, 'dining')" alt="${dish.title}" style="width: 100%; height: 250px; object-fit: cover; display: block;">
+            
+            <div style="position: absolute; top: 10px; left: 10px; display: flex; gap: 0.3rem; flex-wrap: wrap;">
+              <span style="background: var(--color-gold-primary); color: #FFFFFF; font-size: 0.68rem; font-weight: 700; padding: 0.25rem 0.6rem; border-radius: 4px; text-transform: uppercase;">${isVeg ? 'Pure Veg' : 'Non-Veg'}</span>
+              <span style="background: rgba(18, 20, 29, 0.85); backdrop-filter: blur(4px); color: #FFFFFF; font-size: 0.68rem; font-weight: 700; padding: 0.25rem 0.6rem; border-radius: 4px; display: flex; align-items: center; gap: 3px;"><svg width="11" height="11" viewBox="0 0 24 24" fill="#C9A063"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>${rating} (${reviewsCount})</span>
+            </div>
+            
+            <div style="position: absolute; bottom: 10px; left: 10px;">
+              <span style="background: rgba(47, 133, 90, 0.95); color: #FFFFFF; font-size: 0.68rem; font-weight: 700; padding: 0.25rem 0.6rem; border-radius: 4px; display: flex; align-items: center; gap: 4px;"><span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:#fff;"></span>Available Today</span>
+            </div>
+          </div>
+
+          <!-- Quick Specifications Grid -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.8rem;">
+            <div style="background: #FAF8F5; border: 1px solid var(--color-border-subtle); border-radius: 6px; padding: 0.55rem 0.75rem;">
+              <span style="font-size: 0.68rem; color: var(--color-gold-primary); text-transform: uppercase; font-weight: 600; display: flex; align-items: center; gap: 4px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Preparation Time</span>
+              <strong style="font-size: 0.82rem; color: var(--color-text-main);">${prepTime}</strong>
+            </div>
+            <div style="background: #FAF8F5; border: 1px solid var(--color-border-subtle); border-radius: 6px; padding: 0.55rem 0.75rem;">
+              <span style="font-size: 0.68rem; color: var(--color-gold-primary); text-transform: uppercase; font-weight: 600; display: flex; align-items: center; gap: 4px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Serving Size</span>
+              <strong style="font-size: 0.82rem; color: var(--color-text-main);">${servingSize} • ${portion}</strong>
+            </div>
+            <div style="background: #FAF8F5; border: 1px solid var(--color-border-subtle); border-radius: 6px; padding: 0.55rem 0.75rem;">
+              <span style="font-size: 0.68rem; color: var(--color-gold-primary); text-transform: uppercase; font-weight: 600; display: flex; align-items: center; gap: 4px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>Spice Level</span>
+              <strong style="font-size: 0.82rem; color: var(--color-text-main);">${spiceLevel}</strong>
+            </div>
+            <div style="background: #FAF8F5; border: 1px solid var(--color-border-subtle); border-radius: 6px; padding: 0.55rem 0.75rem;">
+              <span style="font-size: 0.68rem; color: var(--color-gold-primary); text-transform: uppercase; font-weight: 600; display: flex; align-items: center; gap: 4px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>Calories / Nutrition</span>
+              <strong style="font-size: 0.82rem; color: var(--color-text-main);">${calories}</strong>
+            </div>
+          </div>
+
+          <!-- Dining Options & Popular With -->
+          <div style="background: #FAF8F5; border: 1px solid var(--color-border-subtle); border-radius: 6px; padding: 0.75rem 0.9rem; margin-bottom: 0.8rem; font-size: 0.78rem; color: var(--color-text-muted);">
+            <div style="margin-bottom: 0.35rem;"><strong style="color: var(--color-text-main);">Dining Option:</strong> Dine-In • Room Service • Takeaway</div>
+            <div><strong style="color: var(--color-text-main);">Popular With:</strong> ${popularWith}</div>
+          </div>
+
+          <!-- Dish Offer Box -->
+          <div style="background: #FAF8F5; border: 1px solid var(--color-border-subtle); border-radius: 8px; padding: 0.9rem;">
+            <span style="background: var(--color-gold-primary); color: #FFFFFF; font-size: 0.65rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 4px; text-transform: uppercase; display: inline-block; margin-bottom: 0.3rem;">Special Dining Offer</span>
+            <h4 style="font-size: 0.92rem; color: var(--color-text-main); margin-bottom: 0.2rem;">${dish.offer || '15% OFF on Dinner Booking'}</h4>
+            <p style="font-size: 0.78rem; color: var(--color-text-muted); margin: 0;">Included automatically when reserving a table at Le Celestia Fine Dining.</p>
           </div>
         </div>
 
-        <!-- Right Column: Dish Specs, Detailed Description & Ingredients -->
+        <!-- Right Column: Dish Name, Price, Description, Ingredients, Pairings, Customizations & CTA -->
         <div class="dish-detail-info">
-          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.6rem;">
-            ${dish.tags.map(t => `<span style="background: #FAF8F5; color: var(--color-gold-primary); padding: 0.25rem 0.7rem; border-radius: 4px; font-size: 0.75rem; text-transform: uppercase; border: 1px solid var(--color-border-subtle);">${t}</span>`).join('')}
+          
+          <!-- Category & Subcategory -->
+          <div style="font-size: 0.72rem; color: var(--color-gold-primary); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700; margin-bottom: 0.3rem;">
+            ${categoryName} • ${subCategory}
           </div>
 
-          <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--color-text-main); margin-bottom: 0.4rem;">${dish.title}</h2>
-          <p style="font-size: 1.4rem; color: var(--color-gold-primary); font-weight: 700; margin-bottom: 1.2rem;">${dish.price} <span style="font-size: 0.85rem; font-weight: 400; color: var(--color-text-muted);">(Taxes & Service Included)</span></p>
+          <!-- Badges Row -->
+          <div style="display: flex; gap: 0.35rem; flex-wrap: wrap; margin-bottom: 0.4rem;">
+            <span style="background: #FAF8F5; color: var(--color-gold-primary); padding: 0.18rem 0.55rem; border-radius: 4px; font-size: 0.7rem; font-weight: 600; border: 1px solid var(--color-border-subtle);">Bestseller</span>
+            <span style="background: #FAF8F5; color: var(--color-gold-primary); padding: 0.18rem 0.55rem; border-radius: 4px; font-size: 0.7rem; font-weight: 600; border: 1px solid var(--color-border-subtle);">Chef Special</span>
+            <span style="background: #FAF8F5; color: var(--color-gold-primary); padding: 0.18rem 0.55rem; border-radius: 4px; font-size: 0.7rem; font-weight: 600; border: 1px solid var(--color-border-subtle);">${isVeg ? 'Pure Veg' : 'Non-Veg'}</span>
+            <span style="background: #FAF8F5; color: var(--color-gold-primary); padding: 0.18rem 0.55rem; border-radius: 4px; font-size: 0.7rem; font-weight: 600; border: 1px solid var(--color-border-subtle);">New</span>
+            ${dish.tags.filter(t => !['bestseller', 'chef special', 'pure veg', 'non-veg', 'new'].includes(t.toLowerCase())).map(t => `<span style="background: #FAF8F5; color: var(--color-gold-primary); padding: 0.18rem 0.55rem; border-radius: 4px; font-size: 0.7rem; font-weight: 600; border: 1px solid var(--color-border-subtle);">${t}</span>`).join('')}
+          </div>
 
-          <p style="font-size: 0.95rem; line-height: 1.65; color: var(--color-text-muted); margin-bottom: 1.4rem;">${dish.desc}</p>
+          <!-- Dish Title -->
+          <h2 style="font-family: var(--font-serif); font-size: 1.75rem; color: var(--color-text-main); margin-bottom: 0.2rem; line-height: 1.2;">${dish.title}</h2>
+          
+          <!-- Price & Taxes -->
+          <div style="display: flex; align-items: baseline; gap: 0.4rem; margin-bottom: 0.8rem;">
+            <span style="font-size: 1.35rem; color: var(--color-gold-primary); font-weight: 700;">${dish.price}</span>
+            <span style="font-size: 0.8rem; color: var(--color-text-muted);">(Taxes & Service Included)</span>
+          </div>
+
+          <!-- Detailed Description -->
+          <p style="font-size: 0.88rem; line-height: 1.55; color: var(--color-text-muted); margin-bottom: 0.9rem;">${dish.desc}</p>
 
           <!-- Master Ingredients & Culinary Notes Box -->
-          <div style="background: #FAF8F5; border: 1px solid var(--color-border-subtle); border-radius: 8px; padding: 1.1rem; margin-bottom: 1.4rem;">
-            <h4 style="font-size: 0.88rem; color: var(--color-gold-primary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.6rem; font-weight: 600;">Master Ingredients & Culinary Notes</h4>
-            <p style="font-size: 0.88rem; color: var(--color-text-main); line-height: 1.5; margin: 0;">${dish.ingredients}</p>
+          <div style="background: #FAF8F5; border: 1px solid var(--color-border-subtle); border-radius: 8px; padding: 0.85rem; margin-bottom: 0.9rem;">
+            <h4 style="font-size: 0.78rem; color: var(--color-gold-primary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.35rem; font-weight: 700;">Master Ingredients & Culinary Notes</h4>
+            <p style="font-size: 0.82rem; color: var(--color-text-main); line-height: 1.45; margin: 0 0 0.4rem 0;"><strong>Ingredients:</strong> ${dish.ingredients || 'Paneer, Butter, Cashew, Tomato, Kasuri Methi, Cream'}</p>
+            <p style="font-size: 0.78rem; color: var(--color-text-muted); line-height: 1.45; margin: 0; font-style: italic;"><strong>Chef's Note:</strong> ${chefNote}</p>
           </div>
 
-          <!-- Reserve Table Button -->
-          <button class="btn btn-gold" data-open-booking data-booking-type="table" onclick="closeDishDetailModal()" style="width: 100%; text-align: center; padding: 1rem 1.5rem; font-size: 1rem; font-weight: 700;">Reserve a Table & Order (${dish.price})</button>
+          <!-- Best Paired With & Chef Recommendation -->
+          <div style="margin-bottom: 0.9rem;">
+            <span style="font-size: 0.75rem; color: var(--color-gold-primary); text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; display: block; margin-bottom: 0.35rem;">Best Paired With / Chef Recommendation</span>
+            <div style="display: flex; gap: 0.35rem; flex-wrap: wrap; margin-bottom: 0.25rem;">
+              ${bestPairedWith.map(p => `<span style="background: #FFFFFF; border: 1px solid var(--color-gold-primary); color: var(--color-gold-primary); font-size: 0.72rem; font-weight: 600; padding: 0.2rem 0.6rem; border-radius: 20px;">${p}</span>`).join('')}
+            </div>
+            <p style="font-size: 0.76rem; color: var(--color-text-muted); margin: 0;">${chefRec}</p>
+          </div>
+
+          <!-- Dietary, Allergens & Customizations Box -->
+          <div style="background: #FAF8F5; border: 1px solid var(--color-border-subtle); border-radius: 8px; padding: 0.85rem; margin-bottom: 1rem; font-size: 0.78rem;">
+            <div style="margin-bottom: 0.3rem;"><strong style="color: var(--color-text-main);">Dietary Information:</strong> <span style="color: var(--color-text-muted);">${dietaryInfo}</span></div>
+            <div style="margin-bottom: 0.3rem;"><strong style="color: var(--color-text-main);">Allergen Information:</strong> <span style="color: var(--color-text-muted);">${allergenInfo}</span></div>
+            <div>
+              <strong style="color: var(--color-text-main); display: block; margin-bottom: 0.25rem;">Customization Options:</strong>
+              <div style="display: flex; gap: 0.3rem; flex-wrap: wrap;">
+                ${customizations.map(c => `<span style="background: #FFFFFF; border: 1px solid var(--color-border-subtle); color: var(--color-text-main); font-size: 0.7rem; padding: 0.18rem 0.45rem; border-radius: 4px;">${c}</span>`).join('')}
+              </div>
+            </div>
+          </div>
+
+          <!-- Order CTA Buttons -->
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <button class="btn btn-gold" data-open-booking data-booking-type="table" onclick="closeDishDetailModal()" style="flex: 1; min-width: 190px; text-align: center; padding: 0.75rem 1rem; font-size: 0.85rem; font-weight: 700; text-transform: uppercase;">Reserve a Table & Order (${dish.price})</button>
+            <button class="btn btn-outline" onclick="closeDishDetailModal()" style="padding: 0.75rem 1rem; font-size: 0.8rem; font-weight: 700; text-transform: uppercase;">Add to Order</button>
+          </div>
+
         </div>
       </div>
     `;
     modal.style.cssText = "display: flex !important; opacity: 1 !important; pointer-events: auto !important; position: fixed !important; inset: 0 !important; z-index: 9999999 !important; background: rgba(26, 29, 36, 0.7) !important; backdrop-filter: blur(12px) !important; padding: 1.5rem !important; align-items: center !important; justify-content: center !important;";
-    modal.classList.add('open');
     modal.classList.add('open');
   }
 };
