@@ -64,69 +64,112 @@ function getAmenityIcon(amenity) {
   // Default clean checkmark
   return '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2.5" style="vertical-align:middle;"><polyline points="20 6 9 17 4 12"/></svg>';
 }
-
-// Render Rooms & Suites Cards
+// Render Rooms & Suites Cards (Clean Minimal Homepage vs Full Suites Page)
 function renderSuitesPage() {
-  const containers = [document.getElementById('suitesGrid'), document.getElementById('suitesGridHome')];
+  const homeContainer = document.getElementById('suitesGridHome');
+  const fullContainer = document.getElementById('suitesGrid');
   if (!window.AURELIA_DATA) return;
 
   const suites = window.AURELIA_DATA.suites;
-  const cardsHtml = suites.map(suite => {
-    const roomsLeft = suite.roomsLeft || 2;
-    const breakfastIncluded = suite.breakfastIncluded !== undefined ? suite.breakfastIncluded : true;
-    
-    // Format 4 standard amenity pills exactly as seen in reference image
-    const standardAmenities = ['Free Wi-Fi', 'AC', 'Smart TV', 'Rain Shower'];
-    const displayAmenities = (suite.amenities && suite.amenities.length >= 4) ? 
-      suite.amenities.slice(0, 4) : standardAmenities;
 
-    return `
-    <div class="suite-card tilt-card reveal-up in-view" data-category="${suite.category}" onclick="openSuiteDetail('${suite.id}')" style="cursor: pointer;">
-      <div class="suite-card-img">
-        <img src="${suite.image}" onerror="this.src='${suite.fallback}'" alt="${suite.title}" loading="lazy">
-        <span class="suite-badge">${suite.badge || 'POPULAR CHOICE'}</span>
-        <div class="room-overlay-badges">
-          <span class="room-overlay-badge urgency"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 23c-4.97 0-9-4.03-9-9 0-3.64 2.16-6.78 5.27-8.23.51-.24 1.12.04 1.25.6.3 1.29.98 2.45 1.93 3.32.22.2.55.22.79.05.69-.49 1.16-1.25 1.34-2.1.09-.45.45-.79.91-.84.46-.05.9.19 1.09.61C16.89 9.87 18 12.31 18 15c0 .74-.1 1.45-.29 2.13-.13.48.16.97.64 1.1.49.12.98-.17 1.11-.66C19.79 16.51 20 15.3 20 14c0-3.48-1.57-6.59-4.04-8.67-.38-.32-.91-.32-1.29 0C12.3 7.31 10.5 10.42 10.5 14c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5c0-.41-.34-.75-.75-.75-.28 0-.5-.22-.5-.5 0-.96.42-1.83 1.09-2.42 1.31 1.17 2.16 2.87 2.16 4.67 0 3.86-3.14 7-7 7z"/></svg> Only ${roomsLeft} rooms left</span>
-          ${breakfastIncluded ? '<span class="room-overlay-badge breakfast"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg> Breakfast Included</span>' : ''}
-        </div>
-        <button class="suite-quick-view-btn" onclick="openSuiteDetail('${suite.id}'); event.stopPropagation();" data-cursor="VIEW">View Details</button>
-      </div>
-      <div class="suite-card-body">
-        <div class="suite-meta">
-          <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><path d="M21 3L3 21M3 21h5M3 21v-5M8 16l3 3M11 13l3 3M14 10l3 3M17 7l3 3"/></svg>${suite.size}</span>
-          <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>${suite.capacity}</span>
-          <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><path d="M2 4v16M2 8h20v12M2 17h20M6 8v3M10 8v3"/></svg>${suite.bedType}</span>
-        </div>
-        <h3 class="suite-title">${suite.title}</h3>
-        <p class="suite-subtitle">${suite.subtitle}</p>
-
-        <div class="room-amenity-pills">
-          ${displayAmenities.map(a => `<span class="room-amenity-pill">${getAmenityIcon(a)} ${a}</span>`).join('')}
+  // 1. Clean, Elegant Minimalist Cards for Homepage Spotlight (No Pill Clutter)
+  if (homeContainer) {
+    const featuredSuites = suites.slice(0, 3);
+    homeContainer.innerHTML = featuredSuites.map(suite => `
+      <div class="suite-card tilt-card reveal-up in-view" data-category="${suite.category}" onclick="openSuiteDetail('${suite.id}')" style="cursor: pointer; background: #FFFFFF; border: 1px solid var(--color-border-subtle); border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.04); display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;" onmouseover="this.style.transform='translateY(-4px)'; this.style.borderColor='var(--color-gold-primary)';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--color-border-subtle)';">
+        
+        <!-- Image & Category Badge -->
+        <div class="suite-card-img" style="height: 220px; position: relative; overflow: hidden;">
+          <img src="${suite.image}" onerror="this.src='${suite.fallback}'" alt="${suite.title}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;">
+          <span class="suite-badge" style="position: absolute; top: 12px; left: 12px; background: rgba(18, 20, 29, 0.85); backdrop-filter: blur(4px); color: var(--color-gold-light); font-size: 0.7rem; font-weight: 700; padding: 0.25rem 0.65rem; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px;">${suite.badge || 'LUXURY ROOM'}</span>
         </div>
 
-        <div class="room-free-cancel">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#276749" stroke-width="2.2" style="vertical-align:middle;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
-          Free Cancellation
-        </div>
+        <!-- Clean Body -->
+        <div class="suite-card-body" style="padding: 1.4rem; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between;">
+          <div>
+            <!-- Quick Meta Row -->
+            <div class="suite-meta" style="display: flex; gap: 0.8rem; font-size: 0.78rem; color: var(--color-gold-primary); font-weight: 600; margin-bottom: 0.6rem; flex-wrap: wrap;">
+              <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle; margin-right:3px;"><path d="M21 3L3 21M3 21h5M3 21v-5M8 16l3 3M11 13l3 3M14 10l3 3M17 7l3 3"/></svg>${suite.size}</span>
+              <span>•</span>
+              <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle; margin-right:3px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>${suite.capacity}</span>
+            </div>
 
-        <div class="suite-card-footer">
-          <div class="suite-price">
-            <span class="price-val">₹${suite.price.toLocaleString('en-IN')}</span>
-            <span class="price-unit">/night</span>
+            <h3 class="suite-title" style="font-family: var(--font-serif); font-size: 1.4rem; color: var(--color-text-main); margin-bottom: 0.25rem;">${suite.title}</h3>
+            <p class="suite-subtitle" style="font-size: 0.82rem; color: var(--color-gold-primary); font-weight: 600; margin-bottom: 0.8rem;">${suite.subtitle}</p>
+            <p class="suite-desc" style="font-size: 0.88rem; line-height: 1.6; color: var(--color-text-muted); margin-bottom: 1.2rem;">${suite.description}</p>
           </div>
-          <div class="footer-buttons">
-            <button class="btn-view-details" onclick="openSuiteDetail('${suite.id}'); event.stopPropagation();">VIEW DETAILS</button>
-            <button class="btn-book-now" data-open-booking data-booking-type="suite" data-item-id="${suite.id}" onclick="event.stopPropagation();">BOOK NOW</button>
+
+          <!-- Clean Footer -->
+          <div class="suite-card-footer" style="display: flex; align-items: center; justify-content: space-between; padding-top: 1rem; border-top: 1px solid var(--color-border-subtle); gap: 0.8rem; flex-wrap: wrap;">
+            <div class="suite-price">
+              <span class="price-val" style="font-family: var(--font-serif); font-size: 1.35rem; font-weight: 700; color: var(--color-text-main);">₹${suite.price.toLocaleString('en-IN')}</span>
+              <span class="price-unit" style="font-size: 0.78rem; color: var(--color-text-muted); margin-left: 2px;">/night</span>
+            </div>
+            <div class="footer-buttons" style="display: flex; gap: 0.5rem;">
+              <button class="btn btn-outline btn-sm" onclick="openSuiteDetail('${suite.id}'); event.stopPropagation();" style="padding: 0.45rem 0.85rem; font-size: 0.76rem; font-weight: 600;">View Details</button>
+              <button class="btn btn-gold btn-sm" data-open-booking data-booking-type="suite" data-item-id="${suite.id}" onclick="event.stopPropagation();" style="padding: 0.45rem 0.85rem; font-size: 0.76rem; font-weight: 700;">Book Now</button>
+            </div>
           </div>
+
         </div>
       </div>
-    </div>
-  `;
-  }).join('');
+    `).join('');
+  }
 
-  containers.forEach(container => {
-    if (container) container.innerHTML = cardsHtml;
-  });
+  // 2. Dedicated Rooms & Suites Page Grid (With full specifications and filters)
+  if (fullContainer) {
+    fullContainer.innerHTML = suites.map(suite => {
+      const roomsLeft = suite.roomsLeft || 2;
+      const breakfastIncluded = suite.breakfastIncluded !== undefined ? suite.breakfastIncluded : true;
+      
+      const standardAmenities = ['Free Wi-Fi', 'AC', 'Smart TV', 'Rain Shower'];
+      const displayAmenities = (suite.amenities && suite.amenities.length >= 4) ? 
+        suite.amenities.slice(0, 4) : standardAmenities;
+
+      return `
+      <div class="suite-card tilt-card reveal-up in-view" data-category="${suite.category}" onclick="openSuiteDetail('${suite.id}')" style="cursor: pointer;">
+        <div class="suite-card-img">
+          <img src="${suite.image}" onerror="this.src='${suite.fallback}'" alt="${suite.title}" loading="lazy">
+          <span class="suite-badge">${suite.badge || 'POPULAR CHOICE'}</span>
+          <div class="room-overlay-badges">
+            <span class="room-overlay-badge urgency"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 23c-4.97 0-9-4.03-9-9 0-3.64 2.16-6.78 5.27-8.23.51-.24 1.12.04 1.25.6.3 1.29.98 2.45 1.93 3.32.22.2.55.22.79.05.69-.49 1.16-1.25 1.34-2.1.09-.45.45-.79.91-.84.46-.05.9.19 1.09.61C16.89 9.87 18 12.31 18 15c0 .74-.1 1.45-.29 2.13-.13.48.16.97.64 1.1.49.12.98-.17 1.11-.66C19.79 16.51 20 15.3 20 14c0-3.48-1.57-6.59-4.04-8.67-.38-.32-.91-.32-1.29 0C12.3 7.31 10.5 10.42 10.5 14c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5c0-.41-.34-.75-.75-.75-.28 0-.5-.22-.5-.5 0-.96.42-1.83 1.09-2.42 1.31 1.17 2.16 2.87 2.16 4.67 0 3.86-3.14 7-7 7z"/></svg> Only ${roomsLeft} rooms left</span>
+            ${breakfastIncluded ? '<span class="room-overlay-badge breakfast"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg> Breakfast Included</span>' : ''}
+          </div>
+          <button class="suite-quick-view-btn" onclick="openSuiteDetail('${suite.id}'); event.stopPropagation();" data-cursor="VIEW">View Details</button>
+        </div>
+        <div class="suite-card-body">
+          <div class="suite-meta">
+            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><path d="M21 3L3 21M3 21h5M3 21v-5M8 16l3 3M11 13l3 3M14 10l3 3M17 7l3 3"/></svg>${suite.size}</span>
+            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>${suite.capacity}</span>
+            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8C6D38" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><path d="M2 4v16M2 8h20v12M2 17h20M6 8v3M10 8v3"/></svg>${suite.bedType}</span>
+          </div>
+          <h3 class="suite-title">${suite.title}</h3>
+          <p class="suite-subtitle">${suite.subtitle}</p>
+
+          <div class="room-amenity-pills">
+            ${displayAmenities.map(a => `<span class="room-amenity-pill">${getAmenityIcon(a)} ${a}</span>`).join('')}
+          </div>
+
+          <div class="room-free-cancel">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#276749" stroke-width="2.2" style="vertical-align:middle;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+            Free Cancellation
+          </div>
+
+          <div class="suite-card-footer">
+            <div class="suite-price">
+              <span class="price-val">₹${suite.price.toLocaleString('en-IN')}</span>
+              <span class="price-unit">/night</span>
+            </div>
+            <div class="footer-buttons">
+              <button class="btn-view-details" onclick="openSuiteDetail('${suite.id}'); event.stopPropagation();">VIEW DETAILS</button>
+              <button class="btn-book-now" data-open-booking data-booking-type="suite" data-item-id="${suite.id}" onclick="event.stopPropagation();">BOOK NOW</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      `;
+    }).join('');
+  }
 }
 
 // Suite Category Filter Handler
@@ -554,6 +597,74 @@ function renderTestimonials() {
   `).join('');
 }
 
+// Helper: Get 4 high-res gallery images per suite
+function getSuiteGalleryImages(suite) {
+  if (suite.gallery && suite.gallery.length >= 4) return suite.gallery;
+
+  const defaultGalleries = {
+    'deluxe-room': [
+      { img: 'assets/images/deluxe-room.jpg', title: 'Master Bedroom' },
+      { img: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1000&q=80', title: 'Italian Marble Bath' },
+      { img: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1000&q=80', title: 'Study & Seating Area' },
+      { img: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=1000&q=80', title: 'Ambient Lighting & Lounge' }
+    ],
+    'premium-room': [
+      { img: 'assets/images/premium-room.jpg', title: 'Balcony Bedroom' },
+      { img: 'https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?auto=format&fit=crop&w=1000&q=80', title: 'Private Lakeview Balcony' },
+      { img: 'https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?auto=format&fit=crop&w=1000&q=80', title: 'Luxury Marble Bath' },
+      { img: 'https://images.unsplash.com/photo-1591088398332-8a7791972843?auto=format&fit=crop&w=1000&q=80', title: 'Plush Sofa Lounge' }
+    ],
+    'executive-room': [
+      { img: 'assets/images/executive-room.jpg', title: 'Executive Suite' },
+      { img: 'https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=1000&q=80', title: 'Executive Workstation' },
+      { img: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1000&q=80', title: 'Soaking Marble Tub' },
+      { img: 'https://images.unsplash.com/photo-1565182999561-18d7dc61c393?auto=format&fit=crop&w=1000&q=80', title: 'Executive Lounge' }
+    ],
+    'luxury-suite': [
+      { img: 'assets/images/luxury-suite.jpg', title: 'Royal Master Bedroom' },
+      { img: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1000&q=80', title: 'Royal Living Salon' },
+      { img: 'https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=1000&q=80', title: 'In-Room Jacuzzi Bath' },
+      { img: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=1000&q=80', title: 'Private Dining & Bar' }
+    ],
+    'family-suite': [
+      { img: 'assets/images/family-suite.jpg', title: 'Master Family Suite' },
+      { img: 'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=1000&q=80', title: 'Connected Bedroom' },
+      { img: 'https://images.unsplash.com/photo-1507038772120-7fff76f79d74?auto=format&fit=crop&w=1000&q=80', title: 'Spacious Family Living' },
+      { img: 'https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?auto=format&fit=crop&w=1000&q=80', title: 'Twin Bathrooms' }
+    ]
+  };
+
+  return defaultGalleries[suite.id] || [
+    { img: suite.image || 'assets/images/deluxe-room.jpg', title: 'Master Bedroom' },
+    { img: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1000&q=80', title: 'Marble Bath' },
+    { img: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1000&q=80', title: 'Living Salon' },
+    { img: 'https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?auto=format&fit=crop&w=1000&q=80', title: 'Scenic Balcony View' }
+  ];
+}
+
+// Switch Suite Main Photo from Gallery Strip
+window.switchSuiteMainPhoto = function(imgSrc, thumbEl) {
+  const mainImg = document.getElementById('suiteMainHeroImg');
+  if (mainImg) {
+    mainImg.style.opacity = '0.35';
+    setTimeout(() => {
+      mainImg.src = imgSrc;
+      mainImg.style.opacity = '1';
+    }, 150);
+  }
+  const thumbs = document.querySelectorAll('.suite-gallery-thumb');
+  thumbs.forEach(t => {
+    t.classList.remove('active');
+    t.style.borderColor = 'var(--color-border-subtle)';
+    t.style.boxShadow = 'none';
+  });
+  if (thumbEl) {
+    thumbEl.classList.add('active');
+    thumbEl.style.borderColor = 'var(--color-gold-primary)';
+    thumbEl.style.boxShadow = '0 4px 12px rgba(140, 109, 56, 0.25)';
+  }
+};
+
 // Global Suite Detail View Modal Popup Function
 window.openSuiteDetail = function(suiteId) {
   const modal = document.getElementById('suiteDetailModal');
@@ -634,32 +745,57 @@ window.openSuiteDetail = function(suiteId) {
     suite = fallbackSuites[suiteId] || fallbackSuites['deluxe-room'];
   }
 
+  const galleryImages = getSuiteGalleryImages(suite);
+  const mainImg = galleryImages[0].img;
+
   const container = document.getElementById('roomDetailContainer');
   if (container) {
     container.innerHTML = `
       <!-- Top Action Bar -->
-      <div style="display: flex; align-items: center; justify-content: flex-end; margin-bottom: 1.5rem;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+        <span style="font-size: 0.85rem; color: var(--color-gold-primary); font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;">Aurelia Palace Accommodations</span>
         <button class="btn btn-gold btn-sm" onclick="window.router.navigateTo('suites')" style="display: inline-flex; align-items: center; gap: 0.4rem;">
           ← Back to All Rooms
         </button>
       </div>
 
-      <!-- Suite Hero Showcase Card -->
-      <div style="position: relative; border-radius: 12px; overflow: hidden; border: 1px solid var(--color-border-subtle); margin-bottom: 2.5rem; box-shadow: 0 4px 16px rgba(0,0,0,0.08);">
-        <img src="${suite.image}" alt="${suite.title}" style="width: 100%; height: 440px; object-fit: cover; filter: brightness(0.88);">
+      <!-- Suite Hero Showcase Card & Interactive 4-Photo Gallery -->
+      <div style="margin-bottom: 2.5rem;">
         
-        <!-- Hero Overlay Badges -->
-        <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 2.2rem; background: linear-gradient(180deg, rgba(8, 9, 13, 0) 0%, rgba(8, 9, 13, 0.95) 100%); display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem;">
-          <div>
-            <span style="background: var(--color-gold-primary); color: #000; font-size: 0.75rem; font-weight: 700; padding: 0.3rem 0.8rem; border-radius: 4px; text-transform: uppercase; letter-spacing: 1px; display: inline-block; margin-bottom: 0.6rem;">${suite.badge || '5-STAR LUXURY PALACE SUITE'}</span>
-            <h1 style="font-family: var(--font-serif); font-size: 2.4rem; color: #fff; margin-bottom: 0.4rem; line-height: 1.1;">${suite.title}</h1>
-            <p style="font-size: 1.05rem; color: var(--color-gold-light); margin: 0;">${suite.subtitle}</p>
-          </div>
-          <div style="text-align: right;">
-            <div style="font-size: 0.8rem; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 1px;">Starting From</div>
-            <div style="font-size: 2.2rem; font-family: var(--font-serif); color: var(--color-gold-primary); font-weight: 700;">₹${suite.price.toLocaleString('en-IN')} <span style="font-size: 0.85rem; font-weight: 400; color: var(--color-text-muted);">/ night</span></div>
+        <!-- Large Main View Photo -->
+        <div style="position: relative; border-radius: 12px; overflow: hidden; border: 1px solid var(--color-border-subtle); box-shadow: 0 4px 16px rgba(0,0,0,0.08); background: #12141D;">
+          <img id="suiteMainHeroImg" src="${mainImg}" alt="${suite.title}" style="width: 100%; height: 440px; object-fit: cover; filter: brightness(0.9); transition: opacity 0.3s ease;">
+          
+          <!-- Hero Overlay Badges & Crystal Clear Pricing Badge -->
+          <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 2rem; background: linear-gradient(180deg, rgba(8, 9, 13, 0) 0%, rgba(8, 9, 13, 0.95) 100%); display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem;">
+            <div>
+              <span style="background: var(--color-gold-primary); color: #FFFFFF; font-size: 0.75rem; font-weight: 700; padding: 0.3rem 0.8rem; border-radius: 4px; text-transform: uppercase; letter-spacing: 1px; display: inline-block; margin-bottom: 0.6rem;">${suite.badge || '5-STAR LUXURY PALACE SUITE'}</span>
+              <h1 style="font-family: var(--font-serif); font-size: 2.4rem; color: #fff; margin-bottom: 0.4rem; line-height: 1.1;">${suite.title}</h1>
+              <p style="font-size: 1.05rem; color: var(--color-gold-light); margin: 0;">${suite.subtitle}</p>
+            </div>
+            
+            <!-- High-Contrast Glassmorphic Price Box (No Ugly Blue Cutoff) -->
+            <div style="background: rgba(18, 20, 29, 0.92); backdrop-filter: blur(12px); border: 1.5px solid var(--color-gold-primary); border-radius: 10px; padding: 0.85rem 1.4rem; text-align: right; box-shadow: 0 4px 20px rgba(0,0,0,0.4);">
+              <span style="font-size: 0.72rem; color: var(--color-gold-light); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700; display: block; margin-bottom: 2px;">STARTING FROM</span>
+              <div style="font-size: 2.2rem; font-family: var(--font-serif); color: #FFFFFF; font-weight: 700; line-height: 1;">
+                ₹${suite.price.toLocaleString('en-IN')} <span style="font-size: 0.85rem; font-weight: 400; color: #E8E2D9;">/ night</span>
+              </div>
+            </div>
           </div>
         </div>
+
+        <!-- 4-Image Interactive Gallery Strip -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.85rem; margin-top: 1rem;">
+          ${galleryImages.map((g, idx) => `
+            <div class="suite-gallery-thumb ${idx === 0 ? 'active' : ''}" onclick="switchSuiteMainPhoto('${g.img}', this)" style="cursor: pointer; position: relative; height: 90px; border-radius: 8px; overflow: hidden; border: 2px solid ${idx === 0 ? 'var(--color-gold-primary)' : 'var(--color-border-subtle)'}; box-shadow: ${idx === 0 ? '0 4px 12px rgba(140, 109, 56, 0.25)' : 'none'}; transition: all 0.3s ease;" onmouseover="this.style.borderColor='var(--color-gold-primary)';" onmouseout="if(!this.classList.contains('active')) this.style.borderColor='var(--color-border-subtle)';">
+              <img src="${g.img}" alt="${g.title}" style="width: 100%; height: 100%; object-fit: cover;">
+              <div style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(18, 20, 29, 0.85); color: #FFFFFF; font-size: 0.7rem; font-weight: 600; padding: 4px 6px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                ${g.title}
+              </div>
+            </div>
+          `).join('')}
+        </div>
+
       </div>
 
       <!-- Main Room Details 2-Column Grid (Equal Height Alignment) -->
@@ -872,7 +1008,11 @@ window.openSuiteDetail = function(suiteId) {
   if (window.router) {
     window.router.navigateTo('room-detail');
   } else {
-    window.location.hash = '#room-detail';
+    const page = document.getElementById('page-room-detail');
+    if (page) {
+      document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
+      page.classList.add('active');
+    }
   }
 };
 

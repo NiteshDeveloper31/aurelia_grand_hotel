@@ -64,9 +64,15 @@ class Router {
       targetPage.querySelectorAll('.reveal-up, .reveal-fade, .reveal-scale, .suite-card, .menu-item-card, .gallery-item, .offer-card, .exp-card').forEach(el => el.classList.add('in-view'));
       this.currentPageId = pageId;
 
-      // Update browser URL hash without jump
-      if (window.location.hash !== `#${pageId}`) {
-        history.pushState(null, null, `#${pageId}`);
+      // Update browser URL hash safely (only on HTTP/HTTPS to prevent file:// security origin warnings)
+      if (window.location.protocol !== 'file:' && window.location.hash !== `#${pageId}`) {
+        try {
+          if (window.history && window.history.pushState) {
+            window.history.pushState(null, null, `#${pageId}`);
+          }
+        } catch (err) {
+          // Silently ignore
+        }
       }
 
       // Update Nav active states

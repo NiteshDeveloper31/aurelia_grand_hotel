@@ -43,21 +43,6 @@
       
       <!-- Brand Logo -->
       <a href="#home" class="brand-logo" data-page-link="home">
-        <div class="brand-icon">
-          <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="goldGradHeader" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#FCE8A6" />
-                <stop offset="50%" stop-color="#C9A063" />
-                <stop offset="100%" stop-color="#8E6A2B" />
-              </linearGradient>
-            </defs>
-            <polygon points="50,4 96,50 50,96 4,50" fill="none" stroke="url(#goldGradHeader)" stroke-width="3.5" />
-            <polygon points="50,11 89,50 50,89 11,50" fill="none" stroke="url(#goldGradHeader)" stroke-width="1.2" opacity="0.5" />
-            <path d="M35 30 L41 39 L50 24 L59 39 L65 30 L62 46 L38 46 Z" fill="url(#goldGradHeader)" />
-            <text x="50" y="77" font-family="Georgia, serif" font-size="34" font-weight="700" fill="url(#goldGradHeader)" text-anchor="middle">H</text>
-          </svg>
-        </div>
         <div class="brand-text">
           <span class="brand-name">THE HAVELI ROYALE</span>
           <span class="brand-sub">Heritage Palace & Resort</span>
@@ -239,68 +224,89 @@
 
         <div class="suites-grid" id="suitesGridHome">
           <!-- Rooms Cards Pre-rendered -->
-          <div class="suite-card tilt-card reveal-up in-view" data-category="deluxe" onclick="openSuiteDetail('deluxe-room')" style="cursor: pointer;">
-            <div class="suite-card-img">
-              <img src="assets/images/deluxe-room.jpg" alt="Deluxe Room">
-              <span class="suite-badge">Popular Choice</span>
-              <button class="suite-quick-view-btn" onclick="openSuiteDetail('deluxe-room'); event.stopPropagation();" data-cursor="VIEW">View Details</button>
+          <div class="suite-card tilt-card reveal-up in-view" data-category="deluxe" onclick="openSuiteDetail('deluxe-room')" style="cursor: pointer; background: #FFFFFF; border: 1px solid var(--color-border-subtle); border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.04); display: flex; flex-direction: column; justify-content: space-between;">
+            <div class="suite-card-img" style="height: 220px; position: relative; overflow: hidden;">
+              <img src="assets/images/deluxe-room.jpg" alt="Deluxe Room" style="width: 100%; height: 100%; object-fit: cover;">
+              <span class="suite-badge" style="position: absolute; top: 12px; left: 12px; background: rgba(18, 20, 29, 0.85); backdrop-filter: blur(4px); color: var(--color-gold-light); font-size: 0.7rem; font-weight: 700; padding: 0.25rem 0.65rem; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px;">Popular Choice</span>
             </div>
-            <div class="suite-card-body">
-              <div class="suite-meta">
-                <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><path d="M21 3L3 21M3 21h5M3 21v-5M8 16l3 3M11 13l3 3M14 10l3 3M17 7l3 3"/></svg>35 m² / 375 sq.ft</span>
-                <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>2 Adults</span>
-                <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><path d="M2 4v16M2 8h20v12M2 17h20M6 8v3M10 8v3"/></svg>King / Twin Bed</span>
+            <div class="suite-card-body" style="padding: 1.4rem; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between;">
+              <div>
+                <div class="suite-meta" style="display: flex; gap: 0.8rem; font-size: 0.78rem; color: var(--color-gold-primary); font-weight: 600; margin-bottom: 0.6rem; flex-wrap: wrap;">
+                  <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle; margin-right:3px;"><path d="M21 3L3 21M3 21h5M3 21v-5M8 16l3 3M11 13l3 3M14 10l3 3M17 7l3 3"/></svg>35 m² / 375 sq.ft</span>
+                  <span>•</span>
+                  <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle; margin-right:3px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>2 Adults</span>
+                </div>
+                <h3 class="suite-title" style="font-family: var(--font-serif); font-size: 1.4rem; color: var(--color-text-main); margin-bottom: 0.25rem;">Deluxe Room</h3>
+                <p class="suite-subtitle" style="font-size: 0.82rem; color: var(--color-gold-primary); font-weight: 600; margin-bottom: 0.8rem;">Modern Comfort & Elegance</p>
+                <p class="suite-desc" style="font-size: 0.88rem; line-height: 1.6; color: var(--color-text-muted); margin-bottom: 1.2rem;">Thoughtfully designed for couples and business travelers, featuring study desk, LED Smart TV, and marble bathroom.</p>
               </div>
-              <h3 class="suite-title">Deluxe Room</h3>
-              <p class="suite-subtitle">Modern Comfort & Elegance</p>
-              <p class="suite-desc">Thoughtfully designed for business travelers and couples, featuring premium wooden flooring, LED Smart TV, and rain shower...</p>
-              <div class="suite-card-footer">
-                <div class="suite-price"><span class="price-val">₹4,999</span><span class="price-unit">/ night</span></div>
-                <button class="btn btn-gold btn-sm" data-open-booking data-booking-type="suite" data-item-id="deluxe-room" onclick="event.stopPropagation();">Book Now</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="suite-card tilt-card reveal-up in-view" data-category="premium" onclick="openSuiteDetail('premium-room')" style="cursor: pointer;">
-            <div class="suite-card-img">
-              <img src="assets/images/premium-room.jpg" alt="Premium Room with Balcony">
-              <span class="suite-badge">Best Seller</span>
-              <button class="suite-quick-view-btn" onclick="openSuiteDetail('premium-room'); event.stopPropagation();" data-cursor="VIEW">View Details</button>
-            </div>
-            <div class="suite-card-body">
-              <div class="suite-meta">
-                <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><path d="M21 3L3 21M3 21h5M3 21v-5M8 16l3 3M11 13l3 3M14 10l3 3M17 7l3 3"/></svg>48 m² / 515 sq.ft</span>
-                <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>2 Adults + 1 Child</span>
-                <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><path d="M2 4v16M2 8h20v12M2 17h20M6 8v3M10 8v3"/></svg>Royal King Bed</span>
-              </div>
-              <h3 class="suite-title">Premium Room with Balcony</h3>
-              <p class="suite-subtitle">Spacious Room with Private View</p>
-              <p class="suite-desc">Spacious layout with a private sit-out balcony overlooking the pool. Equipped with plush seating, Nespresso coffee maker...</p>
-              <div class="suite-card-footer">
-                <div class="suite-price"><span class="price-val">₹7,499</span><span class="price-unit">/ night</span></div>
-                <button class="btn btn-gold btn-sm" data-open-booking data-booking-type="suite" data-item-id="premium-room" onclick="event.stopPropagation();">Book Now</button>
+              <div class="suite-card-footer" style="display: flex; align-items: center; justify-content: space-between; padding-top: 1rem; border-top: 1px solid var(--color-border-subtle); gap: 0.8rem; flex-wrap: wrap;">
+                <div class="suite-price">
+                  <span class="price-val" style="font-family: var(--font-serif); font-size: 1.35rem; font-weight: 700; color: var(--color-text-main);">₹4,999</span>
+                  <span class="price-unit" style="font-size: 0.78rem; color: var(--color-text-muted); margin-left: 2px;">/night</span>
+                </div>
+                <div class="footer-buttons" style="display: flex; gap: 0.5rem;">
+                  <button class="btn btn-outline btn-sm" onclick="openSuiteDetail('deluxe-room'); event.stopPropagation();" style="padding: 0.45rem 0.85rem; font-size: 0.76rem; font-weight: 600;">View Details</button>
+                  <button class="btn btn-gold btn-sm" data-open-booking data-booking-type="suite" data-item-id="deluxe-room" onclick="event.stopPropagation();" style="padding: 0.45rem 0.85rem; font-size: 0.76rem; font-weight: 700;">Book Now</button>
+                </div>
               </div>
             </div>
           </div>
 
-          <div class="suite-card tilt-card reveal-up in-view" data-category="suite" onclick="openSuiteDetail('luxury-suite')" style="cursor: pointer;">
-            <div class="suite-card-img">
-              <img src="assets/images/luxury-suite.jpg" alt="Grand Luxury Suite">
-              <span class="suite-badge">Flagship Suite</span>
-              <button class="suite-quick-view-btn" onclick="openSuiteDetail('luxury-suite'); event.stopPropagation();" data-cursor="VIEW">View Details</button>
+          <div class="suite-card tilt-card reveal-up in-view" data-category="premium" onclick="openSuiteDetail('premium-room')" style="cursor: pointer; background: #FFFFFF; border: 1px solid var(--color-border-subtle); border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.04); display: flex; flex-direction: column; justify-content: space-between;">
+            <div class="suite-card-img" style="height: 220px; position: relative; overflow: hidden;">
+              <img src="assets/images/premium-room.jpg" alt="Premium Room with Balcony" style="width: 100%; height: 100%; object-fit: cover;">
+              <span class="suite-badge" style="position: absolute; top: 12px; left: 12px; background: rgba(18, 20, 29, 0.85); backdrop-filter: blur(4px); color: var(--color-gold-light); font-size: 0.7rem; font-weight: 700; padding: 0.25rem 0.65rem; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px;">Best Seller</span>
             </div>
-            <div class="suite-card-body">
-              <div class="suite-meta">
-                <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><path d="M21 3L3 21M3 21h5M3 21v-5M8 16l3 3M11 13l3 3M14 10l3 3M17 7l3 3"/></svg>110 m² / 1,180 sq.ft</span>
-                <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>3 Guests</span>
-                <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C9A063" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><path d="M2 4v16M2 8h20v12M2 17h20M6 8v3M10 8v3"/></svg>Emperor King Bed</span>
+            <div class="suite-card-body" style="padding: 1.4rem; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between;">
+              <div>
+                <div class="suite-meta" style="display: flex; gap: 0.8rem; font-size: 0.78rem; color: var(--color-gold-primary); font-weight: 600; margin-bottom: 0.6rem; flex-wrap: wrap;">
+                  <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle; margin-right:3px;"><path d="M21 3L3 21M3 21h5M3 21v-5M8 16l3 3M11 13l3 3M14 10l3 3M17 7l3 3"/></svg>48 m² / 515 sq.ft</span>
+                  <span>•</span>
+                  <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle; margin-right:3px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>2 Adults + 1 Child</span>
+                </div>
+                <h3 class="suite-title" style="font-family: var(--font-serif); font-size: 1.4rem; color: var(--color-text-main); margin-bottom: 0.25rem;">Premium Room with Balcony</h3>
+                <p class="suite-subtitle" style="font-size: 0.82rem; color: var(--color-gold-primary); font-weight: 600; margin-bottom: 0.8rem;">Spacious Room with Private View</p>
+                <p class="suite-desc" style="font-size: 0.88rem; line-height: 1.6; color: var(--color-text-muted); margin-bottom: 1.2rem;">Spacious layout with a private sit-out balcony overlooking the pool and gardens, equipped with plush seating.</p>
               </div>
-              <h3 class="suite-title">Grand Luxury Suite</h3>
-              <p class="suite-subtitle">Separate Living Salon & Jacuzzi</p>
-              <p class="suite-desc">An epitome of luxury featuring a separate living salon, powder room, master bedroom, Italian marble bath with Jacuzzi tub...</p>
-              <div class="suite-card-footer">
-                <div class="suite-price"><span class="price-val">₹18,500</span><span class="price-unit">/ night</span></div>
-                <button class="btn btn-gold btn-sm" data-open-booking data-booking-type="suite" data-item-id="luxury-suite" onclick="event.stopPropagation();">Book Now</button>
+              <div class="suite-card-footer" style="display: flex; align-items: center; justify-content: space-between; padding-top: 1rem; border-top: 1px solid var(--color-border-subtle); gap: 0.8rem; flex-wrap: wrap;">
+                <div class="suite-price">
+                  <span class="price-val" style="font-family: var(--font-serif); font-size: 1.35rem; font-weight: 700; color: var(--color-text-main);">₹7,499</span>
+                  <span class="price-unit" style="font-size: 0.78rem; color: var(--color-text-muted); margin-left: 2px;">/night</span>
+                </div>
+                <div class="footer-buttons" style="display: flex; gap: 0.5rem;">
+                  <button class="btn btn-outline btn-sm" onclick="openSuiteDetail('premium-room'); event.stopPropagation();" style="padding: 0.45rem 0.85rem; font-size: 0.76rem; font-weight: 600;">View Details</button>
+                  <button class="btn btn-gold btn-sm" data-open-booking data-booking-type="suite" data-item-id="premium-room" onclick="event.stopPropagation();" style="padding: 0.45rem 0.85rem; font-size: 0.76rem; font-weight: 700;">Book Now</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="suite-card tilt-card reveal-up in-view" data-category="suite" onclick="openSuiteDetail('luxury-suite')" style="cursor: pointer; background: #FFFFFF; border: 1px solid var(--color-border-subtle); border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.04); display: flex; flex-direction: column; justify-content: space-between;">
+            <div class="suite-card-img" style="height: 220px; position: relative; overflow: hidden;">
+              <img src="assets/images/luxury-suite.jpg" alt="Grand Luxury Suite" style="width: 100%; height: 100%; object-fit: cover;">
+              <span class="suite-badge" style="position: absolute; top: 12px; left: 12px; background: rgba(18, 20, 29, 0.85); backdrop-filter: blur(4px); color: var(--color-gold-light); font-size: 0.7rem; font-weight: 700; padding: 0.25rem 0.65rem; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px;">Flagship Suite</span>
+            </div>
+            <div class="suite-card-body" style="padding: 1.4rem; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between;">
+              <div>
+                <div class="suite-meta" style="display: flex; gap: 0.8rem; font-size: 0.78rem; color: var(--color-gold-primary); font-weight: 600; margin-bottom: 0.6rem; flex-wrap: wrap;">
+                  <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle; margin-right:3px;"><path d="M21 3L3 21M3 21h5M3 21v-5M8 16l3 3M11 13l3 3M14 10l3 3M17 7l3 3"/></svg>110 m² / 1,180 sq.ft</span>
+                  <span>•</span>
+                  <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle; margin-right:3px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>3 Guests</span>
+                </div>
+                <h3 class="suite-title" style="font-family: var(--font-serif); font-size: 1.4rem; color: var(--color-text-main); margin-bottom: 0.25rem;">Grand Luxury Suite</h3>
+                <p class="suite-subtitle" style="font-size: 0.82rem; color: var(--color-gold-primary); font-weight: 600; margin-bottom: 0.8rem;">Separate Living Salon & Jacuzzi</p>
+                <p class="suite-desc" style="font-size: 0.88rem; line-height: 1.6; color: var(--color-text-muted); margin-bottom: 1.2rem;">An epitome of luxury featuring a separate living salon, powder room, master bedroom, and marble bath with Jacuzzi.</p>
+              </div>
+              <div class="suite-card-footer" style="display: flex; align-items: center; justify-content: space-between; padding-top: 1rem; border-top: 1px solid var(--color-border-subtle); gap: 0.8rem; flex-wrap: wrap;">
+                <div class="suite-price">
+                  <span class="price-val" style="font-family: var(--font-serif); font-size: 1.35rem; font-weight: 700; color: var(--color-text-main);">₹18,500</span>
+                  <span class="price-unit" style="font-size: 0.78rem; color: var(--color-text-muted); margin-left: 2px;">/night</span>
+                </div>
+                <div class="footer-buttons" style="display: flex; gap: 0.5rem;">
+                  <button class="btn btn-outline btn-sm" onclick="openSuiteDetail('luxury-suite'); event.stopPropagation();" style="padding: 0.45rem 0.85rem; font-size: 0.76rem; font-weight: 600;">View Details</button>
+                  <button class="btn btn-gold btn-sm" data-open-booking data-booking-type="suite" data-item-id="luxury-suite" onclick="event.stopPropagation();" style="padding: 0.45rem 0.85rem; font-size: 0.76rem; font-weight: 700;">Book Now</button>
+                </div>
               </div>
             </div>
           </div>
